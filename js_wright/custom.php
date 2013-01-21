@@ -29,6 +29,7 @@ if ($this->countModules('toolbar')) {
 <head>
 	
 <w:head />
+<script src="templates/js_wright/wright/js/modernizr.js" type="text/javascript"></script>
 </head>
 <body<?php if ($bodyclass != "") :?> class="<?php echo $bodyclass?>"<?php endif; ?>>
     <?php if ($this->countModules('toolbar')) : ?>

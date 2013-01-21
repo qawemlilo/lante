@@ -1,14 +1,17 @@
 @charset "utf-8";
 #header, #footer {
-  min-height: 60px;
   background: #fd7800 /*url(../images/lante/header-bg.png) repeat-x*/;
   overflow: hidden;
   color: #fff;
-  line-height: 10px;
 }
 
 #header #logo {
-  margin-top: 10px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#header form {
+  margin-bottom: 0px;
 }
 
 #header a {
@@ -26,11 +29,29 @@
   margin-bottom: 0px;
 }
 
-#header button {
-  margin-top: 24px;
-  padding: 4px;
+#header input.button {
+  margin-top: 22;
+  background: url(http://www.lanteotc.co.za/images/Login-Button.png) no-repeat;
+  width: 69px;
+  height: 68px;
+  cursor:pointer;
+  border: none;
 }
 
 #header #logo img {
   margin-left: 50px;
+  width: 220px;
+}
+
+#footer {
+  padding: 10px;
+}
+
+#footer .container .row .module {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+#footer .container .row .module  a {
+  color: #fff;
 }
