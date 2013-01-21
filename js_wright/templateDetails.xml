@@ -22,6 +22,7 @@
 	
 	<files>
 		<filename>component.php</filename>
+        <filename>custom.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>functions.php</filename>
 		<filename>index.php</filename>

@@ -1,0 +1,36 @@
+@charset "utf-8";
+#header, #footer {
+  min-height: 60px;
+  background: #fd7800 /*url(../images/lante/header-bg.png) repeat-x*/;
+  overflow: hidden;
+  color: #fff;
+  line-height: 10px;
+}
+
+#header #logo {
+  margin-top: 10px;
+}
+
+#header a {
+  color: #fff;
+  margin-left: 0px;
+  margin-top: 20px;
+}
+
+#header input[type="checkbox"] {
+  margin-top: 0px;
+}
+
+#header label.strong {
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+#header button {
+  margin-top: 24px;
+  padding: 4px;
+}
+
+#header #logo img {
+  margin-left: 50px;
+}
