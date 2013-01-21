@@ -31,12 +31,12 @@ if ($this->countModules('toolbar')) {
 <w:head />
 <script src="templates/js_wright/wright/js/modernizr.js" type="text/javascript"></script>
 </head>
-<body<?php if ($bodyclass != "") :?> class="<?php echo $bodyclass?>"<?php endif; ?>>
+<body<?php if ($bodyclass != "") :?> class="<?php echo $bodyclass?>"<?php endif; ?>" style="background-color: #e3e3e3">
     <?php if ($this->countModules('toolbar')) : ?>
     <!-- menu -->
 	<w:nav containerClass="<?php echo $containerClass ?>" rowClass="<?php echo $gridMode;?>" wrapClass="navbar-fixed-top navbar-inverse" type="toolbar" name="toolbar" />
     <?php endif; ?>
-    <div class="<?php echo $containerClass ?>">
+    <div class="<?php echo $containerClass ?>" style="background: #fff">
         <!-- header -->
         <header id="header">
         	<div class="<?php echo $gridMode; ?> clearfix">
