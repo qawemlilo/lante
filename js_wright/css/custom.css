@@ -1,10 +1,10 @@
 @charset "utf-8";
 
 ::selection {
-	background: #D9EDF7 /* Safari */
-	}
+  background: #D9EDF7 /* Safari */
+  }
 ::-moz-selection {
-	background: #D9EDF7 /* Firefox */
+  background: #D9EDF7 /* Firefox */
 }
 
 .container, .row {
@@ -14,6 +14,13 @@
 #main-content {
   padding: 10px;
 }
+
+/* Q styles */
+#grid-top {
+ padding: 10px;
+}
+
+
 
 #header, #footer {
   background: #fd7800;
@@ -60,7 +67,7 @@
 }
 
 #header #logo img {
-  margin-left: 50px;
+  margin-left: 25px;
   width: 220px;
 }
 
