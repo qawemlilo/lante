@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
 
 ?>
 
-<div class="row-fluid" style="color: #fd7800; width: 340px; padding: 0px 10px 0px 10px">
-  <img border="0" alt="LanteOTC" src="/images/Slideshow%20Images-2.jpg"><br><br>
+<div style="color: #fd7800; width: 540px; padding-left: 5px;padding-right: 5px; 150px; height: 150px;">
+  <img border="0" alt="LanteOTC" style="width: 540px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px" src="/images/shutterstock_85769425.jpg"><br><br>
   <strong>LanteOTC</strong> is an online market place that <strong>connects Businesses with Investors</strong> through Over The Counter <strong>online trading</strong>.
 </div>
