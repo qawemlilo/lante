@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
         <input type="text" placeholder="Re-enter Password" class="span5">
     </div>
     
-    <p style="font-size: 12px; margin-top: 12px;">By clicking Sign Up, you agree to our Terms & Conditions</p>
+    <p style="font-size: 12px; margin-top: 15px;">By clicking Sign Up, you agree to our Terms & Conditions</p>
             
     <p><button  class="btn btn-large btn-warning" style="padding-left: 50px; padding-right: 50px; background-color: #fd7800; background-image: -moz-linear-gradient(center top , #F89406, #fd7800)"><strong>Sign Up</strong></button></p>
 </form>
