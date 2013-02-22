@@ -1,6 +1,26 @@
 @charset "utf-8";
+
+::selection {
+	background: #D9EDF7 /* Safari */
+	}
+::-moz-selection {
+	background: #D9EDF7 /* Firefox */
+}
+
+.container, .row {
+  overflow: hidden;
+}
+
+#main-content {
+  padding: 10px;
+}
+
 #header, #footer {
-  background: #fd7800 /*url(../images/lante/header-bg.png) repeat-x*/;
+  background: #fd7800;
+  background-color: #fd7800;
+  background-image: none;
+  border: none;
+  border-style: none;
   overflow: hidden;
   color: #fff;
 }
