@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
 </form>
 
 <div style="color: #fd7800;">
-<p><strong>LanteOTC is</strong> an online market place that <strong>connects Businesses with Investors</strong> through Over The Counter <strong>online trading</strong>.</p>
+<p>LanteOTC is an online market place that connects Businesses with Investors through Over The Counter online trading.</p>
 <p>You can use LanteOTC to:</p>
 <ul>
 <li>Buy Shares from a listed company</li>
