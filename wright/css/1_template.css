@@ -1,0 +1,95 @@
+@charset "utf-8";
+
+body {
+ background-color: #e3e3e3;
+}
+
+.container {
+  background-color: #ffffff;
+}
+
+#header, #footer {
+  background: #fd7800;
+  background-color: #fd7800;
+  background-image: none;
+  border: none;
+  border-style: none;
+  overflow: hidden;
+  color: #fff;
+}
+
+#header #logo {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#header form {
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+
+#header a {
+  color: #fff;
+  margin-left: 0px;
+  margin-top: 20px;
+}
+
+#header input[type="checkbox"] {
+  margin-top: 0px;
+}
+
+#header input[type="text"], #header input[type="password"] {
+  width: 170px;
+}
+
+#header label.strong {
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+#header input.button {
+  margin-top: 22;
+  background: url(http://www.lanteotc.co.za/images/Login-Button.png) no-repeat;
+  width: 69px;
+  height: 68px;
+  cursor:pointer;
+  border: none;
+}
+
+#header #logo img {
+  margin-left: 25px;
+  width: 220px;
+}
+
+#footer {
+  padding: 10px;
+}
+
+#footer .container .row .module {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+#footer .container .row .module  a {
+  color: #fff;
+}
+
+.listings td,
+.listings  th {
+    border: 0;
+}
+
+.listings  th {
+ background-color: #FD7800;
+ color: #ffffff;
+}
+
+.listings td {
+  background-color: #F0F0F0;
+  color: #333333;
+}
+
+.listings td.listings-header {
+ color: #FD7800;
+ font-weight: bold;
+}
