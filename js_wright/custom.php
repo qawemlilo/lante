@@ -72,6 +72,9 @@ if ($this->countModules('toolbar')) {
             	<w:module name="sidebar1" chrome="xhtml" />
             </aside>
             <!-- main -->
+            <?php 
+            if ($this->countModules('above-content') || $this->countModules('breadcrumbs') || $this->countModules('below-content')) :
+            ?>
             <section id="main">
                 <?php if ($this->countModules('above-content')) : ?>
                 <!-- above-content -->
@@ -99,7 +102,11 @@ if ($this->countModules('toolbar')) {
             	<w:module name="sidebar2" chrome="xhtml" />
             </aside>
         </div>
-        <?php if ($this->countModules('grid-bottom')) : ?>
+        <?php 
+        endif;
+        
+        
+        if ($this->countModules('grid-bottom')) : ?>
         <!-- grid-bottom -->
         <div id="grid-bottom" >
     			<w:module type="<?php echo $gridMode; ?>" name="grid-bottom" chrome="wrightflexgrid" />

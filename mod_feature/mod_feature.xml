@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" version="2.5.8" method="upgrade">
+    <name>Front_page_feature</name>
+    <author>Qawelesizwe Mlilo</author>
+    <authorEmail>qawemlilo@gmail.com</authorEmail>
+    <authorUrl>http://qawemlilo.rflab.co.za/</authorUrl>
+    <license>GPL/GNU</license>
+    <version>0.0.1</version>
+    <description>Front page feature</description>
+
+    <files>
+        <filename>mod_feature.xml</filename>
+        <filename module="mod_feature">mod_feature.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+</extension>
