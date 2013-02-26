@@ -2,6 +2,7 @@
 
 body {
  background-color: #e3e3e3;
+ min-height: 100%;
 }
 
 .container {
@@ -9,6 +10,7 @@ body {
 }
 
 #header, #footer {
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false) !important;
   background: #fd7800;
   background-color: #fd7800;
   background-image: none;
@@ -21,6 +23,11 @@ body {
 #header #logo {
   margin-top: 25px;
   margin-bottom: 25px;
+}
+
+#header #logo img {
+  margin-left: 25px;
+  width: 220px;
 }
 
 #header form {
@@ -38,10 +45,6 @@ body {
   margin-top: 0px;
 }
 
-#header input[type="text"], #header input[type="password"] {
-  width: 170px;
-}
-
 #header label.strong {
   font-weight: bold;
   margin-bottom: 0px;
@@ -56,21 +59,20 @@ body {
   border: none;
 }
 
-#header #logo img {
-  margin-left: 25px;
-  width: 220px;
-}
-
 #footer {
   padding: 10px;
 }
 
-#footer .container .row .module {
+#footer .row-fluid {
   margin-bottom: 0px;
   font-size: 12px;
 }
 
-#footer .container .row .module  a {
+#footer .module {
+  margin-bottom: 0px;
+}
+
+#footer .row-fluid  a {
   color: #fff;
 }
 

@@ -24,4 +24,15 @@ cursor: pointer;
 color: #fff;
 }
 
+#header input[type="text"], #header input[type="password"] {
+  width: 160px;
+}
+
+#footer {
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false) !important;
+  background-image: none !important;
+  background: #fd7800 !important;
+  background-color: #fd7800 !important;
+}
+
 div.note,div.caption {border: 4px solid;border-radius:8px;behavior: url('templates/js_onyx/css/PIE.php');}

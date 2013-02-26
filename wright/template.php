@@ -23,12 +23,22 @@ if ($this->countModules('toolbar')) {
 	$bodyclass = "toolbarpadding";
 }
 
+$myapp = JFactory::getApplication();
+$mymenu = $myapp->getMenu();
+$homepage = false;
+if ($mymenu->getActive() == $mymenu->getDefault()) {
+    $homepage = true;
+}
+
 ?>
 <doctype>
 <html>
 <head>
 	
 <w:head />
+<!--[if IE]>
+<script type="text/javascript" src="http://lante.ragingflame.co.za/templates/js_wright/js/modernizr.js"></script>
+<![endif]-->
 </head>
 <body<?php if ($bodyclass != "") :?> class="<?php echo $bodyclass?>"<?php endif; ?>>
     <?php if ($this->countModules('toolbar')) : ?>
@@ -68,7 +78,7 @@ if ($this->countModules('toolbar')) {
         endif; 
         
         
-        if ($this->countModules('above-content') || $this->countModules('breadcrumbs') || $this->countModules('below-content')) :       
+        if (!$homepage) :       
         ?>
         <div id="main-content" class="<?php echo $gridMode; ?>">
             <!-- sidebar1 -->
@@ -126,12 +136,9 @@ if ($this->countModules('toolbar')) {
     
 
 	    <footer id="footer" <?php if ($this->params->get('stickyFooter',1)) : ?> class="sticky"<?php endif;?>>
-	    	 <div class="row">
-	    		<?php if ($this->countModules('footer')) : ?>
-					<w:module type="<?php echo $gridMode; ?>" name="footer" chrome="wrightflexgrid" />
-			 	<?php endif; ?>
-				<w:footer />
-			</div>
+	    	<?php if ($this->countModules('footer')) : ?>
+			  <w:module type="<?php echo $gridMode; ?>" name="footer" chrome="wrightflexgrid" />
+			<?php endif; ?>
 	    </footer>    
     </div>
 </body>
