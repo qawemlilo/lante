@@ -24,8 +24,16 @@ cursor: pointer;
 color: #fff;
 }
 
-#member-registration .controls-row {
+#custom-reg-form .controls-row {
  margin-bottom: 9px !important;
+}
+
+table.listings  {
+  margin-top: 20px;
+}
+
+#q-slides {
+  height: 200px;
 }
 
 #header input[type="text"], #header input[type="password"] {

@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
   </div>
   
   <div class="span6">
-    <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" class="well" action="/index.php/component/users/?task=registration.register" method="post">
+    <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" id="custom-reg-form" class="well" action="/index.php/component/users/?task=registration.register" method="post">
     <h1 style="color: #fd7800; font-size: 2em;">Register for FREE as an INVESTOR</h1>
     <div class="controls controls-row">
         <input type="text" placeholder="Full Name" id="jform_name" name="jform[name]" class="span3">
