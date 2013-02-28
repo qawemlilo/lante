@@ -24,6 +24,10 @@ cursor: pointer;
 color: #fff;
 }
 
+#member-registration .controls-row {
+ margin-bottom: 9px !important;
+}
+
 #header input[type="text"], #header input[type="password"] {
   width: 160px;
 }

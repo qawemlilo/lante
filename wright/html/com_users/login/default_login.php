@@ -39,11 +39,11 @@ JHtml::_('behavior.keepalive');
 		    <legend>Login</legend>
 			<?php foreach ($this->form->getFieldset('credentials') as $field): ?>
 				<?php if (!$field->hidden): ?>
-					<div class="login-fields control-group"><div class="control-label"><?php echo $field->label; ?></div>
+					<div class="login-fields control-group" style="margin-top: 0px; margin-bottom: 0px"><div class="control-label"><?php echo $field->label; ?></div>
 					<div class="controls"><?php echo $field->input; ?></div></div>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			<div class="form-actions" style="margin-right: 10px">
+			<div class="form-actions" style="margin-right: 10px; margin-top: 0px">
 				<button type="submit" class="button btn btn-primary"><?php echo JText::_('JLOGIN'); ?></button>
 			</div>
 			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('login_redirect_url', $this->form->getValue('return'))); ?>" />

@@ -59,6 +59,18 @@ body {
   border: none;
 }
 
+
+
+/* Forms */
+
+#member-registration.form-horizontal .control-group {
+  margin-bottom: 0px !important;
+}
+
+#member-registration .form-actions {
+  margin-top: -10px !important;
+}
+
 #footer {
   padding: 10px;
 }
@@ -76,18 +88,12 @@ body {
   color: #fff;
 }
 
-.listings td,
-.listings  th {
-    border: 0;
-}
-
 .listings  th {
  background-color: #FD7800;
  color: #ffffff;
 }
 
 .listings td {
-  background-color: #F0F0F0;
   color: #333333;
 }
 
@@ -95,3 +101,32 @@ body {
  color: #FD7800;
  font-weight: bold;
 }
+
+
+
+
+
+/* slide show */
+
+#q-slides {
+    position:relative;
+    height:243px;
+}
+
+#q-slides  img {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:8;
+    opacity:0.0;
+}
+
+#q-slides img.q-active {
+    z-index:10;
+    opacity:1.0;
+}
+
+#q-slides img.last-active {
+    z-index:9;
+}
+

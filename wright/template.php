@@ -11,6 +11,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+require_once(dirname(__FILE__) . '/html/message.php');
+
 // get the bootstrap row mode ( row / row-fluid )
 $gridMode = $this->params->get('bs_rowmode','row-fluid');
 $containerClass = 'container';
@@ -36,6 +38,7 @@ if ($mymenu->getActive() == $mymenu->getDefault()) {
 <head>
 	
 <w:head />
+<script type="text/javascript" src="http://www.lanteotc.co.za/templates/js_wright/js/script.js"></script>
 <!--[if IE]>
 <script type="text/javascript" src="http://lante.ragingflame.co.za/templates/js_wright/js/modernizr.js"></script>
 <![endif]-->
