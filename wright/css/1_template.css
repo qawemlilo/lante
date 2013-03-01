@@ -5,8 +5,26 @@ body {
  min-height: 100%;
 }
 
+#termsandconditions > ol li {
+  line-height: 1.5em;
+  margin-bottom: 1em;
+}
+
+item-page h2 {
+  margin-left: 10px
+}
+
+.logout-button {
+  margin-top: 35px;
+  margin-bottom:25px;
+}
+
 .container {
   background-color: #ffffff;
+}
+
+h1, h2, h3, h4 {
+  color: #fd7800;
 }
 
 #header, #footer {
