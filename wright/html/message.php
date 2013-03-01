@@ -36,7 +36,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		$lists = null;
         
         $msgclasses = array(
-            "warning"=>"alert alert-block",
+            "warning"=>"alert alert-error",
             "error"=>"alert alert-error",
             "notice"=>"alert alert-info",
             "info"=>"alert alert-info",

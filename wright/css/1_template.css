@@ -97,6 +97,14 @@ body {
   color: #333333;
 }
 
+.listings td.pos {
+  color: green;
+}
+
+.listings td.neg {
+  color: red;
+}
+
 .listings td.listings-header {
  color: #FD7800;
  font-weight: bold;

@@ -1,6 +1,7 @@
 <?php 
 defined('_JEXEC') or die('Restricted access'); // no direct access 
 
+$user =& JFactory::getUser();
 ?>
 
 <div class="row">
@@ -14,7 +15,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
     </div>
     
     
-    <p style="color: #fd7800; margin-left: 10px;"><strong>LanteOTC is</strong> an online market place that <strong>connects Businesses with Investors</strong> through Over The Counter <strong>online trading</strong>.</p>
+    <p style="color: #fd7800; margin-left: 10px;"><strong>LanteOTC is</strong> an online market place that <strong>connects Businesses with Investors</strong> through Over The Counter <strong>online trading</strong> subsequently supporting South African Startups and SMMEs.</p>
 
   <table class="table table-striped listings" style="margin-left: 10px;">
               <thead>
@@ -32,33 +33,36 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
                 </tr>
                 <tr>
                   <td>AFRISH</td>
-                  <td>10.00</td>
+                  <td>R10.00</td>
                   <td>0</td>
                   <td>0</td>
                   <td>1 Jan</td>
                 </tr>
                 <tr>
                   <td>Masters Tour</td>
-                  <td>10.00</td>
-                  <td>+0.50</td>
-                  <td>0.52</td>
+                  <td>R10.00</td>
+                  <td class="pos">+0.50</td>
+                  <td class="pos">0.52</td>
                   <td>9:30</td>
                 </tr>
                 <tr>
                   <td>TribalAff</td>
-                  <td>5.00</td>
+                  <td>R5.00</td>
                   <td>0</td>
                   <td>0</td>
                   <td>1 Jan</td>
                 </tr>
                 <tr>
-                  <td colspan="5" class="listings-header">Market Open</td>
+                  <td colspan="5" class="listings-header">MARKET OPEN</td>
                 </tr>
               </tbody>
             </table>
   </div>
   
   <div class="span6">
+  <?php 
+    if ($user->guest) {
+  ?>
     <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" id="custom-reg-form" class="well" action="/index.php/component/users/?task=registration.register" method="post">
     <h1 style="color: #fd7800; font-size: 2em;">Register for FREE as an INVESTOR</h1>
     <div class="controls controls-row">
@@ -92,20 +96,81 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
     <input type="hidden" value="registration.register" name="task">
     <?php echo JHtml::_('form.token');?>
     </form>
+  <?php
+    }
+    else {
+  ?>
+  <table class="table table-striped listings" style="width: 98%;">
+              <thead>
+                <tr>
+                  <th colspan="5">Market Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="listings-header">&nbsp;</td>
+                  <td class="listings-header">Today</td>
+                  <td class="listings-header">Previous close</td>
+                </tr>
+                <tr>
+                  <td>Price (c)</td>
+                  <td>325</td>
+                  <td>350</td>
+                </tr>
+                <tr>
+                  <td>Movement (c)</td>
+                  <td class="neg">-25</td>
+                  <td class="pos">+2</td>
+                </tr>
+                <tr>
+                  <td>Movement (c)</td>
+                  <td class="neg">-7.14%</td>
+                  <td class="pos">+0.3%</td>
+                </tr>
+                <tr>
+                  <td>Volume</td>
+                  <td class="neg">-7.14%</td>
+                  <td class="pos">+0.3%</td>
+                </tr>
+                <tr>
+                  <td>Value</td>
+                  <td>R603,915.00</td>
+                  <td>R831,491.00</td>
+                </tr>                
+                <tr>
+                  <td>No. of Trades</td>
+                  <td>63</td>
+                  <td>59</td>
+                </tr>
+                <tr>
+                  <td>Low Price (c)</td>
+                  <td >4323</td>
+                  <td >325</td>
+                </tr>      
+                <tr>
+                  <td>High Price (c)</td>
+                  <td>4360</td>
+                  <td>350</td>
+                </tr>  
+              </tbody>
+            </table>
+    <?php
+    }
+    ?>   
     
-<div style="color: #fd7800;">
-<p>You can use LanteOTC to:</p>
-<ul>
-<li>Buy Shares from a listed company</li>
-<li>Sell your shares</li>
-<li>View trading history of listed company</li>
-<li>View trading value or worth</li>
-<li>Register or update your details as an investor</li>
-</ul>
-</div>
-
+    <div style="color: #fd7800;">
+      <p>You can use LanteOTC to:</p>
+      <ul>
+        <li>Buy Shares from listed companies</li>
+        <li>Sell your shares</li>
+        <li>View trading history of listed company</li>
+        <li>View trading value or worth</li>
+        <li>Register or update your details as an investor</li>
+      </ul>
+    </div>
   </div>
 </div>
+
 <script style="text/javascript">
 (function () {
   var input = document.createElement('input');
