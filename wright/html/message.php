@@ -36,11 +36,11 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		$lists = null;
         
         $msgclasses = array(
-            "warning"=>"alert alert-error",
-            "error"=>"alert alert-error",
-            "notice"=>"alert alert-info",
-            "info"=>"alert alert-info",
-            "success"=>"alert alert-success"
+            "warning"=>"alert-error",
+            "error"=>"alert-error",
+            "notice"=>"alert-info",
+            "info"=>"alert-info",
+            "success"=>"alert-success"
         );
 
 		// Get the message queue
@@ -70,7 +70,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 				if (count($msgs))
 				{
 					//$buffer .= "\n<p class=\"" . strtolower($type) . "\">" . JText::_($type) . "</p>";
-					$buffer .= "\n<div class=\"" . $msgclasses[strtolower($type)] . " message\" style=\"margin: 10px 0px 10px10px\" >";
+					$buffer .= "\n<div class=\"" . $msgclasses[strtolower($type)] . " message alert\" style=\"margin: 10px 0px 10px10px\" >";
 					$buffer .= "\n\t<ul>";
 					foreach ($msgs as $msg)
 					{

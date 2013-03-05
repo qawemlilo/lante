@@ -8,10 +8,10 @@ $user =& JFactory::getUser();
   <div class="span6">
   
     <div id="q-slides" style="margin-left: 10px;">
-      <img border="0" alt="LanteOTC" style="border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;" src="/images/invest.png" class="q-active">
-      <img border="0" alt="LanteOTC" style="border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;" src="/images/charts.png">
-      <img border="0" alt="LanteOTC" style="border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;" src="/images/bulb.png">
-      <img border="0" alt="LanteOTC" style="border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;" src="/images/invest.png">
+      <img border="0" alt="LanteOTC" src="/images/Lante-Slider3.png" class="q-active">
+      <img border="0" alt="LanteOTC" src="/images/Lante-Slider1.jpg">
+      <img border="0" alt="LanteOTC" src="/images/Lante-Slider2.jpg">
+      <img border="0" alt="LanteOTC" src="/images/Lante-Slider4.jpg">
     </div>
     
     
@@ -63,7 +63,7 @@ $user =& JFactory::getUser();
   <?php 
     if ($user->guest) {
   ?>
-    <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" id="custom-reg-form" class="well" action="/index.php/component/users/?task=registration.register" method="post">
+    <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" autocomplete="off" id="custom-reg-form" class="well" action="/index.php/component/users/?task=registration.register" method="post">
     <h1 style="color: #fd7800; font-size: 2em;">Register for FREE as an INVESTOR</h1>
     <div class="controls controls-row">
         <input type="text" placeholder="Full Name" id="jform_name" name="jform[name]" class="span3">

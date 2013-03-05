@@ -6,7 +6,7 @@
     <authorUrl>http://qawemlilo.rflab.co.za/</authorUrl>
     <license>GPL/GNU</license>
     <version>0.0.1</version>
-    <description>About OTC</description>
+    <description>LanteOTC Menu</description>
 
     <files>
         <filename>mod_otcmenu.xml</filename>

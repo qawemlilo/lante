@@ -77,6 +77,10 @@ h1, h2, h3, h4 {
   border: none;
 }
 
+ul.nav > li > a:hover, ul.nav-pills > li > a:hover  {
+  color: #FD7800 !important;
+}
+
 
 
 /* Forms */
@@ -145,6 +149,9 @@ h1, h2, h3, h4 {
     left:0;
     z-index:8;
     opacity:0.0;
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px;
 }
 
 #q-slides img.q-active {
@@ -154,5 +161,9 @@ h1, h2, h3, h4 {
 
 #q-slides img.last-active {
     z-index:9;
+}
+
+.invalid {
+  border: 1px solid red;
 }
 
