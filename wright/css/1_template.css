@@ -163,7 +163,7 @@ ul.nav > li > a:hover, ul.nav-pills > li > a:hover  {
     z-index:9;
 }
 
-.invalid {
-  border: 1px solid red;
+input.invalid {
+  border: 1px solid red !important;
 }
 
