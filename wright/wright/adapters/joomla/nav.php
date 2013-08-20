@@ -31,7 +31,8 @@ class WrightAdapterJoomlaNav
 						            <span class="icon-bar"></span>
 					            </a>
 					            <div class="nav-collapse" id="nav-'.$args['name'].'">
-									 <jdoc:include type="modules" name="'.$args['name'].'" style="'.$args['style'].'" />
+                                    <div><ul class="nav menu"><li><a><i class="icon-home"></i></a></li></ul></div>
+									<jdoc:include type="modules" name="'.$args['name'].'" style="'.$args['style'].'" />
 								</div>
 							</div>
 						</div>

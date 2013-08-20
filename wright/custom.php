@@ -31,7 +31,6 @@ $homepage = false;
 if ($mymenu->getActive() == $mymenu->getDefault()) {
     $homepage = true;
 }
-
 ?>
 <doctype>
 <html>
@@ -48,6 +47,7 @@ if ($mymenu->getActive() == $mymenu->getDefault()) {
     <!-- menu -->
 	<w:nav containerClass="<?php echo $containerClass ?>" rowClass="<?php echo $gridMode;?>" wrapClass="navbar-fixed-top navbar-inverse" type="toolbar" name="toolbar" />
     <?php endif; ?>
+    
     <div class="<?php echo $containerClass ?>">
         <!-- header -->
         <header id="header">
@@ -140,12 +140,13 @@ if ($mymenu->getActive() == $mymenu->getDefault()) {
         <!-- bottom-menu -->
 		<w:nav containerClass="<?php echo $containerClass ?>" rowClass="<?php echo $gridMode;?>" name="bottom-menu" />
         <?php endif; ?>  
-    </div>
+        
 	<footer id="footer" <?php if ($this->params->get('stickyFooter',1)) : ?> class="sticky"<?php endif;?>>
 	    <?php if ($this->countModules('footer')) : ?>
 			<w:module type="<?php echo $gridMode; ?>" name="footer" chrome="wrightflexgrid" />
 	    <?php endif; ?>
 	</footer>  
+    </div>
     <!-- qhaweeee -->
 </body>
 </html>

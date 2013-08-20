@@ -1,0 +1,98 @@
+@charset "utf-8";
+
+::selection {
+  background: #D9EDF7 /* Safari */
+  }
+::-moz-selection {
+  background: #D9EDF7 /* Firefox */
+}
+
+.container, .row {
+  overflow: hidden;
+}
+
+#main-content {
+  padding: 10px;
+}
+
+#main, #main-content  {
+  margin-left: 0px!important;
+}
+
+#sidebar2  {
+  margin-left: 10px!important;
+}
+
+
+
+/* Q styles */
+#grid-top {
+ padding: 10px;
+}
+
+
+#toolbar .container {
+  background-color: #1b1b1b;
+}
+
+#header, #footer {
+  background: #fd7800;
+  background-color: #fd7800;
+  background-image: none;
+  border: none;
+  border-style: none;
+  overflow: hidden;
+  color: #fff;
+}
+
+#header #logo {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#header form {
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+
+#header a {
+  color: #fff;
+  margin-left: 0px;
+  margin-top: 20px;
+}
+
+#header input[type="checkbox"] {
+  margin-top: 0px;
+}
+
+#header label.strong {
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+#header input.button {
+  margin-top: 22;
+  background: url(http://www.lanteotc.co.za/images/Login-Button.png) no-repeat;
+  width: 69px;
+  height: 68px;
+  cursor:pointer;
+  border: none;
+}
+
+#header #logo img {
+  margin-left: 25px;
+  width: 220px;
+}
+
+#footer {
+  padding: 10px;
+}
+
+#footer .container .row .module {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+#footer .container .row .module  a {
+  color: #fff;
+}

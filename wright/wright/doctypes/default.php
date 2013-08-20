@@ -141,8 +141,11 @@ abstract class HtmlAdapterAbstract
 
 		if (strpos($matches[1], 'class='))
 			$main = preg_replace('/class=\".*\"/iU', 'class="'.$class.'"', $matches[0], 1);
-		else
+		elseif($class != 'span12')  // Q edition 
 			$main = preg_replace('/<section/iU', '<section class="'.$class.'"', $matches[0], 1);
+        else
+            $main = $matches[0];  // Q edition 
+           
 
 		return $main;
 	}
