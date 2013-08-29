@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
 
 ?>
 
-<form style="padding-left: 45px; background-color: #F0F0F0;" class="well" action="/index.php/component/users/?task=registration.register" method="post">
+<form style="padding-left: 45px; background-color: #F0F0F0;" class="well" action="index.php?option=com_users&task=registration.register" method="post">
     <h1 style="color: #fd7800;">Register for FREE</h1>
     <div class="controls controls-row">
         <input type="text" placeholder="Full Name" id="jform_name" name="jform[name]" class="span3">
