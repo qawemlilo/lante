@@ -44,10 +44,56 @@ class OtcControllerAdmin extends JController
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
         if ($model->addMember($member)) {
-            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'New member created.', 'success');   
+            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'New member created!', 'success');   
         }
         else { 
             $application->redirect($refer, 'An error occured. Member not created.', 'error'); 
+        }
+    }
+    
+    
+    public function createcompany() {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+        $application =& JFactory::getApplication();
+        $model =& $this->getModel('company');
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $user =& JFactory::getUser();
+        $company = array();
+        $owner = array();
+        
+
+        /*
+            Check if user is authorized to view this page
+        */
+        if(!$this->isAuthorized()) {
+            $application->redirect('index.php', 'You are not authorized to view that page');
+        }
+        
+        $company['name'] = JRequest::getVar('name', '', 'post', 'string');
+        $company['website'] = JRequest::getVar('website', '', 'post', 'string');
+        $company['created_by'] = $user->id;
+        $company['share_price'] = JRequest::getVar('share_price', 0, 'post', 'int');
+        $company['about'] = JRequest::getVar('about', '', 'post', 'string');
+        
+        $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
+        $owner['created_by'] = $user->id;
+        $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
+        $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
+        
+        if (!$ownerid = $model->addOwner($owner)) {
+            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'New member created.', 'success');
+            $application->redirect($refer, 'Database error. Failed to add owner.', 'error');             
+        }
+        else {
+            $company['ownerid'] = $ownerid;
+            
+            if (!$model->addCompany($company)) {
+                $application->redirect($refer, 'Database error. Failed to add company.', 'error');
+            }
+            else {
+                $application->redirect($refer, 'New Company created!', 'success');
+            }
         }
     }
     

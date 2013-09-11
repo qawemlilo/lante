@@ -22,7 +22,8 @@ defined('_JEXEC') or die('Restricted access');
 <div class="row-fluid">
   <p>
     <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newuser'); ?>" class="btn btn-primary" type="button">
-      <i class="icon-user"></i> Add Member</a>
+      Add Member
+    </a>
   </p>
   <?php
   if (is_array($this->members) && count($this->members) > 0) :

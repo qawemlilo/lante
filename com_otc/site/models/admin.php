@@ -92,4 +92,19 @@ class OtcModelAdmin extends JModelItem
         
         return $result; 
     }
+
+    
+    
+    public function getCompanies() {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT company.id, company.name, company.share_price, company.website, company.about ";
+        $query .= "FROM #__otc_companies AS company ";
+        $query .= "ORDER BY name ASC";
+              
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        
+        return $result;    
+    }
 }

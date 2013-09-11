@@ -31,9 +31,14 @@ class OtcViewAdmin extends JView
             $this->user = $this->getUser($id);
             $this->users = false;
         }
+        
         elseif ($layout == 'newuser') {
             $this->user = false;
             $this->users = $this->get('Users');        
+        }
+        
+        elseif ($layout == 'companies') {
+            $this->companies = $this->get('Companies');        
         }
         
         elseif (!$layout) {
