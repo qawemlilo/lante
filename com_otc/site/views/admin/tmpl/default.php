@@ -20,7 +20,11 @@ defined('_JEXEC') or die('Restricted access');
 </div>
 
 <div class="row-fluid">
-  <p>
+  <p style="text-align:right">
+    <button class="btn btn-primary btn-success">
+      <i class="icon-edit"></i> Edit
+    </button>
+    
     <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newuser'); ?>" class="btn btn-primary" type="button">
       Add Member
     </a>

@@ -25,6 +25,11 @@ class OtcControllerAdmin extends JController
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
+        $day = JRequest::getVar('userid', '', 'post', 'string');
+        $month = JRequest::getVar('month', '', 'post', 'string');
+        $year = JRequest::getVar('year', '', 'post', 'string');
+        $dob = $this->createDateString($day, $month, $year);
+        
         $member['userid'] = JRequest::getVar('userid', 0, 'post', 'int');
         $member['created_by'] = $user->id;
         $member['title'] = JRequest::getVar('title', '', 'post', 'string');
@@ -32,7 +37,7 @@ class OtcControllerAdmin extends JController
         $member['surname'] = JRequest::getVar('surname', '', 'post', 'string');
         $member['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
         $member['work_number'] = JRequest::getVar('work_number', 0, 'post', 'int');
-        $member['dob'] = JRequest::getVar('dob', 0, 'post', 'int');
+        $member['dob'] = $dob;
         $member['address'] = JRequest::getVar('address', '', 'post', 'string');
         $member['address_code'] = JRequest::getVar('address_code', 0, 'post', 'int');
         $member['postal_address'] = JRequest::getVar('postal_address', '', 'post', 'string');
@@ -52,6 +57,58 @@ class OtcControllerAdmin extends JController
     }
     
     
+    
+    public function editemember() {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+        $application =& JFactory::getApplication();
+        $model =& $this->getModel('admin');
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $user =& JFactory::getUser();
+        $member = array();
+        
+
+        /*
+            Check if user is authorized to view this page
+        */
+        if(!$this->isAuthorized()) {
+            $application->redirect('index.php', 'You are not authorized to view that page');
+        }
+        
+        $day = JRequest::getVar('userid', '', 'post', 'string');
+        $month = JRequest::getVar('month', '', 'post', 'string');
+        $year = JRequest::getVar('year', '', 'post', 'string');
+        $dob = $this->createDateString($day, $month, $year);
+        
+        $memberid = JRequest::getVar('id', 0, 'post', 'int');
+        $member['userid'] = JRequest::getVar('userid', 0, 'post', 'int');
+        $member['title'] = JRequest::getVar('title', '', 'post', 'string');
+        $member['middle_name'] = JRequest::getVar('middle_name', '', 'post', 'string');
+        $member['surname'] = JRequest::getVar('surname', '', 'post', 'string');
+        $member['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
+        $member['work_number'] = JRequest::getVar('work_number', 0, 'post', 'int');
+        $member['dob'] = $dob;
+        $member['address'] = JRequest::getVar('address', '', 'post', 'string');
+        $member['address_code'] = JRequest::getVar('address_code', 0, 'post', 'int');
+        $member['postal_address'] = JRequest::getVar('postal_address', '', 'post', 'string');
+        $member['postal_code'] = JRequest::getVar('postal_code', 0, 'post', 'int');
+        $member['account_number'] = JRequest::getVar('account_number', 0, 'post', 'int');
+        $member['bank_name'] = JRequest::getVar('bank_name', '', 'post', 'string');
+        $member['account_name'] = JRequest::getVar('account_name', '', 'post', 'string');
+        $member['branch_name'] = JRequest::getVar('branch_name', '', 'post', 'string');
+        $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
+        
+        if ($model->updateMember($memberid, $member)) {
+            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'Member updated!', 'success');   
+        }
+        else { 
+            $application->redirect($refer, 'An error occured. Member not updated.', 'error'); 
+        }
+    }
+    
+    
+    
+    
     public function createcompany() {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -61,6 +118,10 @@ class OtcControllerAdmin extends JController
         $user =& JFactory::getUser();
         $company = array();
         $owner = array();
+        
+        $rands = JRequest::getVar('rands', '', 'post', 'int');
+        $cents = JRequest::getVar('cents', '', 'post', 'int');
+        $share_price = $this->randsToCents($rands, $cents);
         
 
         /*
@@ -73,7 +134,7 @@ class OtcControllerAdmin extends JController
         $company['name'] = JRequest::getVar('name', '', 'post', 'string');
         $company['website'] = JRequest::getVar('website', '', 'post', 'string');
         $company['created_by'] = $user->id;
-        $company['share_price'] = JRequest::getVar('share_price', 0, 'post', 'int');
+        $company['share_price'] = $share_price;
         $company['about'] = JRequest::getVar('about', '', 'post', 'string');
         
         $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
@@ -81,8 +142,7 @@ class OtcControllerAdmin extends JController
         $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
         $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
         
-        if (!$ownerid = $model->addOwner($owner)) {
-            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'New member created.', 'success');
+        if (!$rands || !$ownerid = $model->addOwner($owner)) {
             $application->redirect($refer, 'Database error. Failed to add owner.', 'error');             
         }
         else {
@@ -95,6 +155,68 @@ class OtcControllerAdmin extends JController
                 $application->redirect($refer, 'New Company created!', 'success');
             }
         }
+    }
+    
+    
+    public function editcompany() {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+        $application =& JFactory::getApplication();
+        $model =& $this->getModel('company');
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $user =& JFactory::getUser();
+        $company = array();
+        $owner = array();
+        
+        $rands = JRequest::getVar('rands', '', 'post', 'int');
+        $cents = JRequest::getVar('cents', '', 'post', 'int');
+        $share_price = $this->randsToCents($rands, $cents);
+        
+
+        /*
+            Check if user is authorized to view this page
+        */
+        if(!$this->isAuthorized()) {
+            $application->redirect('index.php', 'You are not authorized to view that page');
+        }
+        
+        $companyid = JRequest::getVar('id', '', 'post', 'int');
+        $company['name'] = JRequest::getVar('name', '', 'post', 'string');
+        $company['website'] = JRequest::getVar('website', '', 'post', 'string');
+        $company['share_price'] = $share_price;
+        $company['about'] = JRequest::getVar('about', '', 'post', 'string');
+        
+        $ownerid = JRequest::getVar('ownerid', '', 'post', 'int');
+        $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
+        $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
+        $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
+        
+        if (!$rands || !$model->updateOwner($ownerid, $owner)) {
+            $application->redirect($refer, 'Database error. Failed to update owner.', 'error');             
+        }
+        else {
+            if (!$model->updateCompany($companyid, $company)) {
+                $application->redirect($refer, 'Database error. Failed to update company.', 'error');
+            }
+            else {
+                $application->redirect($refer, 'Company updated!', 'success');
+            }
+        }
+    }
+    
+    
+    private function randsToCents($rands, $cents) {
+        $total = ((int)$rands * 100) + (int)$cents;
+        
+        return $total;
+    }
+    
+    
+    
+    private function createDateString($day, $mon, $year) {
+        $date = $day . '-' . $mon . '-' . $year;
+        
+        return $date;
     }
     
     

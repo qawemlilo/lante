@@ -38,25 +38,25 @@ class OtcModelAdmin extends JModelItem
     
     
     
-    
-    public function updateMember($arr = array()) {
+    public function updateMember($id, $arr = array()) {
+        $table = $this->getTable();
         
-        if (is_array($arr) && count($arr) > 0) {
-            $table = $this->getTable();
-            
-            if (!$table->bind( $arr )) {
-                JError::raiseWarning( 500, $table->getError() );
-                return false;
-            }
-            if (!$table->store( $arr )) {
-                JError::raiseWarning( 500, $table->getError() );
-                return false;
-            }
-                
-            return $table->id;
+        if (!$table->load($id)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
         }
         
-        return false;
+        if (!$table->bind($arr)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
+        }
+        
+        if (!$table->store($arr)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
+        }
+                
+        return true;
     }
 
 
@@ -104,6 +104,22 @@ class OtcModelAdmin extends JModelItem
               
         $db->setQuery($query);
         $result = $db->loadObjectList();
+        
+        return $result;    
+    }
+    
+    
+    public function getCompany() {
+        $db =& JFactory::getDBO();
+        $id = JRequest::getVar('id', 0, 'get', 'int');
+        
+        $query = "SELECT company.id, company.ownerid, company.name, company.share_price, company.website, company.about, owner.owner_name, owner.email, owner.cell_number ";
+        $query .= "FROM #__otc_companies AS company ";
+        $query .= "INNER JOIN #__otc_owners AS owner ON (company.ownerid = owner.id) ";
+        $query .= "WHERE company.id = $id";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
         
         return $result;    
     }

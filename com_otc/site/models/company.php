@@ -58,46 +58,47 @@ class OtcModelCompany extends JModelItem
     
     
     
-    
-    public function updateCompany($arr = array()) {
+    public function updateCompany($id, $arr = array()) {
+        $table = $this->getTable();
         
-        if (is_array($arr) && count($arr) > 0) {
-            $table = $this->getTable();
-            
-            if (!$table->bind( $arr )) {
-                JError::raiseWarning( 500, $table->getError() );
-                return false;
-            }
-            if (!$table->store( $arr )) {
-                JError::raiseWarning( 500, $table->getError() );
-                return false;
-            }
-                
-            return $table->id;
+        if (!$table->load($id)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
         }
         
-        return false;
+        if (!$table->bind($arr)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
+        }
+        
+        if (!$table->store($arr)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
+        }
+                
+        return true;
     }
     
     
     
-    public function updateOwner($arr = array()) {
+    public function updateOwner($id, $arr = array()) {
+        $table = $this->getTable('Owner');
         
-        if (is_array($arr) && count($arr) > 0) {
-            $table = $this->getTable('Owner');
-            
-            if (!$table->bind( $arr )) {
-                JError::raiseWarning( 500, $table->getError() );
-                return false;
-            }
-            if (!$table->store( $arr )) {
-                JError::raiseWarning( 500, $table->getError() );
-                return false;
-            }
-                
-            return $table->id;
+        if (!$table->load($id)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
         }
         
-        return false;
+        if (!$table->bind($arr)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
+        }
+        
+        if (!$table->store($arr)) {
+            JError::raiseWarning(500, $table->getError());
+            return false;
+        }
+                
+        return true;
     }
 }

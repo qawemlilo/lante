@@ -8,7 +8,7 @@ defined('_JEXEC') or die('Restricted access');
 <form class="form-horizontal" name="newmember" id="newmember" method="post" action="index.php?option=com_otc&task=admin.createmember">
 <fieldset style="border: 1px solid #ccc; padding: 20px;">
 
-<legend style="margin-bottom: 0px; width:180px;border: 1px solid #e5e5e5; text-align:center;padding: 5px;">Add New Member</legend>
+<legend style="margin-bottom: 0px; width:180px;border: 1px solid #e5e5e5; text-align:center;padding: 5px;">Edit Member</legend>
 
 <?php 
 /*
@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="title">Title</label>
   <div class="controls">
-    <select id="title" name="title" class="span2" required="">
+    <select id="title" name="title" class="input-medium" required="">
       <option value="">Select</option>
       <option value="Mr">Mr</option>
       <option value="Mrs">Mrs</option>
@@ -66,8 +66,8 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="dob">Date of Birth</label>
   <div class="controls">
-    <select id="day" name="day" class="span2" required="">
-      <option value="">Day</option>
+    <select id="day" name="day" class="input-small" required="">
+      <option value="">Select Day</option>
       <option value="1">01</option>
       <option value="2">02</option>
       <option value="3">03</option>
@@ -101,8 +101,8 @@ defined('_JEXEC') or die('Restricted access');
       <option value="31">31</option>
     </select>
     
-    <select id="month" name="month" class="span2" required="">
-      <option value="">Month</option>
+    <select id="month" name="month" class="input-small" required="">
+      <option value="">Select Month</option>
       <option value="Jan">Jan</option>
       <option value="Feb">Feb</option>
       <option value="Mar">Mar</option>
@@ -117,7 +117,7 @@ defined('_JEXEC') or die('Restricted access');
       <option value="Oct">Dec</option>
     </select>
     
-    Year <input id="year" name="year" maxlength="4" placeholder="e.g: 1982" class="input-mini" required="" type="text">
+    Year <input id="year" name="year" size="4" placeholder="e.g: 1982" class="input-mini" required="" type="text">
   </div>
 </div>
 
