@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <div class="row-fluid">
-<form class="form-horizontal" name="newcompany" id="newcompany" method="post" action="index.php?option=com_otc&task=admin.createcompany">
+<form class="form-horizontal" name="newcompany" id="newcompany" method="post" action="index.php?option=com_otc&task=company.createcompany">
 <fieldset style="border: 1px solid #ccc; padding: 20px;">
 
 <legend style="margin-bottom: 0px; width:180px;border: 1px solid #e5e5e5; text-align:center;padding: 5px;">Add New Company</legend>
@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');
         <span class="add-on">R</span>
         <input class="span2" id="rands" placeholder="Rands" name="rands" type="text">
         <span class="add-on">.</span>
-        <input class="span2" id="cents" placeholder="Cents" name="cents" type="text">
+        <input class="span2" id="cents" placeholder="Cents" name="cents" maxlength="2" type="text">
     </div>
   </div>
 </div>
@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <!-- Text input-->
 <div class="control-group">
-  <label class="control-label" for="cell_number">Cell Number</label>
+  <label class="control-label" for="cell_number">Phone Number</label>
   <div class="controls">
     <input id="cell_number" name="cell_number" placeholder="Cellphone Number" class="input-xlarge" required="" type="text">
     

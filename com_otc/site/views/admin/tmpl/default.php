@@ -21,13 +21,17 @@ defined('_JEXEC') or die('Restricted access');
 
 <div class="row-fluid">
   <p style="text-align:right">
+    <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newuser'); ?>" class="btn btn-primary" type="button">
+      <i class="icon-check"></i> Add Member
+    </a>
+    
     <button class="btn btn-primary btn-success">
       <i class="icon-edit"></i> Edit
     </button>
     
-    <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newuser'); ?>" class="btn btn-primary" type="button">
-      Add Member
-    </a>
+    <button type="submit" class="btn btn-primary btn-danger">
+      <i class="icon-cancel"></i> Delete
+    </button>
   </p>
   <?php
   if (is_array($this->members) && count($this->members) > 0) :

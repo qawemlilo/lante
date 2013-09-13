@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <div class="row-fluid">
-<form class="form-horizontal" name="editcompany" id="editcompany" method="post" action="index.php?option=com_otc&task=admin.editcompany">
+<form class="form-horizontal" name="editcompany" id="editcompany" method="post" action="index.php?option=com_otc&task=company.editcompany">
 <fieldset style="border: 1px solid #ccc; padding: 20px;">
 
 <legend style="margin-bottom: 0px; width:180px;border: 1px solid #e5e5e5; text-align:center;padding: 5px;">Edit Company</legend>

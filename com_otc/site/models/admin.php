@@ -58,6 +58,24 @@ class OtcModelAdmin extends JModelItem
                 
         return true;
     }
+    
+    
+    
+    public function removeMember($id) {
+        $table =& $this->getTable();
+        
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError());
+            return false;
+        }
+        
+        if (!$table->delete($id)) {
+            JError::raiseWarning( 500, $table->getError());
+            return false;
+        }
+                
+        return true;
+    }
 
 
     

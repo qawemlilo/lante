@@ -26,13 +26,17 @@ defined('_JEXEC') or die('Restricted access');
 <div class="row-fluid">
 <form name="companies" id="companies-form" method="GET" action="index.php">
   <p style="text-align:right">
+    <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newcompany'); ?>" class="btn btn-primary" type="button">
+      <i class="icon-check"></i> Add Company
+    </a>
+    
     <button type="submit" class="btn btn-primary btn-success">
       <i class="icon-edit"></i> Edit
     </button>
     
-    <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newcompany'); ?>" class="btn btn-primary" type="button">
-      Add Company
-    </a>
+    <button type="submit" class="btn btn-primary btn-danger">
+      <i class="icon-cancel"></i> Edit
+    </button>
   </p>
   
   <?php

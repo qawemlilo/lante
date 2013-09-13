@@ -58,6 +58,45 @@ class OtcModelCompany extends JModelItem
     
     
     
+    public function removeCompany($id) {
+        $table =& $this->getTable();
+        
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError());
+            return false;
+        }
+        
+        $ownerid = $table->ownerid;
+        
+        if (!$table->delete($id)) {
+            JError::raiseWarning( 500, $table->getError());
+            return false;
+        }
+        
+        $result = $this->removeOwner($ownerid);
+        
+        return $result;
+    }
+    
+    
+    private function removeOwner($id) {
+        $table =& $this->getTable('Owner');
+        
+        if (!$table->load($id)) {
+            JError::raiseWarning( 500, $table->getError());
+            return false;
+        }
+        
+        if (!$table->delete($id)) {
+            JError::raiseWarning( 500, $table->getError());
+            return false;
+        }
+                
+        return true;
+    }
+    
+    
+    
     public function updateCompany($id, $arr = array()) {
         $table = $this->getTable();
         
