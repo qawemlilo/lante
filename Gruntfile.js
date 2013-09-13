@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     compress: {
         template: {
             options: {
-                archive: '../extensions/wright.zip'
+                archive: '../otc/wright.zip'
             },
             
             files: [

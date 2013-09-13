@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 
-class OtcControllerMember extends JController
+class OtcControllerMembers extends JController
 {
     public function createmember() {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -46,7 +46,7 @@ class OtcControllerMember extends JController
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
         if ($model->addMember($member)) {
-            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'New member created!', 'success');   
+            $application->redirect('index.php?option=com_otc&view=members', 'New member created!', 'success');   
         }
         else { 
             $application->redirect($refer, 'An error occured. Member not created.', 'error'); 
@@ -117,7 +117,7 @@ class OtcControllerMember extends JController
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
         if ($model->updateMember($memberid, $member)) {
-            $application->redirect('index.php?option=com_otc&view=admin&layout=newuser', 'Member updated!', 'success');   
+            $application->redirect('index.php?option=com_otc&view=members', 'Member updated!', 'success');   
         }
         else { 
             $application->redirect($refer, 'An error occured. Member not updated.', 'error'); 

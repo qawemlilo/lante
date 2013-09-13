@@ -8,7 +8,7 @@ jimport('joomla.application.component.view');
 
 
 
-class OtcViewCompanies extends JView
+class OtcViewMembers extends JView
 {
     function display($tpl = null) {
         $application =& JFactory::getApplication();
@@ -21,19 +21,26 @@ class OtcViewCompanies extends JView
         }
         
         switch ($layout) {
-            case 'newcompany':
-                $this->pagination = false;
+            case 'newuser':
+                if ($id) {
+                    $this->user = $this->getUser($id);
+                    $this->users = false;
+                }
+                else {
+                    $this->users = $this->get('Users');
+                    $this->user = false;
+                }
             break;
             
-            case 'editcompany':
-                $this->company = $this->get('Company');
-                $this->pagination = false;
+            case 'edituser':
+                    $this->user = $this->getUser($id);
+                    $this->users = false;
             break;
             
             default:
                 if (!$layout) {
+                    $this->members = $this->get('Members');
                     $this->pagination = $this->get('Pagination');
-                    $this->companies = $this->get('Companies'); 
                 }
         }
         

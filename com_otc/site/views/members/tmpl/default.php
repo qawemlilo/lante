@@ -2,6 +2,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+$document =& JFactory::getDocument();
+$document->addStyleDeclaration('#limit {width: 60px}');
 ?>
 
 <div>
@@ -19,20 +21,29 @@ defined('_JEXEC') or die('Restricted access');
   <hr style="margin-top: 0px" />
 </div>
 
-<div class="row-fluid">
-  <p style="text-align:right">
-    <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=admin&layout=newuser'); ?>" class="btn btn-primary">
+<div class="row-fluid well well-small" style="margin-bottom:1px">
+  <div class="span4">
+    <form action="<?php echo JRoute::_('index.php?option=com_otc&view=companies'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
+    Display # <?php echo @$this->pagination->getLimitBox() ;?>
+    </form>
+  </div>
+  
+  <div class="span8" style="text-align:right">
+    <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=members&layout=newuser'); ?>" class="btn btn-large btn-primary">
       <i class="icon-check"></i> Add Member
     </a>
     
-    <button class="btn btn-primary btn-success">
+    <button class="btn btn-primary btn-large btn-success">
       <i class="icon-edit"></i> Edit
     </button>
     
-    <button type="submit" class="btn btn-primary btn-danger">
+    <button type="submit" class="btn btn-large btn-primary btn-danger">
       <i class="icon-remove"></i> Delete
     </button>
-  </p>
+  </div>
+</div>
+
+<div class="row-fluid">
   <?php
   if (is_array($this->members) && count($this->members) > 0) :
   ?>
@@ -54,7 +65,7 @@ defined('_JEXEC') or die('Restricted access');
       foreach($this->members as $member) :
     ?>
         <tr>
-          <td><input type="checkbox" name="ids[]" /></td>
+          <td><input type="radio" name="id" /></td>
           <td><?php echo $member->name . ' ' . $member->surname; ?></td>
           <td><?php echo $member->email; ?></td>
           <td>0<?php echo $member->cell_number; ?></td>
@@ -65,6 +76,11 @@ defined('_JEXEC') or die('Restricted access');
     ?>
     </tbody>
   </table>
+  
+  <div class="row-fluid" style="text-align: center; border-top: 0px">
+    <?php echo $this->pagination->getPagesLinks(); ?>
+  </div>
+  
   <?php
     endif;
   ?>

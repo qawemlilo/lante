@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 
-class OtcControllerCompany extends JController
+class OtcControllerCompanies extends JController
 {
     public function createcompany() {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
