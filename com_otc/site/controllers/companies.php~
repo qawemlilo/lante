@@ -119,7 +119,7 @@ class OtcControllerCompanies extends JController
             $application->redirect($refer, 'Company permanantly deleted', 'success');   
         }
         else { 
-            $application->redirect($refer, 'An error occured. Company not deleted.', 'error'); 
+            $application->redirect($refer, 'An error occured. Member not removed.', 'error'); 
         }
     }
     

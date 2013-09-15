@@ -225,9 +225,10 @@ defined('_JEXEC') or die('Restricted access');
 
 <!-- Text input-->
 <div class="control-group">
-  <label class="control-label" for="branch_code">Branch Code</label>
+  <label class="control-label" for="branch_code">Branch Number</label>
   <div class="controls">
     <input id="branch_code" name="branch_code" placeholder="Branch code" value="<?php echo $this->member->branch_code; ?>" class="input-xlarge" type="text">
+    
   </div>
 </div>
 
