@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <div class="row-fluid">
-<form class="form-horizontal" name="newmember" id="newmember" method="post" action="index.php?option=com_otc&task=members.editmember">
+<form class="form-horizontal" name="editmember" id="editmember" method="post" action="index.php?option=com_otc&task=members.editmember">
 <fieldset style="border: 1px solid #ccc; padding: 20px;">
 
 <legend style="margin-bottom: 0px; width:180px;border: 1px solid #e5e5e5; text-align:center;padding: 0px 5px 0px 5px;">Edit Member</legend>
@@ -40,9 +40,9 @@ defined('_JEXEC') or die('Restricted access');
 
 <!-- Text input-->
 <div class="control-group">
-  <label class="control-label" for="middlename">Middle Name</label>
+  <label class="control-label" for="middle_name">Middle Name</label>
   <div class="controls">
-    <input id="middlename" name="middlename" placeholder="Middle Name" value="<?php echo $this->member->middle_name; ?>" class="input-xlarge" type="text">
+    <input id="middle_name" name="middle_name" placeholder="Middle Name" value="<?php echo $this->member->middle_name; ?>" class="input-xlarge" type="text">
   </div>
 </div>
 
@@ -253,10 +253,10 @@ jQuery.noConflict();
 
 (function ($) {
     $(function () {
-        $('#newmember').on('submit', function (event) {
-            var formObj = formToObject('newmember'), result;
+        $('#editmember').on('submit', function (event) {
+            var formObj = formToObject('editmember'), result;
             
-            result = (dobIsValid(formObj.dob) && isEmail(formObj.email) && formObj.title);
+            result = (isEmail(formObj.email) && formObj.title);
             
             if (!result) {
                 alert('Please check that you have entered all details correctly');
@@ -264,49 +264,6 @@ jQuery.noConflict();
 
             return result;
         });
-        
-        function dobIsValid(dob) {
-            var cleanDob = trim(dob)
-                dobArr = cleanDob.split(' ');
-                
-            if (!(dobArr.length === 3)) {
-                return false;
-            }
-            
-            var day = parseInt(dobArr[0], 10);
-            
-            if (day < 1 || day > 31) {
-                return false;
-            }
-            
-            if (!isValidMonth(dobArr[1])) {
-                return false;
-            }
- 
-            if (!(dobArr[2].length === 4)) {
-                return false;
-            }
-            
-            return true;
-        }
-        
-        
-        function trim(str) {
-            return str.replace(/^\s+|\s+$/g, '');
-        }
-        
-        
-        function isValidMonth(month) {
-            var months = {'jan': 1, 'feb': 1, 'mar': 1, 'apr': 1, 'may': 1, 'jun': 1, 'jul': 1, 'aug': 1, 'sep': 1, 'oct': 1, 'nov': 1, 'dec': 1};
-            
-            month = month.toLowerCase();
-            
-            if (months.hasOwnProperty(month)) {
-                return true;
-            }
-            
-            return false;
-        }
         
         
         function isEmail(email) {

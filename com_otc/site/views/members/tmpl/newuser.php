@@ -46,9 +46,9 @@ defined('_JEXEC') or die('Restricted access');
 
 <!-- Text input-->
 <div class="control-group">
-  <label class="control-label" for="middlename">Middle Name</label>
+  <label class="control-label" for="middle_name">Middle Name</label>
   <div class="controls">
-    <input id="middlename" name="middlename" placeholder="Middle Name" class="input-xlarge" type="text">
+    <input id="middle_name" name="middle_name" placeholder="Middle Name" class="input-xlarge" type="text">
     
   </div>
 </div>
@@ -229,7 +229,6 @@ defined('_JEXEC') or die('Restricted access');
   <label class="control-label" for="branch_code">Branch Number</label>
   <div class="controls">
     <input id="branch_code" name="branch_code" placeholder="Branch number" class="input-xlarge" type="text">
-    
   </div>
 </div>
 

@@ -52,6 +52,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
     <input type="hidden" name="option" value="com_otc">
     <input type="hidden" name="view" value="members">
     <input type="hidden" name="layout" value="edituser">
+    <?php echo JHtml::_('form.token'); ?>
     
     <table class="table table-bordered table-striped">
     <thead>

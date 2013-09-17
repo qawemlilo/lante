@@ -116,6 +116,8 @@ class OtcControllerMembers extends JController
         $member['branch_name'] = JRequest::getVar('branch_name', '', 'post', 'string');
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
+        $this->updateJoomlaUser();
+        
         if ($model->updateMember($memberid, $member)) {
             $application->redirect('index.php?option=com_otc&view=members', 'Member updated!', 'success');   
         }
@@ -123,6 +125,33 @@ class OtcControllerMembers extends JController
             $application->redirect($refer, 'An error occured. Member not updated.', 'error'); 
         }
     }
+    
+    
+    private function updateJoomlaUser() {
+        $id = JRequest::getVar('userid', '', 'post', 'int');
+	    $fullname = JRequest::getVar('name', '', 'post', 'string');
+		$email = JRequest::getVar('email', '', 'post', 'string');
+        
+        $user =& JFactory::getUser($id);
+        
+        
+        if ($email != $user->email || $fullname != $user->name) {
+            if ($email != $user->email) {
+               $user->set('email', $email);
+            }
+            
+            if ($fullname != $user->name) {
+               $user->set('name', $fullname);
+            }
+        
+            if (!$user->save()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     
     
     private function createDateString($day, $mon, $year) {
