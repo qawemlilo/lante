@@ -42,6 +42,13 @@ defined('_JEXEC') or die('Restricted access');
 </div>
 
 <div class="control-group">
+  <label class="control-label" for="available_shares">Available Shares</label>
+  <div class="controls">
+    <input id="available_shares" name="available_shares" placeholder="Total Shares" value="" class="input-small" required="" type="text">
+  </div>
+</div>
+
+<div class="control-group">
   <label class="control-label" for="about">About the Company</label>
   <div class="controls">                     
     <textarea id="about" rows="3" required="" name="about"></textarea>

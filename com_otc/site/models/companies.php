@@ -198,7 +198,7 @@ class OtcModelCompanies extends JModelItem
         $db =& JFactory::getDBO();
         $id = JRequest::getVar('id', 0, 'get', 'int');
         
-        $query = "SELECT company.id, company.ownerid, company.name, company.share_price, company.website, company.about, owner.owner_name, owner.email, owner.cell_number ";
+        $query = "SELECT company.id, company.ownerid, company.name, company.share_price, company.available_shares, company.website, company.about, owner.owner_name, owner.email, owner.cell_number ";
         $query .= "FROM #__otc_companies AS company ";
         $query .= "INNER JOIN #__otc_owners AS owner ON (company.ownerid = owner.id) ";
         $query .= "WHERE company.id = $id";

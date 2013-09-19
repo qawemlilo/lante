@@ -6,6 +6,7 @@ $document =& JFactory::getDocument();
 $document->addStyleDeclaration('#limit {width: 60px}');
 ?>
 
+<div style="width:98%">
 <div>
    <ul class="nav nav-pills" style="margin-bottom: 0px">
     <li>
@@ -21,7 +22,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   <hr style="margin-top: 0px" />
 </div>
 
-<div class="row-fluid well well-small" style="margin-bottom:1px">
+<div class="row-fluid well well-small">
   <div class="span4">
     <form action="<?php echo $this->parseUrl('index.php?option=com_otc&view=companies'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
     Display # <?php echo @$this->pagination->getLimitBox() ;?>
@@ -29,15 +30,15 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   </div>
 
   <div class="span8" style="text-align:right">
-    <a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=companies&layout=newcompany'); ?>" class="btn btn-large btn-primary" type="button">
+    <a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=companies&layout=newcompany'); ?>" class="btn btn-primary" type="button">
       <i class="icon-check"></i> Add Company
     </a>
     
-    <button id="submitedit" class="btn btn-primary btn-large btn-success">
+    <button id="submitedit" class="btn btn-primary btn-success">
       <i class="icon-edit"></i> Edit
     </button>
     
-    <button id="deletecompany" class="btn btn-primary btn-large btn-danger">
+    <button id="deletecompany" class="btn btn-primary btn-danger">
       <i class="icon-remove"></i> Delete
     </button>
   </div>
@@ -69,7 +70,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
       foreach($this->companies as $company) :
     ?>
         <tr>
-          <td><input type="radio" name="id" value="<?php echo $company->id; ?>" /></td>
+          <td style="text-align:center"><input type="radio" name="id" value="<?php echo $company->id; ?>" /></td>
           <td><?php echo $company->name; ?></td>
           <td><?php echo "<a href=\"{$company->website}\" target=\"_blank\">{$company->website}</a>"; ?></td>
           <td><?php echo $company->about; ?></td>
@@ -89,6 +90,9 @@ $document->addStyleDeclaration('#limit {width: 60px}');
 <div class="row-fluid" style="text-align: center; border-top: 0px">
     <?php echo @$this->pagination->getPagesLinks(); ?>
 </div>
+
+</div>
+
 <script>
 jQuery.noConflict();
 

@@ -46,7 +46,7 @@ class OtcControllerMembers extends JController
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
         if ($model->addMember($member)) {
-            $application->redirect('index.php?option=com_otc&view=members', 'New member created!', 'success');   
+            $application->redirect($refer, 'New member created!', 'success');   
         }
         else { 
             $application->redirect($refer, 'An error occured. Member not created.', 'error'); 
@@ -119,7 +119,7 @@ class OtcControllerMembers extends JController
         $this->updateJoomlaUser();
         
         if ($model->updateMember($memberid, $member)) {
-            $application->redirect('index.php?option=com_otc&view=members', 'Member updated!', 'success');   
+            $application->redirect($refer, 'Member updated!', 'success');   
         }
         else { 
             $application->redirect($refer, 'An error occured. Member not updated.', 'error'); 
@@ -155,9 +155,29 @@ class OtcControllerMembers extends JController
     
     
     private function createDateString($day, $mon, $year) {
-        $date = trim($day) . '-' . trim($mon) . '-' . trim($year);
+        $date = trim($year) . '-' . $this->getMonthDigit($mon) . '-' . trim($day); 
         
         return $date;
+    }
+    
+    
+    private function getMonthDigit($mon) {
+        $months = array (
+            'Jan'=>01,
+            'Feb'=>02,
+            'Mar'=>03,
+            'Apr'=>04,
+            'May'=>05,
+            'Jun'=>06,
+            'Jul'=>07,
+            'Aug'=>08,
+            'Sep'=>09,
+            'Oct'=>10,
+            'Nov'=>11,
+            'Dec'=>12
+        ); 
+        
+        return $months[$mon];
     }
     
     

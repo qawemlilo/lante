@@ -33,6 +33,7 @@ class OtcControllerCompanies extends JController
         $company['created_by'] = $user->id;
         $company['share_price'] = $share_price;
         $company['about'] = JRequest::getVar('about', '', 'post', 'string');
+        $company['available_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
         
         $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
         $owner['created_by'] = $user->id;
@@ -80,6 +81,7 @@ class OtcControllerCompanies extends JController
         $company['website'] = JRequest::getVar('website', '', 'post', 'string');
         $company['share_price'] = $share_price;
         $company['about'] = JRequest::getVar('about', '', 'post', 'string');
+        $company['available_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
         
         $ownerid = JRequest::getVar('ownerid', '', 'post', 'int');
         $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');

@@ -8,7 +8,7 @@ jimport('joomla.application.component.view');
 
 
 
-class OtcViewCompany extends JView
+class OtcViewListedcompanies extends JView
 {
     function display($tpl = null) {
         $application =& JFactory::getApplication();
@@ -17,7 +17,9 @@ class OtcViewCompany extends JView
         if(!$this->isAuthorized()) {
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
-        $this->company = $this->get('Company');
+        
+        $this->companies = $this->get('Companies');
+        $this->pagination = $this->get('Pagination');
         
         parent::display($tpl);
     }

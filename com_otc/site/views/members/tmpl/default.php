@@ -6,6 +6,7 @@ $document =& JFactory::getDocument();
 $document->addStyleDeclaration('#limit {width: 60px}');
 ?>
 
+<div style="width:98%">
 <div>
    <ul class="nav nav-pills" style="margin-bottom: 0px">
     <li class="disabled">
@@ -21,7 +22,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   <hr style="margin-top: 0px" />
 </div>
 
-<div class="row-fluid well well-small" style="margin-bottom:1px">
+<div class="row-fluid well well-small">
   <div class="span4">
     <form action="<?php echo $this->parseUrl('index.php?option=com_otc&view=members'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
     Display # <?php echo @$this->pagination->getLimitBox() ;?>
@@ -29,15 +30,15 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   </div>
   
   <div class="span8" style="text-align:right">
-    <a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=members&layout=newuser'); ?>" class="btn btn-large btn-primary">
+    <a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=members&layout=newuser'); ?>" class="btn btn-primary">
       <i class="icon-check"></i> Add Member
     </a>
     
-    <button id="submitedit" class="btn btn-primary btn-large btn-success">
+    <button id="submitedit" class="btn btn-primary btn-success">
       <i class="icon-edit"></i> Edit
     </button>
     
-    <button id="deletemember" class="btn btn-large btn-primary btn-danger">
+    <button id="deletemember" class="btn btn-primary btn-danger">
       <i class="icon-remove"></i> Delete
     </button>
   </div>
@@ -69,7 +70,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
       foreach($this->members as $member) :
     ?>
         <tr>
-          <td><input type="radio" name="id" value="<?php echo $member->id; ?>" /></td>
+          <td style="text-align:center"><input type="radio" name="id" value="<?php echo $member->id; ?>" /></td>
           <td><?php echo $member->name . ' ' . $member->surname; ?></td>
           <td><?php echo $member->email; ?></td>
           <td>0<?php echo $member->cell_number; ?></td>
@@ -89,6 +90,9 @@ $document->addStyleDeclaration('#limit {width: 60px}');
     endif;
   ?>
 </div>
+
+</div>
+
 <script>
 jQuery.noConflict();
 
