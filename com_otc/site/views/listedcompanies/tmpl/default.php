@@ -5,10 +5,20 @@ $document =& JFactory::getDocument();
 $document->addStyleDeclaration('table .text-center {text-align: center}');
 ?>
 
-<div style="width:98%; margin-top: 15px">
-
-<table class="table table-bordered">
-  <thead>
+<div style="width:98%;">
+  <div id="breadcrumbs" style="margin-bottom: 10px">
+    <div class="module">
+      <div class="breadcrumbs">
+        <a href="/" class="pathway">Home</a> 
+        &nbsp;<i class="icon-caret-right"></i>&nbsp; 
+        <span>Listed Companies</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row-fluid">
+  <table class="table table-bordered">
+   <thead>
     <tr>
       <th>
         All Listed Companies
@@ -23,9 +33,10 @@ $document->addStyleDeclaration('table .text-center {text-align: center}');
       </td>
     </tr>
   </tbody>
-</table>
+ </table>
+ </div>
  
-<div class="row-fluid">
+ <div class="row-fluid">
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
@@ -41,7 +52,7 @@ $document->addStyleDeclaration('table .text-center {text-align: center}');
       foreach($this->companies as $company) :
     ?>
         <tr>
-          <td><a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=company&id=' .$company->id); ?>"><strong><?php echo $company->name; ?></strong></a></td>
+          <td><a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=company&id=' .$company->id); ?>"><?php echo $company->name; ?></a></td>
           <td class="text-center"><?php echo $company->share_price; ?></td>
           <td class="text-center"><?php //echo $company->share_price; ?>0</td>
           <td class="text-center"><?php echo $company->buy_price; ?>0</td>

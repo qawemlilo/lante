@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <div class="row-fluid">
-<form class="form-horizontal" name="editcompany" id="editcompany" method="post" action="<?php echo $this->parseUrl('index.php?option=com_otc&task=companies.editcompany'); ?>">
+<form class="form-horizontal" name="editcompany" id="editcompany" enctype="multipart/form-data" method="post" action="<?php echo $this->parseUrl('index.php?option=com_otc&task=companies.editcompany'); ?>">
 <fieldset style="border: 1px solid #ccc; padding: 20px;">
 
 <legend style="margin-bottom: 0px; width:180px;border: 1px solid #e5e5e5; text-align:center;padding: 5px;">Edit Company</legend>
@@ -52,6 +52,13 @@ defined('_JEXEC') or die('Restricted access');
   <label class="control-label" for="about">About the Company</label>
   <div class="controls">                     
     <textarea id="about" rows="3" required="" name="about"><?php if($this->company && $this->company->about) echo $this->company->about; ?></textarea>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label">Logo (120px X 120px)</label>
+  <div class="controls">
+    <input name="logo" class="input-file" type="file" />
   </div>
 </div>
 

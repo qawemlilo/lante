@@ -22,7 +22,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   <hr style="margin-top: 0px" />
 </div>
 
-<div class="row-fluid well well-small">
+<div class="row-fluid" style="margin-bottom: 10px">
   <div class="span4">
     <form action="<?php echo $this->parseUrl('index.php?option=com_otc&view=companies'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
     Display # <?php echo @$this->pagination->getLimitBox() ;?>
@@ -59,7 +59,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
     <thead>
       <tr>
         <th>&nbsp;</th>
-        <th>Company Name</th>
+        <th>Company</th>
         <th>Website</th>
         <th>About</th>
         <th>Share Price</th>
@@ -71,7 +71,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
     ?>
         <tr>
           <td style="text-align:center"><input type="radio" name="id" value="<?php echo $company->id; ?>" /></td>
-          <td><?php echo $company->name; ?></td>
+          <td><a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=company&id=' . $company->id);?>"><?php echo $company->name; ?></a></td>
           <td><?php echo "<a href=\"{$company->website}\" target=\"_blank\">{$company->website}</a>"; ?></td>
           <td><?php echo $company->about; ?></td>
           <td>R<?php echo $this->centsToRands((int)$company->share_price); ?></td>

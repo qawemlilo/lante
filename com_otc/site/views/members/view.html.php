@@ -57,6 +57,22 @@ class OtcViewMembers extends JView
     
     
     
+    function parseDate($date) {
+        $mydate = new DateTime($date);
+        $dateString = $mydate->format("d,M,Y");
+        $dateArr = explode(',', $dateString);
+        
+        $dob = new stdClass;
+        
+        $dob->day = $dateArr[0];
+        $dob->month = $dateArr[1];
+        $dob->year = $dateArr[2];
+        
+        return $dob;
+    }
+    
+    
+    
     
     private function isAuthorized() {
         $user =& JFactory::getUser();

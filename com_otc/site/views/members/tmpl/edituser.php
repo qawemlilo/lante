@@ -59,8 +59,11 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="dob">Date of Birth</label>
   
-  <?php 
-     list($day, $mnth, $year) = explode('-', $this->member->dob);
+  <?php
+     $dob = $this->parseDate((string)$this->member->dob);  
+     $day = $dob->day;
+     $mnth = $dob->month; 
+     $year = $dob->year;
   ?>
   <div class="controls">
     <select id="day" name="day" class="input-small" required="">
@@ -136,7 +139,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="cell_number">Cell Number</label>
   <div class="controls">
-    <input id="cell_number" name="cell_number" value="<?php echo $this->member->cell_number; ?>" placeholder="Cellphone Number" class="input-xlarge" required="" type="text">
+    <input id="cell_number" name="cell_number" value="<?php echo '0' . $this->member->cell_number; ?>" placeholder="Cellphone Number" class="input-xlarge" required="" type="text">
     
   </div>
 </div>
@@ -145,7 +148,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="work_number">Work Number</label>
   <div class="controls">
-    <input id="work_number" value="<?php echo $this->member->work_number; ?>" name="work_number" placeholder="Work Number" class="input-xlarge" type="text">
+    <input id="work_number" value="<?php echo '0' . $this->member->work_number; ?>" name="work_number" placeholder="Work Number" class="input-xlarge" type="text">
     
   </div>
 </div>

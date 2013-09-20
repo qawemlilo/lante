@@ -22,7 +22,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   <hr style="margin-top: 0px" />
 </div>
 
-<div class="row-fluid well well-small">
+<div class="row-fluid" style="margin-bottom: 10px">
   <div class="span4">
     <form action="<?php echo $this->parseUrl('index.php?option=com_otc&view=members'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
     Display # <?php echo @$this->pagination->getLimitBox() ;?>

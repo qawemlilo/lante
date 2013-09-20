@@ -28,17 +28,22 @@ class OtcControllerCompanies extends JController
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
+        $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
+        $owner['created_by'] = $user->id;
+        $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
+        $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
+        
         $company['name'] = JRequest::getVar('name', '', 'post', 'string');
         $company['website'] = JRequest::getVar('website', '', 'post', 'string');
         $company['created_by'] = $user->id;
         $company['share_price'] = $share_price;
         $company['about'] = JRequest::getVar('about', '', 'post', 'string');
         $company['available_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
+        $logo = JRequest::getVar('logo', null, 'files', 'array');
         
-        $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
-        $owner['created_by'] = $user->id;
-        $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
-        $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
+        if ($filename = $this->upload($logo)) {
+            $company['logo'] = $filename;
+        }
         
         if (!$rands || !$ownerid = $model->addOwner($owner)) {
             $application->redirect($refer, 'Database error. Failed to add owner.', 'error');             
@@ -76,17 +81,22 @@ class OtcControllerCompanies extends JController
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
+        $ownerid = JRequest::getVar('ownerid', '', 'post', 'int');
+        $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
+        $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
+        $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
+        
         $companyid = JRequest::getVar('id', '', 'post', 'int');
         $company['name'] = JRequest::getVar('name', '', 'post', 'string');
         $company['website'] = JRequest::getVar('website', '', 'post', 'string');
         $company['share_price'] = $share_price;
         $company['about'] = JRequest::getVar('about', '', 'post', 'string');
         $company['available_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
+        $logo = JRequest::getVar('logo', null, 'files', 'array');
         
-        $ownerid = JRequest::getVar('ownerid', '', 'post', 'int');
-        $owner['owner_name'] = JRequest::getVar('owner_name', '', 'post', 'string');
-        $owner['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
-        $owner['email'] = JRequest::getVar('email', '', 'post', 'string');
+        if ($filename = $this->upload($logo)) {
+            $company['logo'] = $filename;
+        }
         
         if (!$rands || !$model->updateOwner($ownerid, $owner)) {
             $application->redirect($refer, 'Database error. Failed to update owner.', 'error');             
@@ -140,6 +150,31 @@ class OtcControllerCompanies extends JController
             return true;
         }
         
+        return false;
+    }
+    
+    
+    
+    
+    
+    private function upload($file) {
+        if (!empty($file) && !empty($file['name']) && !empty($file['tmp_name'])) {
+            $rawname = JFile::makeSafe($file['name']);
+            $ext = strtolower(JFile::getExt($rawname));
+            
+            $time = time();
+            $filename =  (string)$time . '.' . $ext;
+            
+            $path = JPATH_SITE . DS . 'media' . DS . 'com_otc' . DS . 'logos'  . DS . $filename;
+                
+            if (!JFile::upload($file['tmp_name'], $path)) {
+                return false;
+            }
+            else {
+                return $filename;
+            }
+        }
+    
         return false;
     }
 }
