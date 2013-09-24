@@ -93,8 +93,6 @@ class OtcControllerCompanies extends JController
         $company['website'] = JRequest::getVar('website', '', 'post', 'string');
         $company['share_price'] = $share_price;
         $company['about'] = JRequest::getVar('about', '', 'post', 'string');
-        $company['company_email'] = JRequest::getVar('company_email', '', 'post', 'string');
-        $company['company_address'] = JRequest::getVar('company_address', '', 'post', 'string');
         $company['available_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
         $logo = JRequest::getVar('logo', null, 'files', 'array');
         
