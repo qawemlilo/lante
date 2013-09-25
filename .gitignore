@@ -2,6 +2,14 @@
 *.psd
 node_modules/
 build/
+.gitignore~
+*.php~
+*.js~
+*.html~
+*.sql~
+*.xml~
+*.md~
+*.css~
 
 #################
 ## Eclipse

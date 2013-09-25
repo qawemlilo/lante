@@ -3,7 +3,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $document =& JFactory::getDocument();
-$document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:12px}');
+$document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13px}');
 ?>
 
 <div style="width:98%;">
@@ -25,7 +25,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:12p
        <img class="media-object img-polaroid" style="width:120px; height: 120px;" src="<?php if (!empty($this->company->logo)) echo 'media/com_otc/logos/' . $this->company->logo; else echo 'http://placehold.it/120&text=Logo+Here'; ?>">
       </a>
       <div class="media-body">
-        <h4 class="media-heading" style="margin-bottom:0px; font-size: 1.3em;"><?php echo $this->company->name?></h4>
+        <h4 class="media-heading" style="margin-bottom:0px;"><?php echo $this->company->name?></h4>
         <p><strong style="color:#fd7800">Website:</strong> <a href="<?php echo $this->company->website; ?>" target="_blank"><?php echo $this->company->website; ?></a></p>
         <p><strong style="color:#fd7800">About Company:</strong> <?php echo $this->company->about; ?></p>
         <p><strong style="color:#fd7800">Company Owner:</strong> <?php echo $this->company->owner_name; ?></p>

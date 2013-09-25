@@ -183,7 +183,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="postal_code">Code</label>
   <div class="controls">
-    <input id="postal_code" name="postal_code" placeholder="Code" value="<?php echo $this->member->address_code; ?>" class="input-mini" required="" type="text">
+    <input id="postal_code" name="postal_code" placeholder="Code" value="<?php echo $this->member->postal_code; ?>" class="input-mini" required="" type="text">
     
   </div>
 </div>

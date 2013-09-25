@@ -11,6 +11,8 @@ jimport('joomla.application.component.view');
 class OtcViewProfile extends JView
 {
     function display($tpl = null) {
+        $this->member = $this->get('Member');
+        
         parent::display($tpl);
     }
 }
