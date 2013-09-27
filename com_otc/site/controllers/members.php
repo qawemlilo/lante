@@ -127,6 +127,49 @@ class OtcControllerMembers extends JController
     }
     
     
+    
+    public function updatemember() {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+        $model =& $this->getModel('members');
+        $user =& JFactory::getUser();
+        $member = array();
+
+        //Check if user is authorized to view this page
+        if ($user->guest) {
+            http_response_code(500);
+            header('Content-type: text/plain');
+            echo "Unauthorised user";
+            exit();
+        }
+   
+        
+        $email = JRequest::getVar('email', '', 'post', 'string');
+        $memberid = JRequest::getVar('id', 0, 'post', 'int');
+        $member['contact_method'] = JRequest::getVar('contact_method', '', 'post', 'string');
+        $member['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
+        $member['work_number'] = JRequest::getVar('work_number', 0, 'post', 'int');
+        
+        if ($email != $user->email) {
+            $user->set('email', $email);
+            $user->save();
+        }
+        
+        if ($model->updateMember($memberid, $member)) { 
+            http_response_code(200);
+            header('Content-type: text/plain');
+            echo "Details Updated";
+            exit();            
+        }
+        else { 
+            http_response_code(500);
+            header('Content-type: text/plain');
+            echo "An error occured. Some details not updated.";
+            exit();
+        }
+    }
+    
+    
     private function updateJoomlaUser() {
         $id = JRequest::getVar('userid', '', 'post', 'int');
 	    $fullname = JRequest::getVar('name', '', 'post', 'string');
@@ -150,6 +193,80 @@ class OtcControllerMembers extends JController
         }
         
         return true;
+    }
+    
+    
+    public function changepassword() {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $user =& JFactory::getUser();
+        
+	    $originalPassword = JRequest::getVar('currentpassword', '', 'post', 'string');
+		$p_1 = JRequest::getVar('newpassword', '', 'post', 'string');
+        $p_2 = JRequest::getVar('newpassword2', '', 'post', 'string');
+        
+        
+        if ($user->guest) {
+            http_response_code(500);
+            header('Content-type: text/plain');
+            echo "Unauthorised user";
+            exit();
+        }
+        
+        $password = $user->get('password');
+        $salt = $this->getSalt($password);
+        $currentpassword = $this->makeCrypt($originalPassword, $salt);
+        
+        if ($currentpassword != $password || $p_1 != $p_2) {
+            http_response_code(500);
+            header('Content-type: text/plain');
+            echo "Password could not be verified";
+            exit();
+        }
+        
+        $newpassword = $this->makeCrypt($p_1);
+        
+        $user->set('password', $newpassword);
+        
+        if (!$user->save()) {
+            http_response_code(500);
+            header('Content-type: text/plain');
+            echo "Password could not be updated";
+            exit();
+        }
+        
+        http_response_code(200);
+        header('Content-type: text/plain');
+        echo "Password updated";
+        exit();
+    }
+    
+    
+    
+    private function getSalt($password) {  
+        $passwordarray = explode(":", $password);
+		
+		if (is_array($passwordarray)) {
+            return $passwordarray[1];
+        }
+        
+        return false;
+    }
+    
+    
+    
+    
+    private function makeCrypt($password, $salt = false) {
+    
+		if (!$salt) {
+            $salt = JUserHelper::genRandomPassword(32);
+        }
+        
+        $crypt = JUserHelper::getCryptedPassword($password, $salt);
+        $crypted = $crypt.':'.$salt;
+        
+        return $crypted;
     }
     
     
@@ -188,5 +305,69 @@ class OtcControllerMembers extends JController
         }
         
         return false;
+    }
+}
+
+
+
+
+
+if (!function_exists('http_response_code')) {
+    function http_response_code($code = NULL) {
+        if ($code !== NULL) {
+
+            switch ($code) {
+                case 100: $text = 'Continue'; break;
+                case 101: $text = 'Switching Protocols'; break;
+                case 200: $text = 'OK'; break;
+                case 201: $text = 'Created'; break;
+                case 202: $text = 'Accepted'; break;
+                case 203: $text = 'Non-Authoritative Information'; break;
+                case 204: $text = 'No Content'; break;
+                case 205: $text = 'Reset Content'; break;
+                case 206: $text = 'Partial Content'; break;
+                case 300: $text = 'Multiple Choices'; break;
+                case 301: $text = 'Moved Permanently'; break;
+                case 302: $text = 'Moved Temporarily'; break;
+                case 303: $text = 'See Other'; break;
+                case 304: $text = 'Not Modified'; break;
+                case 305: $text = 'Use Proxy'; break;
+                case 400: $text = 'Bad Request'; break;
+                case 401: $text = 'Unauthorized'; break;
+                case 402: $text = 'Payment Required'; break;
+                case 403: $text = 'Forbidden'; break;
+                case 404: $text = 'Not Found'; break;
+                case 405: $text = 'Method Not Allowed'; break;
+                case 406: $text = 'Not Acceptable'; break;
+                case 407: $text = 'Proxy Authentication Required'; break;
+                case 408: $text = 'Request Time-out'; break;
+                case 409: $text = 'Conflict'; break;
+                case 410: $text = 'Gone'; break;
+                case 411: $text = 'Length Required'; break;
+                case 412: $text = 'Precondition Failed'; break;
+                case 413: $text = 'Request Entity Too Large'; break;
+                case 414: $text = 'Request-URI Too Large'; break;
+                case 415: $text = 'Unsupported Media Type'; break;
+                case 500: $text = 'Internal Server Error'; break;
+                case 501: $text = 'Not Implemented'; break;
+                case 502: $text = 'Bad Gateway'; break;
+                case 503: $text = 'Service Unavailable'; break;
+                case 504: $text = 'Gateway Time-out'; break;
+                case 505: $text = 'HTTP Version not supported'; break;
+                default:
+                    exit('Unknown http status code "' . htmlentities($code) . '"');
+                break;
+            }
+
+            $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+
+            header($protocol . ' ' . $code . ' ' . $text);
+
+            $GLOBALS['http_response_code'] = $code;
+        } else {
+            $code = (isset($GLOBALS['http_response_code']) ? $GLOBALS['http_response_code'] : 200);
+        }
+        
+        return $code;
     }
 }

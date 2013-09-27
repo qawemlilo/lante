@@ -174,11 +174,20 @@ $document->addStyleDeclaration($style);
         <tbody>
           <tr>
             <td>
-              <form class="pdetails">
+              <div class="row-fluid">
+                  <div class="updatememberform progress progress-striped active" style="display:none">
+                    <div class="bar" style="width: 100%;"></div>
+                  </div>
+                
+                  <div class="updatememberformres alert" style="display:none">
+                  </div> 
+              </div>
+              <form class="pdetails" id="updatememberform" method="post" name="updatememberform" action="index.php?option=com_otc&task=members.updatemember"> 
                 <div class="control-group">
                   <label class="control-label">Communication:</label>
-                  <div class="controls">
-                    SMS <input type="radio" name="contact_method" value="sms"> Email <input type="radio" name="contact_method" value="email">
+                  <div class="controls" style="padding-bottom:10px;">
+                     SMS <input type="radio" name="contact_method" value="sms" <?php if($this->member->contact_method && $this->member->contact_method == 'sms') echo 'checked="checked"' ?> style="margin:0px 10px 0px 0px;"> 
+                     Email <input type="radio" <?php if($this->member->contact_method && $this->member->contact_method == 'email') echo 'checked="checked"' ?> name="contact_method" value="email" style="margin:0px 5px 0px 0px;">
                   </div>
                 </div>
                 
@@ -188,6 +197,7 @@ $document->addStyleDeclaration($style);
                     <input id="cell_number" name="cell_number" value="<?php if($this->member->cell_number) echo '0' . $this->member->cell_number; ?>" class="input-xlarge" type="text">
                   </div>
                 </div>
+                
                 
                 <div class="control-group">
                   <label class="control-label" for="work_number">Work Number:</label>
@@ -208,7 +218,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="address">Physical Add:</label>
                   <div class="controls">
-                     <textarea id="address" readonly="readonly" rows="3" required="" class="input-xlarge" name="address"><?php echo $this->member->address; ?></textarea>
+                     <textarea id="address" readonly="readonly" rows="3" required="" class="input-xlarge" ><?php echo $this->member->address; ?></textarea>
                   </div>
                 </div>
                 
@@ -232,43 +242,66 @@ $document->addStyleDeclaration($style);
                      <input readonly="readonly" value="<?php if($this->member->postal_code) echo $this->member->postal_code; ?>" class="input-small" type="text">
                   </div>
                 </div>
+                
+                <?php echo JHtml::_('form.token'); ?>
+                <input type="hidden" name="id" value="<?php echo $this->member->id; ?>" />
+              
+                <p style="text-align:right">
+                  <button class="btn btn-primary" type="submit">Save Changes</button>
+                </p>
+                
+                <p style="margin-top:20px">
+                  <a href="#myModal" role="button" data-toggle="modal" style="color:#fd7800; font-size:14px;">I want to change may login password. Click here.</a>
+                </p>
               </form>
               
-              <p><a href="#myModal" role="button" data-toggle="modal">I want to change may login password. Click here</a></p>
               <!-- Modal -->
               <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h3 id="myModalLabel">Change Password</h3>
+                <div class="modal-header" style="background-color:#fd7800">
+                  <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+                  <h3 id="myModalLabel" style="color:#fff">Change Password</h3>
                 </div>
                 <div class="modal-body">
-              <form class="form-horizontal">
-                <div class="control-group">
-                  <label class="control-label" for="cell_number">Old Password:</label>
-                  <div class="controls">
-                    <input id="cell_number" name="cell_number" value="" class="input-xlarge" type="password">
-                  </div>
+                  <form class="form-horizontal" id="chgform" method="past" action="index.php?option=com_otc&task=members.changepassword">
+                    <div id="progress" class="passprogress progress progress-striped active" style="display:none">
+                      <div class="bar" style="width: 100%;"></div>
+                    </div>
+                    
+                    <div id="responseD" class="passresponse alert" style="display:none">
+                    </div> 
+                    
+                    <div class="control-group">
+                      <label class="control-label" for="currentpassword">Old Password:</label>
+                     
+                      <div class="controls">
+                        <input id="currentpassword" name="currentpassword" value="" class="input-xlarge" type="password">
+                      </div>
+                    </div>
+                
+                    <div class="control-group">
+                      <label class="control-label" for="newpassword">New Password:</label>
+                      
+                      <div class="controls">
+                        <input id="newpassword" name="newpassword" value="" class="input-xlarge" type="password">
+                      </div>
+                    </div>
+                
+                
+                    <div class="control-group">
+                      <label class="control-label" for="newpassword2">Re-type New Password:</label>
+                      
+                      <div class="controls">
+                        <input id="newpassword2" name="newpassword2" value="" class="input-xlarge" type="password">
+                      </div>
+                    </div>
+                    
+                    <?php echo JHtml::_('form.token'); ?>
+                  </form>
                 </div>
                 
-                <div class="control-group">
-                  <label class="control-label" for="work_number">New Password:</label>
-                  <div class="controls">
-                    <input id="work_number" name="work_number" value="" class="input-xlarge" type="password">
-                  </div>
-                </div>
-                
-                
-                <div class="control-group">
-                  <label class="control-label" for="email">Re-type New Password:</label>
-                  <div class="controls">
-                    <input id="email" name="email" value="" class="input-xlarge" type="password">
-                  </div>
-                </div>
-              </form>
-                </div>
                 <div class="modal-footer">
                   <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                  <button class="btn btn-primary">Save changes</button>
+                  <button class="btn btn-primary" id="changepassword">Update Password</button>
                 </div>
               </div>
               
@@ -309,10 +342,81 @@ $document->addStyleDeclaration($style);
 jQuery.noConflict();
 
 (function ($) {
-  $('#myModal').modal({
-      keyboard: false,
-      show: false
-  });
+    $('#myModal').modal({
+        keyboard: false,
+        show: false
+    });
+
+    
+    function handleForm(event, opts) {
+        var self = opts.form,
+            progress = $('.' + opts.progress),
+            response = $('.' + opts.response);
+            
+        progress.slideDown(function () {
+            $.post(opts.action, $(self).serialize() + '&t=' + (new Date().getTime()) , 'text')
+            
+            .done(function(res) {
+                if (typeof res === 'object') {
+                    res = res.responseText
+                }
+                
+                progress.slideUp(function () {
+                    response.addClass('alert-success').html($('<strong>' + res + '</strong>')).slideDown('slow');
+                });
+                  
+                window.setTimeout(function () { 
+                    response.slideUp(function () {
+                        response.removeClass('alert-success');
+                    }); 
+                }, 10 * 1000);
+            })
+            
+            .fail(function(res) {
+                if (typeof res === 'object') {
+                    res = res.responseText
+                }
+                
+                progress.slideUp(function () {
+                    response.addClass('alert-error').html($('<strong>' + res + '</strong>')).slideDown('slow');
+                });
+                  
+                window.setTimeout(function () { 
+                    response.slideUp(function () {
+                        response.removeClass('alert-error');
+                    }); 
+                }, 10 * 1000);
+            });
+        });
+            
+        return false;
+    }
+    
+    
+    var passwordForm = $('#chgform');
+    
+    $('#changepassword').on('click', function (event) {
+        passwordForm.submit();
+    });
+    
+    passwordForm.on('submit', function (event) {
+        return handleForm(event, {
+            form: this,
+            progress: 'passprogress',
+            response: 'passresponse',
+            action: 'index.php?option=com_otc&task=members.changepassword'
+        });
+    });
+    
+    $("#updatememberform").on('submit', function (event) {
+        return handleForm(event, {
+            form: this,
+            progress: 'updatememberform',
+            response: 'updatememberformres',
+            action: 'index.php?option=com_otc&task=members.updatemember'
+        });
+    });
+    
 }(jQuery));
 </script>
   

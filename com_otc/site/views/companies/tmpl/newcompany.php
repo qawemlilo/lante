@@ -24,8 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="website">Website</label>
   <div class="controls">
-    <input id="website" name="website" placeholder="Company website" class="input-xlarge" type="text">
-    
+    <input id="website" type="url" name="website" placeholder="Company website" class="input-xlarge" type="text">
   </div>
 </div>
 

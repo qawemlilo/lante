@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="control-group">
   <label class="control-label" for="website">Website</label>
   <div class="controls">
-    <input id="website" name="website" value="<?php if($this->company && $this->company->website) echo $this->company->website; ?>" placeholder="Company website" class="input-xlarge" type="text">
+    <input id="website" name="website" value="<?php if($this->company && $this->company->website) echo $this->company->website; ?>" placeholder="Company website" class="input-xlarge" type="url">
     
   </div>
 </div>
