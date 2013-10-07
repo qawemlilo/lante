@@ -35,6 +35,7 @@ class OtcControllerMembers extends JController
         $member['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
         $member['work_number'] = JRequest::getVar('work_number', 0, 'post', 'int');
         $member['dob'] = $dob;
+        $member['account_id'] = time();
         $member['address'] = JRequest::getVar('address', '', 'post', 'string');
         $member['address_code'] = JRequest::getVar('address_code', 0, 'post', 'int');
         $member['postal_address'] = JRequest::getVar('postal_address', '', 'post', 'string');
