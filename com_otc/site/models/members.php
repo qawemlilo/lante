@@ -174,6 +174,21 @@ class OtcModelMembers extends JModelItem
     
     
     
+    public function updateBalance($memberid = 0, $amount = 0) {
+        $db =& JFactory::getDBO();
+        
+        $query = "UPDATE #__otc_members ";
+        $query .= "SET balance=balance+$amount ";
+        $query .= "WHERE id=$memberid";
+              
+        $db->setQuery($query);
+        $result = $db->query();
+        
+        return $result;    
+    }
+    
+    
+    
     
     public function getMember() {
         $db =& JFactory::getDBO();

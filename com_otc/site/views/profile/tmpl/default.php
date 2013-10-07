@@ -329,7 +329,7 @@ $document->addStyleDeclaration($style);
       <tbody>
         <tr>
           <td>
-            <p><strong class="pull-left" style="color:#fd7800">Buying Balance</strong> <strong class="pull-right">R10,000.00<strong></p>
+            <p><strong class="pull-left" style="color:#fd7800">Buying Balance</strong> <strong class="pull-right">R<?php if($this->member->balance) echo $this->centsToRands($this->member->balance); ?><strong></p>
           </td>
         </tr>
       </tbody>

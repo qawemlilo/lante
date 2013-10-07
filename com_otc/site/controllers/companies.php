@@ -141,7 +141,7 @@ class OtcControllerCompanies extends JController
     
     
     
-    private function randsToCents($rands, $cents) {
+    private function randsToCents($rands = 0, $cents = 0) {
         $total = ((int)$rands * 100) + (int)$cents;
         
         return $total;

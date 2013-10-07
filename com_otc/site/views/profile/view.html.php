@@ -15,4 +15,8 @@ class OtcViewProfile extends JView
         
         parent::display($tpl);
     }
+    
+    function centsToRands($cents) {
+        return number_format($cents/100, 2);
+    }
 }
