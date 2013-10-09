@@ -20,8 +20,18 @@ class OtcViewBank extends JView
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
-        $this->members = $this->get('Members'); 
-        $this->dropdown = $this->membersList($this->members);
+        switch ($layout) {
+            case 'transaction':
+                $this->members = $this->get('Members');
+                $this->dropdown = $this->membersList($this->members);
+            break;
+            
+            default:
+                if (!$layout) {
+                    $this->pagination = $this->get('Pagination');
+                    $this->transactions = $this->get('Transactions'); 
+                }
+        }
         
         parent::display($tpl);
     }

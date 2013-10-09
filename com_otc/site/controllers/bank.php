@@ -28,7 +28,6 @@ class OtcControllerBank extends JController
         $amount = $this->randsToCents($rands, $cents);
         
         $transaction['memberid'] = JRequest::getVar('memberid', 0, 'post', 'int');
-        $transaction['account_id'] = JRequest::getVar('account_id', 0, 'post', 'int');
         $transaction['amount'] = $amount;
         $transaction['created_by'] = $user->id;
         $transaction['transaction_type'] = JRequest::getVar('transaction_type', '', 'post', 'string');
@@ -50,6 +49,27 @@ class OtcControllerBank extends JController
         $total = ((int)$rands * 100) + (int)$cents;
         
         return $total;
+    }
+    
+    
+    private function sendMail($rands = 0, $cents = 0) {
+        $mailer = JFactory::getMailer();
+        
+        $mailer->setSender('$sender');
+        $mailer->addRecipient('$recipient');
+        $mailer->setSubject('Your subject string');
+        $mailer->isHTML(true);
+        $mailer->Encoding = 'base64';
+        $mailer->setBody('$body');
+        $mailer->addAttachment(JPATH_COMPONENT.'/assets/document.pdf');
+        
+        $send = $mailer->Send();
+        
+        if ( $send !== true ) {
+            return 'Error sending email: ' . $send->message;
+        } else {
+            return 'Success';
+        }
     }
     
     
