@@ -18,10 +18,28 @@ class OtcViewTrade extends JView
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
-        //$this->companies = $this->get('Companies');
-        //$this->pagination = $this->get('Pagination');
+        $this->companies = $this->get('Companies');
+        $this->member = $this->get('Member');
+        $this->companiesDropdown = $this->companiesList($this->companies);
         
         parent::display($tpl);
+    }
+    
+    
+    
+    private function companiesList($list) {
+        $select = '<select name="companyid" id="companyid">';
+        $select .= '<option value="">Select Company</option>';
+        
+        if(!empty($list) && count($list) > 0) {
+            foreach($list as $company) {
+                $select .= '<option value="' . $company->id . '" >' . $company->name . '</option>';
+            }
+        }
+        
+        $select .= '</select>';
+        
+        return $select;
     }
     
     

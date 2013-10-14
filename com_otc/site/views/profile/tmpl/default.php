@@ -8,7 +8,7 @@ $style = '
     margin-bottom: 0px;
   }
   .pdetails .control-group {
-    padding-top: 10px;
+    padding-top: 5px;
   }
   .pdetails .control-group label {
     width: 90px;
@@ -258,7 +258,6 @@ $document->addStyleDeclaration($style);
               <!-- Modal -->
               <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header" style="background-color:#fd7800">
-                  <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
                   <h3 id="myModalLabel" style="color:#fff">Change Password</h3>
                 </div>
                 <div class="modal-body">
