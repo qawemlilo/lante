@@ -104,7 +104,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="num_shares">Number of Shares:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="num_shares" name="num_shares" required="" />
+                    <input value="" class="span4" type="text" id="num_shares" name="num_shares" required="" />
                   </div>
                 </div>
                 
@@ -112,7 +112,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="bidding_rands">Bidding Price:</label>
                   <div class="controls">
-                    <div class="input-prepend input-append">
+                    <div class="input-prepend input-append" style="width:400px">
                         <span class="add-on">R</span>
                         <input class="span2" id="bidding_rands" placeholder="Rands" name="rands" required="" type="text">
                         <span class="add-on">.</span>
@@ -144,7 +144,7 @@ $document->addStyleDeclaration($style);
                   </div>
                 </div>
                 
-                <div class="control-group">
+                <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
                   <label class="control-label" for="security_fee">Investment Charge:</label>
                   <div class="controls">
                     <div style="width: 100%; font-weight:bold;font-size:12px; padding-top:5px; padding-bottom: 5px" id="investment_charge">&nbsp;</div>
@@ -203,36 +203,16 @@ jQuery.noConflict();
                 rands.focus();
             }
         })
-        /*
-        .on('keyup', function (e) {
-            var c = parseInt(cents.val(), 10);
-            var r = parseInt(rands.val(), 10) * 100;
-            var shareprice = $("#companyid option:selected").attr("data-shareprice");
-            
-            total = c + r;
-            
-            
-
-        })*/
-        .on('keyup', function (e) {
-            var c = parseInt(cents.val() || 0, 10);
-            var r = parseInt(rands.val() || 0, 10) * 100;
-            var shareprice = $("#companyid option:selected").attr("data-shareprice");
-            var biddingprice = c + r;
-            var numshares = parseInt(shares.val() || 0, 10);
-            
-            shareprice = parseInt(shareprice || 0, 10);
-
-            if (!shareprice || !biddingprice || !numshares) {
-                return false;
-            }
+        .on('blur', function (e) {
+            var c = parseInt(cents.val() || 0, 10),
+                r = parseInt(rands.val() || 0, 10) * 100,
+                shareprice = $("#companyid option:selected").attr("data-shareprice"),
+                biddingprice = c + r;
             
             if (!verifyBiddingPrice(shareprice, biddingprice)) {
                 alert('You Bidding Price is either too high or too low');
                 return rands.focus();
-            }
-            
-            updateUI(shareprice, biddingprice, numshares);
+            }        
         });
         
         rands.on('focus', function (e) {
@@ -243,7 +223,27 @@ jQuery.noConflict();
                 shares.focus();
             }
         })        
-        .on('keyup', function (e) {
+        .on('blur', function (e) {
+            var c = parseInt(cents.val() || 0, 10),
+                r = parseInt(rands.val() || 0, 10) * 100,
+                shareprice = $("#companyid option:selected").attr("data-shareprice"),
+                biddingprice = c + r;
+            
+            if (!verifyBiddingPrice(shareprice, biddingprice)) {
+                alert('You Bidding Price is either too high or too low');
+                return rands.focus();
+            }        
+        });
+        
+        shares.on('focus', function (e) {
+            if (!company.val()) {
+                company.focus();
+            }
+        })
+        .on('keyup', calc);
+        
+        
+        function calc(e) {
             var c = parseInt(cents.val() || 0, 10);
             var r = parseInt(rands.val() || 0, 10) * 100;
             var shareprice = $("#companyid option:selected").attr("data-shareprice");
@@ -252,32 +252,22 @@ jQuery.noConflict();
             
             shareprice = parseInt(shareprice || 0, 10);
 
-            if (!shareprice || !biddingprice || !numshares) {
+            if (!shareprice || !numshares) {
                 return false;
             }
-            
-            if (!verifyBiddingPrice(shareprice, biddingprice)) {
-                alert('You Bidding Price is either too high or too low');
-                return rands.focus();
-            }
-            
-            updateUI(shareprice, biddingprice, numshares);
-        });
-        
-        shares.on('focus', function (e) {
-            if (!company.val()) {
-                company.focus();
-            }
-        });
-        
-        function centsToRands(cents) {
-            var rands = parseFloat(Math.round(cents / 100)).toFixed(2);
-            
-            return 'R ' + rands;
+
+            updateUI(shareprice, numshares);
         }
         
         
-        function updateUI(shareprice, biddingprice, numshares) {
+        function centsToRands(cents) {
+            var rands = parseFloat(cents / 100).toFixed(2);
+            
+            return 'R ' + rands + ' ';
+        }
+        
+        
+        function updateUI(shareprice, numshares) {
             var bidValue, 
                 investmentCharge, 
                 transactionFee = 0, 
