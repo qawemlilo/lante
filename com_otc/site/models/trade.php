@@ -12,7 +12,7 @@ class OtcModelTrade extends JModelItem
         $db =& JFactory::getDBO();
         $id = JRequest::getVar('id', 0, 'get', 'int');
         
-        $query = "SELECT company.id, company.name ";
+        $query = "SELECT company.id, company.name, company.share_price ";
         $query .= "FROM #__otc_companies AS company";
               
         $db->setQuery($query);

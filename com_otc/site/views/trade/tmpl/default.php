@@ -87,55 +87,67 @@ $document->addStyleDeclaration($style);
                 
               <form class="pdetails">
 
-                <div class="control-group" style="background-color:#fd7800; color:#fff">
-                  <label class="control-label" for="name" style="width:180px; margin-bottom:10px">Cash Amount Available</label>
+                <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
+                  <label class="control-label" for="name" style="width:180px;">Cash Amount Available</label>
                   <div class="controls">
                     <strong>R<?php if($this->member->balance) echo $this->centsToRands($this->member->balance); else echo '0.00' ?></strong>
                   </div>
                 </div>
                                 
                 <div class="control-group">
-                  <label class="control-label" for="name">Select Company:</label>
+                  <label class="control-label" for="companyid">Select Company:</label>
                   <div class="controls">
                     <?php echo $this->companiesDropdown; ?>
                   </div>
                 </div>
                 
                 <div class="control-group">
-                  <label class="control-label" for="middle_name">Number of Shares:</label>
+                  <label class="control-label" for="num_shares">Number of Shares:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" name="num_shares">
+                    <input value="" class="input-large" type="text" id="num_shares" name="num_shares" required="" />
                   </div>
                 </div>
                 
                 
                 <div class="control-group">
-                  <label class="control-label" for="surname">Bidding Price:</label>
+                  <label class="control-label" for="bidding_rands">Bidding Price:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" name="bidding_price">
+                    <div class="input-prepend input-append">
+                        <span class="add-on">R</span>
+                        <input class="span2" id="bidding_rands" placeholder="Rands" name="rands" required="" type="text">
+                        <span class="add-on">.</span>
+                        <input class="span2" id="bidding_cents" placeholder="Cents" name="cents" maxlength="2" required="" type="text">
+                    </div>
                   </div>
                 </div>
                 
                 <hr style="margin: 5px 0px; height:5px; background-color:#fd7800;" />
                 
                 <div class="control-group">
-                  <label class="control-label" for="surname">Matched Price:</label>
+                  <label class="control-label" for="bid_value">Bid Value:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="matched_price" name="matched_price">
+                    <div style="width: 100%; font-weight:bold;font-size:12px; padding-top:5px; padding-bottom: 5px" id="bid_value">&nbsp;</div>
                   </div>
                 </div>
                 
                 <div class="control-group">
-                  <label class="control-label" for="surname">Transaction Fee:</label>
+                  <label class="control-label" for="transaction_fee">Transaction Fee:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="matched_price" name="matched_price">
+                    <div style="width: 100%; font-weight:bold;font-size:12px; padding-top:5px; padding-bottom: 5px" id="transaction_fee">&nbsp;</div>
                   </div>
                 </div>
                 
                 <div class="control-group">
-                  <label class="control-label" for="surname">Security Fee:</label>
+                  <label class="control-label" for="security_fee">Security Fee:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="matched_price" name="matched_price">
+                    <div style="width: 100%; font-weight:bold;font-size:12px; padding-top:5px; padding-bottom: 5px" id="security_fee">&nbsp;</div>
+                  </div>
+                </div>
+                
+                <div class="control-group">
+                  <label class="control-label" for="security_fee">Investment Charge:</label>
+                  <div class="controls">
+                    <div style="width: 100%; font-weight:bold;font-size:12px; padding-top:5px; padding-bottom: 5px" id="investment_charge">&nbsp;</div>
                   </div>
                 </div>
               </form>
@@ -168,3 +180,138 @@ $document->addStyleDeclaration($style);
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+jQuery.noConflict();
+
+(function ($) {
+    $(function () {
+        var cents = $("#bidding_cents"), 
+            rands = $("#bidding_rands"),
+            shares = $("#num_shares"),
+            company = $("#companyid"),
+            total = 0;
+        
+        cents.on('focus', function (e) {
+            if (!company.val()) {
+                company.focus();
+            }
+            else if (!shares.val()) {
+                shares.focus();
+            }
+            else if (!rands.val()) {
+                rands.focus();
+            }
+        })
+        /*
+        .on('keyup', function (e) {
+            var c = parseInt(cents.val(), 10);
+            var r = parseInt(rands.val(), 10) * 100;
+            var shareprice = $("#companyid option:selected").attr("data-shareprice");
+            
+            total = c + r;
+            
+            
+
+        })*/
+        .on('keyup', function (e) {
+            var c = parseInt(cents.val() || 0, 10);
+            var r = parseInt(rands.val() || 0, 10) * 100;
+            var shareprice = $("#companyid option:selected").attr("data-shareprice");
+            var biddingprice = c + r;
+            var numshares = parseInt(shares.val() || 0, 10);
+            
+            shareprice = parseInt(shareprice || 0, 10);
+
+            if (!shareprice || !biddingprice || !numshares) {
+                return false;
+            }
+            
+            if (!verifyBiddingPrice(shareprice, biddingprice)) {
+                alert('You Bidding Price is either too high or too low');
+                return rands.focus();
+            }
+            
+            updateUI(shareprice, biddingprice, numshares);
+        });
+        
+        rands.on('focus', function (e) {
+            if (!company.val()) {
+                company.focus();
+            }
+            else if (!shares.val()) {
+                shares.focus();
+            }
+        })        
+        .on('keyup', function (e) {
+            var c = parseInt(cents.val() || 0, 10);
+            var r = parseInt(rands.val() || 0, 10) * 100;
+            var shareprice = $("#companyid option:selected").attr("data-shareprice");
+            var biddingprice = c + r;
+            var numshares = parseInt(shares.val() || 0, 10);
+            
+            shareprice = parseInt(shareprice || 0, 10);
+
+            if (!shareprice || !biddingprice || !numshares) {
+                return false;
+            }
+            
+            if (!verifyBiddingPrice(shareprice, biddingprice)) {
+                alert('You Bidding Price is either too high or too low');
+                return rands.focus();
+            }
+            
+            updateUI(shareprice, biddingprice, numshares);
+        });
+        
+        shares.on('focus', function (e) {
+            if (!company.val()) {
+                company.focus();
+            }
+        });
+        
+        function centsToRands(cents) {
+            var rands = parseFloat(Math.round(cents / 100)).toFixed(2);
+            
+            return 'R ' + rands;
+        }
+        
+        
+        function updateUI(shareprice, biddingprice, numshares) {
+            var bidValue, 
+                investmentCharge, 
+                transactionFee = 0, 
+                securityFee = 0;
+                securityFeeDiv = $("#security_fee");
+                bidValueDiv = $("#bid_value"), 
+                investmentChargeDiv = $("#investment_charge"), 
+                transactionFeeDiv = $("#transaction_fee");
+            
+            bidValue = shareprice * numshares;
+            investmentCharge = bidValue + transactionFee;
+            
+            securityFeeDiv.html(centsToRands(securityFee));
+            transactionFeeDiv.html(centsToRands(transactionFee));
+            bidValueDiv.html(centsToRands(bidValue));
+            investmentChargeDiv.html(centsToRands(investmentCharge));
+        }
+
+        
+        function verifyBiddingPrice(shareprice, biddingprice) {
+            var max, min, diff;
+            
+            shareprice = parseInt(shareprice || 0, 10);
+            diff = shareprice * 0.15;
+            max = shareprice + diff;
+            min = shareprice - diff;
+            
+            if (biddingprice > max || biddingprice < min) {
+                return false;    
+            }
+            else {
+                return true;
+            }
+        }
+    });
+}(jQuery));
+</script>

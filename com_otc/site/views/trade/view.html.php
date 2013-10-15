@@ -33,7 +33,7 @@ class OtcViewTrade extends JView
         
         if(!empty($list) && count($list) > 0) {
             foreach($list as $company) {
-                $select .= '<option value="' . $company->id . '" >' . $company->name . '</option>';
+                $select .= '<option data-shareprice="' . $company->share_price . '" value="' . $company->id . '" >' . $company->name . '</option>';
             }
         }
         
