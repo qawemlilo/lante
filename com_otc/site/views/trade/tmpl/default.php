@@ -76,7 +76,7 @@ $document->addStyleDeclaration($style);
         <thead>
           <tr>
             <th>
-              I Want To Buy Shares <input type="checkbox" id="buyshares" value="" class="pull-right">
+              <input type="checkbox" id="buyshares" value="buyshares" style="margin:0px;"> I Want To Buy Shares 
             </th>
           </tr>
         </thead>
@@ -85,7 +85,7 @@ $document->addStyleDeclaration($style);
           <tr>
             <td>
                 
-              <form class="pdetails" name="buyshares" id="buysharesform" action="" method="post" >
+              <form class="pdetails" name="buysharesform" id="buysharesform" action="" method="post" >
 
                 <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
                   <label class="control-label" for="name" style="width:180px;">Cash Amount Available</label>
@@ -104,7 +104,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="num_shares">Number of Shares:</label>
                   <div class="controls">
-                    <input value="" class="span4" type="text" id="num_shares" name="num_shares" required="" />
+                    <input value="" class="input-large" type="text" id="num_shares" name="num_shares" required="" />
                   </div>
                 </div>
                 
@@ -170,7 +170,7 @@ $document->addStyleDeclaration($style);
         <thead>
           <tr>
             <th>
-              I want To Sell My Shares <input type="checkbox" id="sellshares" value="" class="pull-right">
+              <input type="checkbox" id="sellshares" value="sellshares" style="margin:0px;"> I want To Sell My Shares 
             </th>
           </tr>
         </thead>
@@ -178,7 +178,7 @@ $document->addStyleDeclaration($style);
         <tbody>
           <tr>
             <td>
-              <form class="pdetails" name="sellshares" id="sellsharesform" action="" method="post" >
+              <form class="pdetails" name="sellsharesform" id="sellsharesform" action="" method="post" >
               
                 <div class="control-group">
                   <label class="control-label" for="companyid">Select Company:</label>
@@ -190,7 +190,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="numshares">Number of Shares:</label>
                   <div class="controls">
-                    <input value="" class="span4" type="text" id="numshares" name="num_shares" required="" />
+                    <input value="" class="input-large" type="text" id="numshares" name="num_shares" required="" />
                   </div>
                 </div>
                 
@@ -273,12 +273,55 @@ jQuery.noConflict();
             numshares = $("#numshares"),
             mycompany = $("#mycompanyid"),
             sellsharesform = $("#sellsharesform"),
+            sellshares = $("#sellshares"),
+            buyshares = $("#buyshares"),
             total = 0;
             
          
         /*
            Helper functions
-        */        
+        */ 
+        
+        function switchForms(formname, flag) {
+            var form = document.forms[formname],
+                i;
+                
+            for(i = 0; i < form.elements.length; i++) {
+                form.elements[i].disabled = flag;
+            }
+            
+            // if disabled is false - meaning the form is active
+            if (!flag) {
+                form.reset();
+            }
+        }
+
+        
+        
+        sellshares.on('click', function (e) {
+             if (buyshares.prop('checked')) {
+                 buyshares.prop('checked', false);
+                 switchForms('buysharesform', true);
+             }
+
+             switchForms('sellsharesform', false);
+             
+             return true;
+        });
+        
+        buyshares.on('click', function (e) {
+
+             if (sellshares.prop('checked')) {
+                 sellshares.prop('checked', false);
+                 switchForms('sellsharesform', true);
+             }
+             
+             switchForms('buysharesform', false);
+             
+             return true;
+        });
+        
+               
         function calc(e) {
             var c = parseInt(cents.val() || 0, 10);
             var r = parseInt(rands.val() || 0, 10) * 100;
@@ -376,7 +419,6 @@ jQuery.noConflict();
             
             if (invalid && shares.val()) {
                 alert("You Bidding Price is either too high or too low.\nYour Bidding Price should be between " + centsToRands(invalid.min) + ' and ' + centsToRands(invalid.max));
-                return rands.focus();
             }        
         });
         
@@ -404,7 +446,6 @@ jQuery.noConflict();
             
             if (invalid && r && shares.val()) {
                 alert("You Bidding Price is either too high or too low.\nYour Bidding Price should be between " + centsToRands(invalid.min) + ' and ' + centsToRands(invalid.max));
-                return rands.focus();
             }                 
         });
         
@@ -455,6 +496,10 @@ jQuery.noConflict();
         sellsharesform.on("submit", function (e) {
             return false;
         });
+        
+        switchForms('buysharesform', true);
+        switchForms('sellsharesform', true);
+     
     });
 }(jQuery));
 </script>
