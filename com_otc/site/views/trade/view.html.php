@@ -20,19 +20,18 @@ class OtcViewTrade extends JView
         
         $this->companies = $this->get('Companies');
         $this->member = $this->get('Member');
-        $this->companiesDropdown = $this->companiesList($this->companies);
         
         parent::display($tpl);
     }
     
     
     
-    private function companiesList($list) {
-        $select = '<select name="companyid" id="companyid">';
+    public function companiesList($id, $name) {
+        $select = '<select id="' . $id . '" name="' . $name . '">';
         $select .= '<option value="">Select Company</option>';
         
-        if(!empty($list) && count($list) > 0) {
-            foreach($list as $company) {
+        if(!empty($this->companies) && count($this->companies) > 0) {
+            foreach($this->companies as $company) {
                 $select .= '<option data-shareprice="' . $company->share_price . '" value="' . $company->id . '" >' . $company->name . '</option>';
             }
         }
