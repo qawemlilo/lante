@@ -7,6 +7,8 @@ jimport('joomla.application.component.modelitem');
 
 require_once(dirname(__FILE__) . DS . 'tables' . DS . 'sell.php');
 require_once(dirname(__FILE__) . DS . 'tables' . DS . 'buy.php');
+require_once(dirname(__FILE__) . DS . 'tables' . DS . 'sales.php');
+require_once(dirname(__FILE__) . DS . 'tables' . DS . 'shares.php');
 
 
 class OtcModelTrade extends JModelItem
@@ -153,6 +155,21 @@ class OtcModelTrade extends JModelItem
               
         $db->setQuery($query);
         $result = $db->loadObjectList();
+        
+        return $result;    
+    }
+    
+    
+    
+    public function getClientShares($companyid, $memberid) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT shares.num_share ";
+        $query .= "FROM #__otc_shares AS shares ";
+        $query .= "WHERE shares.companyid = $companyid AND shares.memberid = $memberid";
+              
+        $db->setQuery($query);
+        $result = $db->loadResult();
         
         return $result;    
     }

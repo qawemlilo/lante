@@ -194,6 +194,52 @@ class OtcModelCompanies extends JModelItem
     
     
     
+    public function getComps() {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT company.id, company.name, company.share_price, company.available_shares ";
+        $query .= "FROM #__otc_companies AS company ";
+        $query .= "WHERE company.available_shares > 0 ";
+        $query .= "ORDER BY company.name ASC";
+              
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        
+        return $result;    
+    }
+    
+    
+    
+    public function getCompanyShares($id) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT company.available_shares ";
+        $query .= "FROM #__otc_companies AS company ";
+        $query .= "WHERE company.id = $id";
+              
+        $db->setQuery($query);
+        $result = $db->loadResult();
+        
+        return $result;    
+    }
+    
+    
+    
+    public function updateShares($id, $num_shares) {
+        $db =& JFactory::getDBO();
+        
+        $query = "UPDATE #__otc_companies ";
+        $query .= "SET available_shares=$num_shares ";
+        $query .= "WHERE id=$id";
+              
+        $db->setQuery($query);
+        $result = $db->query();
+        
+        return $result;    
+    }
+    
+    
+    
     public function getCompany() {
         $db =& JFactory::getDBO();
         $id = JRequest::getVar('id', 0, 'get', 'int');

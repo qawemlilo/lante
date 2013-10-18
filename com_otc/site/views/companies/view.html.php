@@ -30,6 +30,10 @@ class OtcViewCompanies extends JView
                 $this->pagination = false;
             break;
             
+            case 'sell':
+                $this->companies = $this->get('Comps');
+            break;
+            
             default:
                 if (!$layout) {
                     $this->pagination = $this->get('Pagination');
@@ -47,6 +51,24 @@ class OtcViewCompanies extends JView
         $user =& JFactory::getUser($id);
         
         return $user;
+    }
+    
+    
+    
+    
+    public function companiesList($id, $name) {
+        $select = '<select id="' . $id . '" name="' . $name . '">';
+        $select .= '<option value="">Select Company</option>';
+        
+        if(!empty($this->companies) && count($this->companies) > 0) {
+            foreach($this->companies as $company) {
+                $select .= '<option data-shareprice="' . $company->share_price . '" data-shares="' . $company->available_shares . '" value="' . $company->id . '" >' . $company->name . '</option>';
+            }
+        }
+        
+        $select .= '</select>';
+        
+        return $select;
     }
     
     

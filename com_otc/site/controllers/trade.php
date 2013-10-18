@@ -15,6 +15,7 @@ class OtcControllerTrade extends JController
         $model =& $this->getModel('trade');
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
         $user =& JFactory::getUser();
+        $user_type = "user";
         $transaction = array();     
 
         //Check if user is authorized to view this page
@@ -37,14 +38,20 @@ class OtcControllerTrade extends JController
         $transaction['selling_price'] = $selling_price;
         $transaction['num_shares'] = $num_shares;
         $transaction['security_tax'] = 0;
+        $transaction['user_type'] = $user_type;
         $transaction['transaction_fee'] = $transaction_fee;
         $transaction['expiry_date'] = $this->createDateString($expiry_date);
 
-        if (!$this->isPositiveNum($selling_price) || !$this->isPositiveNum($num_shares) || !$this->isPositiveNum($num_shares)) {
+        if (!$this->isPositiveNum($selling_price) || !$this->isPositiveNum($num_shares)) {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
-        else { 
-            if ($model->addSale($transaction)) {
+        else {
+            $clientshares = $model->getClientShares($transaction['companyid'], $transaction['memberid'] );
+
+            if (!$clientshares || $clientshares < $transaction['num_shares']) {
+                $application->redirect($refer, 'Error! You do not hold any or enough shares from the chosen company!', 'error');
+            }
+            elseif ($model->addSale($transaction)) {
                 $application->redirect($refer, 'Your transaction has been created!', 'success');
             }
             else {

@@ -34,6 +34,10 @@ $document->addStyleDeclaration('#limit {width: 60px}');
       <i class="icon-check"></i> Add Company
     </a>
     
+    <a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=companies&layout=sell'); ?>" class="btn btn-warning" type="button">
+      <i class="icon-check"></i> Sell Shares
+    </a>
+    
     <button id="submitedit" class="btn btn-primary btn-success">
       <i class="icon-edit"></i> Edit
     </button>
