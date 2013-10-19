@@ -52,6 +52,11 @@ class OtcControllerTrade extends JController
                 $application->redirect($refer, 'Error! You do not hold any or enough shares from the chosen company!', 'error');
             }
             elseif ($model->addSale($transaction)) {
+                
+                $currentshares = ($clientshares - $transaction['num_shares']);
+                
+                $model->updateShares($transaction['memberid'], $transaction['companyid'], $currentshares);
+                
                 $application->redirect($refer, 'Your transaction has been created!', 'success');
             }
             else {
@@ -59,6 +64,66 @@ class OtcControllerTrade extends JController
             }  
         }
     }
+    
+    
+    
+    public function buyshares() {
+        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+        $application =& JFactory::getApplication();
+        $model =& $this->getModel('trade');
+        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $user =& JFactory::getUser();
+        $user_type = "user";
+        $transaction = array();     
+
+        //Check if user is authorized to view this page
+        if(!$this->isAuthorized()) {
+            $application->redirect('index.php', 'You are not authorized to view that page');
+        }
+        
+        $rands = JRequest::getVar('rands', '', 'post', 'int');
+        $cents = JRequest::getVar('cents', '', 'post', 'int');
+        
+        $bidding_price = $this->randsToCents($rands, $cents);
+        $num_shares = JRequest::getVar('num_shares', 0, 'post', 'int');
+        $expiry_date = JRequest::getVar('expiry_date', 0, 'post', 'string');
+        
+        $transaction['memberid'] = JRequest::getVar('memberid', 0, 'post', 'int');
+        $transaction['companyid'] = JRequest::getVar('companyid', 0, 'post', 'int');
+        $transaction['share_price'] = JRequest::getVar('share_price', 0, 'post', 'int');;
+        $transaction['bidding_price'] = $bidding_price;
+        $transaction['num_shares'] = $num_shares;
+        $transaction['security_tax'] = $this->calcSecurityTax($transaction['share_price'] * $num_shares);
+        $transaction['user_type'] = $user_type;
+        $transaction['transaction_fee'] = 0;
+        $transaction['expiry_date'] = $this->createDateString($expiry_date);
+
+        if (!$this->isPositiveNum($bidding_price) || !$this->isPositiveNum($num_shares)) {
+            $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
+        }
+        else {
+            print_r($transaction);
+            exit();
+            $clientshares = $model->getClientShares($transaction['companyid'], $transaction['memberid'] );
+
+            if (!$clientshares || $clientshares < $transaction['num_shares']) {
+                $application->redirect($refer, 'Error! You do not hold any or enough shares from the chosen company!', 'error');
+            }
+            elseif ($model->addSale($transaction)) {
+                
+                $currentshares = ($clientshares - $transaction['num_shares']);
+                
+                $model->updateShares($transaction['memberid'], $transaction['companyid'], $currentshares);
+                
+                $application->redirect($refer, 'Your transaction has been created!', 'success');
+            }
+            else {
+                $application->redirect($refer, 'Error! Transaction not created!', 'error');
+            }  
+        }
+    }
+    
     
     
     private function isPositiveNum($num) {
@@ -81,10 +146,10 @@ class OtcControllerTrade extends JController
     }
     
     
-    private function calcSecurityFee($bidvalue) {
+    private function calcSecurityTax($bidvalue) {
         $rate = 0.0025;
         
-        $fee = round(($bidvalue * $rate), 2);
+        $fee = round($bidvalue * $rate);
         
         return $fee;
     }

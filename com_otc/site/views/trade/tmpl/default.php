@@ -86,7 +86,7 @@ $document->addStyleDeclaration($style);
           <tr>
             <td>
                 
-              <form class="pdetails" name="buysharesform" id="buysharesform" action="" method="post" >
+              <form class="pdetails" name="buysharesform" id="buysharesform" action="index.php?option=com_otc&task=trade.buyshares" method="post" >
                 
                 <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
                   <label class="control-label" for="name" style="width:180px;">Cash Amount Available</label>
@@ -96,8 +96,8 @@ $document->addStyleDeclaration($style);
                 </div>
 
                 <?php echo JHtml::_('form.token'); ?>
-                <input type="hidden" name="memberid" value="<?php echo $this->member->memberid; ?>" />
-                <input type="hidden" name="userid" value="<?php echo $this->member->userid; ?>" />
+                <input type="hidden" name="memberid" value="<?php echo $this->member->id; ?>" />
+                <input type="hidden" name="share_price" id="share_price" value="" />
                                 
                 <div class="control-group">
                   <label class="control-label" for="companyid">Select Company:</label>

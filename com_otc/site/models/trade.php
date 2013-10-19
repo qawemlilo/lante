@@ -164,12 +164,27 @@ class OtcModelTrade extends JModelItem
     public function getClientShares($companyid, $memberid) {
         $db =& JFactory::getDBO();
         
-        $query = "SELECT shares.num_share ";
+        $query = "SELECT shares.num_shares ";
         $query .= "FROM #__otc_shares AS shares ";
         $query .= "WHERE shares.companyid = $companyid AND shares.memberid = $memberid";
               
         $db->setQuery($query);
         $result = $db->loadResult();
+        
+        return $result;    
+    }
+    
+    
+    
+    public function updateShares($id, $companyid, $num_shares) {
+        $db =& JFactory::getDBO();
+        
+        $query = "UPDATE #__otc_shares ";
+        $query .= "SET num_shares=$num_shares ";
+        $query .= "WHERE memberid = $id AND companyid = $companyid";
+              
+        $db->setQuery($query);
+        $result = $db->query();
         
         return $result;    
     }

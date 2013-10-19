@@ -180,7 +180,7 @@ class OtcControllerCompanies extends JController
             }
             elseif ($tradeModel->addSale($transaction)) {
             
-                $currentshares = ((int)$clientshares - (int)$transaction['num_shares']);
+                $currentshares = ($clientshares - $transaction['num_shares']);
                 
                 $model->updateShares($transaction['companyid'], $currentshares);
                 
