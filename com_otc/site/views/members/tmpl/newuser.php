@@ -2,6 +2,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+$document =& JFactory::getDocument();
+$document->addStyleSheet(JURI::base() . 'components/com_otc/assets/js/libs/jquery-ui/css/ui-lightness/jquery-ui-1.10.3.custom.min.css');
 ?>
 
 <div class="row-fluid">
@@ -64,60 +66,9 @@ defined('_JEXEC') or die('Restricted access');
 
 <!-- Text input-->
 <div class="control-group">
-  <label class="control-label" for="dob">Date of Birth</label>
+  <label class="control-label" for="expiry_date">Date of Birth</label>
   <div class="controls">
-    <select id="day" name="day" class="span2" required="">
-      <option value="">Day</option>
-      <option value="1">01</option>
-      <option value="2">02</option>
-      <option value="3">03</option>
-      <option value="4">04</option>
-      <option value="5">05</option>
-      <option value="6">06</option>
-      <option value="7">07</option>
-      <option value="8">08</option>
-      <option value="9">09</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-      <option value="12">12</option>
-      <option value="13">13</option>
-      <option value="14">14</option>
-      <option value="15">15</option>
-      <option value="16">16</option>
-      <option value="17">17</option>
-      <option value="18">18</option>
-      <option value="19">19</option>
-      <option value="20">20</option>
-      <option value="21">21</option>
-      <option value="22">22</option>
-      <option value="23">23</option>
-      <option value="24">24</option>
-      <option value="25">25</option>
-      <option value="26">26</option>
-      <option value="27">27</option>
-      <option value="28">28</option>
-      <option value="29">29</option>
-      <option value="30">30</option>
-      <option value="31">31</option>
-    </select>
-    
-    <select id="month" name="month" class="span2" required="">
-      <option value="">Month</option>
-      <option value="Jan">Jan</option>
-      <option value="Feb">Feb</option>
-      <option value="Mar">Mar</option>
-      <option value="Apr">Apr</option>
-      <option value="May">May</option>
-      <option value="Jun">Jun</option>
-      <option value="Jul">Jul</option>
-      <option value="Aug">Aug</option>
-      <option value="Sep">Sep</option>
-      <option value="Oct">Oct</option>
-      <option value="Oct">Nov</option>
-      <option value="Oct">Dec</option>
-    </select>
-    
-    Year <input id="year" name="year" maxlength="4" placeholder="e.g: 1982" class="input-mini" required="" type="text">
+    <input value="" class="input-xlarge" type="text" id="expiry_date" name="expiry_date" required="" />
   </div>
 </div>
 
@@ -269,67 +220,12 @@ endif;
     </fieldset>
   </form>
 </div>
+<script type="text/javascript" src="<?php echo JURI::base() . 'components/com_otc/assets/js/libs/jquery-ui/js/jquery-ui-1.10.3.custom.min.js'; ?>"></script>
 <script type="text/javascript">
 jQuery.noConflict();
 
 (function ($) {
     $(function () {
-        $('#newmember').on('submit', function (event) {
-            var formObj = formToObject('newmember'), result;
-            
-            result = (dobIsValid(formObj.dob) && isEmail(formObj.email) && formObj.title);
-            
-            if (!result) {
-                alert('Please check that you have entered all details correctly');
-            }
-
-            return result;
-        });
-        
-        function dobIsValid(dob) {
-            var cleanDob = trim(dob)
-                dobArr = cleanDob.split(' ');
-                
-            if (!(dobArr.length === 3)) {
-                return false;
-            }
-            
-            var day = parseInt(dobArr[0], 10);
-            
-            if (day < 1 || day > 31) {
-                return false;
-            }
-            
-            if (!isValidMonth(dobArr[1])) {
-                return false;
-            }
- 
-            if (!(dobArr[2].length === 4)) {
-                return false;
-            }
-            
-            return true;
-        }
-        
-        
-        function trim(str) {
-            return str.replace(/^\s+|\s+$/g, '');
-        }
-        
-        
-        function isValidMonth(month) {
-            var months = {'jan': 1, 'feb': 1, 'mar': 1, 'apr': 1, 'may': 1, 'jun': 1, 'jul': 1, 'aug': 1, 'sep': 1, 'oct': 1, 'nov': 1, 'dec': 1};
-            
-            month = month.toLowerCase();
-            
-            if (months.hasOwnProperty(month)) {
-                return true;
-            }
-            
-            return false;
-        }
-        
-        
         function isEmail(email) {
             var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             
@@ -348,6 +244,23 @@ jQuery.noConflict();
             
             return formObj;
         }
+        
+        
+        $('#newmember').on('submit', function (event) {
+            var formObj = formToObject('newmember'), result;
+            
+            result = (isEmail(formObj.email) && formObj.title);
+            
+            if (!result) {
+                alert('Please check that you have entered all details correctly');
+            }
+
+            return result;
+        });
+        
+        $( "#expiry_date").datepicker({
+            dateFormat: 'd M yy'
+        });
     });
 }(jQuery));
 </script>
