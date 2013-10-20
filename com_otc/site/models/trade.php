@@ -11,8 +11,7 @@ require_once(dirname(__FILE__) . DS . 'tables' . DS . 'sales.php');
 require_once(dirname(__FILE__) . DS . 'tables' . DS . 'shares.php');
 
 
-class OtcModelTrade extends JModelItem
-{
+class OtcModelTrade extends JModelItem {
     public function getTable($type = 'Sell', $prefix = 'OtcTable', $config = array()) {
         return JTable::getInstance($type, $prefix, $config);
     }
@@ -161,12 +160,12 @@ class OtcModelTrade extends JModelItem
     
     
     
-    public function getClientShares($companyid, $memberid) {
+    public function getBalance($memberid) {
         $db =& JFactory::getDBO();
         
-        $query = "SELECT shares.num_shares ";
-        $query .= "FROM #__otc_shares AS shares ";
-        $query .= "WHERE shares.companyid = $companyid AND shares.memberid = $memberid";
+        $query = "SELECT member.balance ";
+        $query .= "FROM  #__otc_members AS member ";
+        $query .= "WHERE member.id = $memberid";
               
         $db->setQuery($query);
         $result = $db->loadResult();
@@ -182,6 +181,35 @@ class OtcModelTrade extends JModelItem
         $query = "UPDATE #__otc_shares ";
         $query .= "SET num_shares=$num_shares ";
         $query .= "WHERE memberid = $id AND companyid = $companyid";
+              
+        $db->setQuery($query);
+        $result = $db->query();
+        
+        return $result;    
+    }
+    
+    
+    public function getClientShares($companyid, $memberid) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT shares.num_share ";
+        $query .= "FROM #__otc_shares AS shares ";
+        $query .= "WHERE shares.companyid = $companyid AND shares.memberid = $memberid";
+              
+        $db->setQuery($query);
+        $result = $db->loadResult();
+        
+        return $result;    
+    }
+    
+    
+    
+    public function updateBalance($id, $transactionfee) {
+        $db =& JFactory::getDBO();
+        
+        $query = "UPDATE #__otc_members ";
+        $query .= "SET balance = balance - $transactionfee ";
+        $query .= "WHERE id=$id";
               
         $db->setQuery($query);
         $result = $db->query();

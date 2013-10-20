@@ -97,6 +97,7 @@ $document->addStyleDeclaration($style);
 
                 <?php echo JHtml::_('form.token'); ?>
                 <input type="hidden" name="memberid" value="<?php echo $this->member->id; ?>" />
+                <input type="hidden" name="userid" value="<?php echo $this->member->userid; ?>" />
                 <input type="hidden" name="share_price" id="share_price" value="" />
                                 
                 <div class="control-group">

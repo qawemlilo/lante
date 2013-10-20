@@ -7,8 +7,7 @@ jimport('joomla.application.component.modelitem');
 require_once(dirname(__FILE__) . DS . 'tables' . DS . 'bank.php');
 
 
-class OtcModelBank extends JModelItem
-{
+class OtcModelBank extends JModelItem {
     private $_total = null;    
     private $_pagination = null;   
     

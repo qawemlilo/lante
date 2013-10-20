@@ -6,8 +6,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 
-class OtcControllerBank extends JController
-{
+class OtcControllerBank extends JController {
     public function transaction() {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 

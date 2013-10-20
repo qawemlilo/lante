@@ -8,8 +8,7 @@ jimport('joomla.application.component.view');
 
 
 
-class OtcViewBank extends JView
-{
+class OtcViewBank extends JView {
     function display($tpl = null) {
         $application =& JFactory::getApplication();
         $layout = JRequest::getVar('layout', '', 'get', 'string');
@@ -76,8 +75,25 @@ class OtcViewBank extends JView
     
     
     
+    
     function centsToRands($cents) {
         return number_format($cents/100, 2);
+    }
+    
+    
+    
+    
+    function transactionType($type) {
+        $types = array(
+            'bfees'=>'Buying Charges',
+            'sfees'=>'Selling Charges',
+            'deposit'=>'Client Deposit',
+            'shares'=>'Shares Trade'
+        );
+        
+        if (array_key_exists($type, $types)) return $types[$type];
+        
+        return $type;
     }
     
     

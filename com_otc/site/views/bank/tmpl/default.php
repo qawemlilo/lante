@@ -60,7 +60,7 @@ $document->addStyleDeclaration('#limit {width: 60px}');
         <tr>
           <td style="text-align:center"><?php echo $transaction->ts; ?></td>
           <td style="text-align:center">R<?php echo $this->centsToRands((int)$transaction->amount); ?></td>
-          <td style="text-align:center"><?php echo $transaction->transaction_type; ?></td>
+          <td style="text-align:center"><?php echo $this->transactionType($transaction->transaction_type); ?></td>
           <td style="text-align:center"><?php echo $transaction->account_number; ?></td>
           <td><?php echo $transaction->created_by; ?></td>
         </tr>
