@@ -11,7 +11,7 @@ $style = '
     padding-top: 5px;
   }
   .pdetails .control-group label {
-    width: 90px;
+    width: 120px;
     margin-left: 5px;
     font-size:14px;
     font-color:#333;
@@ -66,21 +66,21 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="title">Title:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->title) echo $this->member->title; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->title) echo $this->member->title; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
                 <div class="control-group">
                   <label class="control-label" for="name">Name:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->name) echo $this->member->name; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->name) echo $this->member->name; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
                 <div class="control-group">
                   <label class="control-label" for="middle_name">Middle Name:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->middle_name) echo $this->member->middle_name; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->middle_name) echo $this->member->middle_name; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -88,7 +88,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="surname">Surname:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->surname) echo $this->member->surname; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->surname) echo $this->member->surname; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -96,7 +96,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="dob">Date of Birth:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->dob) echo $this->member->dob; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->dob) echo $this->member->dob; ?>" class="input-large" type="text">
                   </div>
                 </div>
               </form>
@@ -121,21 +121,21 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="account_name">Acc. Name:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->account_name) echo $this->member->account_name; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->account_name) echo $this->member->account_name; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
                 <div class="control-group">
                   <label class="control-label" for="bank_name">Bank Name:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->bank_name) echo $this->member->bank_name; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->bank_name) echo $this->member->bank_name; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
                 <div class="control-group">
                   <label class="control-label" for="account_number">Acc. Number:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->account_number) echo $this->member->account_number; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->account_number) echo $this->member->account_number; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -143,7 +143,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="branch_name">Branch Name:</label>
                   <div class="controls">
-                    <input readonly="readonly" value="<?php if($this->member->branch_name) echo $this->member->branch_name; ?>" class="input-xlarge" type="text">
+                    <input readonly="readonly" value="<?php if($this->member->branch_name) echo $this->member->branch_name; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -194,7 +194,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="cell_number">Cell Number:</label>
                   <div class="controls">
-                    <input id="cell_number" name="cell_number" value="<?php if($this->member->cell_number) echo '0' . $this->member->cell_number; ?>" class="input-xlarge" type="text">
+                    <input id="cell_number" name="cell_number" value="<?php if($this->member->cell_number) echo '0' . $this->member->cell_number; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -202,7 +202,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="work_number">Work Number:</label>
                   <div class="controls">
-                    <input id="work_number" name="work_number" value="<?php if($this->member->work_number) echo '0' . $this->member->work_number; ?>" class="input-xlarge" type="text">
+                    <input id="work_number" name="work_number" value="<?php if($this->member->work_number) echo '0' . $this->member->work_number; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -210,7 +210,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="email">Email:</label>
                   <div class="controls">
-                    <input id="email" name="email" value="<?php if($this->member->email) echo $this->member->email; ?>" class="input-xlarge" type="text">
+                    <input id="email" name="email" value="<?php if($this->member->email) echo $this->member->email; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -218,7 +218,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="address">Physical Add:</label>
                   <div class="controls">
-                     <textarea id="address" readonly="readonly" rows="3" required="" class="input-xlarge" ><?php echo $this->member->address; ?></textarea>
+                     <textarea id="address" readonly="readonly" rows="3" required="" class="input-large" ><?php echo $this->member->address; ?></textarea>
                   </div>
                 </div>
                 
@@ -232,7 +232,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="postal_address">Postal Add:</label>
                   <div class="controls">
-                     <textarea readonly="readonly" rows="3" required="" class="input-xlarge"><?php echo $this->member->postal_address; ?></textarea>
+                     <textarea readonly="readonly" rows="3" required="" class="input-large"><?php echo $this->member->postal_address; ?></textarea>
                   </div>
                 </div>
                 
