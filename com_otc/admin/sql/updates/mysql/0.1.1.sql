@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `#__otc_processed_sales` (
   `sell_tr_id` int(11) NOT NULL,
   `num_shares` int(7) NOT NULL,
   `share_price` int(5) NOT NULL,
+  `prev_price` int(5) NOT NULL,
   `ts` timestamp NOT NULL default CURRENT_TIMESTAMP,
    PRIMARY KEY  (`id`),
    FOREIGN KEY (`buy_tr_id`) REFERENCES `#__otc_buy_transactions`(`id`),

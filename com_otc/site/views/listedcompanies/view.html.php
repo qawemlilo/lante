@@ -43,6 +43,11 @@ class OtcViewListedcompanies extends JView
     }
     
     
+    function formatTime($cents) {
+        return number_format($cents/100, 2);
+    }
+    
+    
     
     
     function parseUrl($url) {

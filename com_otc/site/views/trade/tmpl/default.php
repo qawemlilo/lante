@@ -194,6 +194,7 @@ $document->addStyleDeclaration($style);
                 
                 <?php echo JHtml::_('form.token'); ?>
                 <input type="hidden" name="memberid" value="<?php echo $this->member->id; ?>" />
+                <input type="hidden" name="share_price" id="shareprice" value="" />
                 
                 <div class="control-group">
                   <label class="control-label" for="companyid">Select Company:</label>

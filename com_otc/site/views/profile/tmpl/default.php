@@ -150,8 +150,8 @@ $document->addStyleDeclaration($style);
                 
                 <div class="control-group">
                   <label class="control-label" for="branch_code">Branch Code:</label>
-                  <div class="controls"  style="text-align:left">
-                    <input readonly="readonly" value="<?php if($this->member->branch_code) echo $this->member->branch_code; ?>" class="input-small" type="text">
+                  <div class="controls">
+                    <input readonly="readonly" value="<?php if($this->member->branch_code) echo $this->member->branch_code; ?>" class="input-large" type="text">
                   </div>
                 </div>
               </form>
@@ -224,8 +224,8 @@ $document->addStyleDeclaration($style);
                 
                 <div class="control-group">
                   <label class="control-label" for="address_code">Code:</label>
-                  <div class="controls"  style="text-align:left">
-                     <input readonly="readonly" value="<?php if($this->member->address_code) echo $this->member->address_code; ?>" class="input-small" type="text">
+                  <div class="controls">
+                     <input readonly="readonly" value="<?php if($this->member->address_code) echo $this->member->address_code; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 
@@ -238,8 +238,8 @@ $document->addStyleDeclaration($style);
                 
                 <div class="control-group">
                   <label class="control-label" for="postal_code">Postal Code:</label>
-                  <div class="controls" style="text-align:left">
-                     <input readonly="readonly" value="<?php if($this->member->postal_code) echo $this->member->postal_code; ?>" class="input-small" type="text">
+                  <div class="controls">
+                     <input readonly="readonly" value="<?php if($this->member->postal_code) echo $this->member->postal_code; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 

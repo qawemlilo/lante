@@ -56,7 +56,7 @@ $document->addStyleDeclaration('table .text-center {text-align: center}');
           <td class="text-center"><?php echo $company->share_price; ?></td>
           <td class="text-center"><?php //echo $company->share_price; ?>0</td>
           <td class="text-center"><?php echo $company->buy_price; ?>0</td>
-          <td class="text-center"><?php echo $company->ts; ?>00-00-00</td>
+          <td class="text-center"><?php echo $company->ts; ?></td>
         </tr>
     <?php
       endforeach;

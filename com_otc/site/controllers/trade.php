@@ -21,11 +21,11 @@ class OtcControllerTrade extends JController {
         
         $transaction = $this->getClientForm('selling'); 
 
-        if (!$this->isPositiveNum($transaction['selling_price']) || !$this->isPositiveNum($transaction['num_shares'])) {
+        if (!$this->isPositiveNum($transaction['selling_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['selling_price'], $transaction['share_price'])) {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
         else {
-            $clientshares = $model->getClientShares($transaction['companyid'], $transaction['memberid'] );
+            $clientshares = $model->getClientShares($transaction['companyid'], $transaction['memberid']);
 
             if (!$clientshares || $clientshares < $transaction['num_shares']) {
                 $application->redirect($refer, 'Error! You do not hold any or enough shares from the chosen company!', 'error');
@@ -64,7 +64,7 @@ class OtcControllerTrade extends JController {
         
         $transaction = $this->getClientForm('buying');
 
-        if (!$this->isPositiveNum($transaction['bidding_price']) || !$this->isPositiveNum($transaction['num_shares'])) {
+        if (!$this->isPositiveNum($transaction['bidding_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['bidding_price'], $transaction['share_price'])) {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
         else {
@@ -103,6 +103,7 @@ class OtcControllerTrade extends JController {
         
         $transaction['memberid'] = JRequest::getVar('memberid', 0, 'post', 'int');
         $transaction['companyid'] = JRequest::getVar('companyid', 0, 'post', 'int');
+        $transaction['share_price'] = JRequest::getVar('share_price', 0, 'post', 'int');
         $transaction['num_shares'] = $num_shares;
         
         if ($type == 'selling') {
@@ -112,7 +113,6 @@ class OtcControllerTrade extends JController {
             $security_tax = 0;
         }
         elseif($type == 'buying') {
-            $transaction['share_price'] = JRequest::getVar('share_price', 0, 'post', 'int');;
             $transaction['bidding_price'] = $price;
         
             $transaction_fee = 0;
@@ -167,6 +167,25 @@ class OtcControllerTrade extends JController {
         $fee = round($sellvalue * $rate);
         
         return $fee;
+    }
+    
+    
+    
+    
+    private function isValidPrice($shareprice, $price) {
+            $result = true;
+            $shareprice = (int)$shareprice;
+            $price = (int)$price;
+            
+            $diff = $shareprice * 0.15;
+            $max = $shareprice + $diff;
+            $min = $shareprice - $diff;
+            
+            if ($price > $max || $price < $min) {
+                $result = false;  
+            }
+            
+            return $result;
     }
     
     

@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             },
             
             files: [
-                {cwd: 'wright/', src: ['**/*'], expand: true, dest: ''}, // includes files in path and its subdirs
+                {cwd: 'wright/', src: ['**/*'], expand: true, dest: ''} // includes files in path and its subdirs
             ]
         },
         
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             },
             
             files: [
-                {cwd: 'com_otc/', src: ['**/*'], expand: true, dest: ''}, // includes files in path and its subdirs
+                {cwd: 'com_otc/', src: ['**/*'], expand: true, dest: ''} // includes files in path and its subdirs
             ]
         },
         
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             },
             
             files: [
-                {cwd: 'mod_otcmenu/', src: ['**/*'], expand: true, dest: ''}, // includes files in path and its subdirs
+                {cwd: 'mod_otcmenu/', src: ['**/*'], expand: true, dest: ''} // includes files in path and its subdirs
             ]
         }
     },
@@ -37,18 +37,22 @@ module.exports = function(grunt) {
             cmd: "find . -type f -name '*.php' -exec php -l {} ;",
             
             onOutData: function (data) {
-                console.log(data);
-                
                 if (data.match(/Errors parsing|PHP Parse error/g)) {
+                    grunt.log.error(data);
                     process.exit(1);
+                }
+                else {
+                    grunt.log.write(data);
                 }
             },
         
             onErrData: function (data) {
-                console.error(data);
-                
                 if (data.match(/Errors parsing|PHP Parse error/g)) {
+                    grunt.log.error(data);
                     process.exit(1);
+                }
+                else {
+                    grunt.log.write(data);
                 }
             }
         },
