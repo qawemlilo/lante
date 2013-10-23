@@ -112,6 +112,28 @@ class OtcModelTrade extends JModelItem {
     
     
     
+    public function addShares($arr = array()) {
+        $table = $this->getTable('Shares');
+        
+        if (is_array($arr) && count($arr) > 0) {
+            if (!$table->bind( $arr )) {
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
+            }
+            if (!$table->store( $arr )) {
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
+            }
+                
+            return $table->id;
+        }
+        
+        return false;
+    }
+    
+    
+    
+    
     public function addBuy($arr = array()) {
         $table = $this->getTable('Buy');
         
@@ -213,12 +235,12 @@ class OtcModelTrade extends JModelItem {
     
     
     
-    public function updateShares($id, $companyid, $num_shares) {
+    public function updateShares($memberid, $companyid, $num_shares) {
         $db =& JFactory::getDBO();
         
         $query = "UPDATE #__otc_shares ";
         $query .= "SET num_shares=$num_shares, last_update=NOW() ";
-        $query .= "WHERE memberid = $id AND companyid = $companyid";
+        $query .= "WHERE memberid = $memberid AND companyid = $companyid";
               
         $db->setQuery($query);
         $result = $db->query();
@@ -260,11 +282,19 @@ class OtcModelTrade extends JModelItem {
     
     
     
-    public function updateBalance($id, $transactionfee) {
+    public function updateBalance($id, $money, $action) {
         $db =& JFactory::getDBO();
         
         $query = "UPDATE #__otc_members ";
-        $query .= "SET balance = balance - $transactionfee ";
+        
+        if ($action == 'add') {
+            $query .= "SET balance =balance + $money ";
+        }
+        
+        elseif ($action == 'minus') {
+            $query .= "SET balance=balance - $money ";
+        }
+
         $query .= "WHERE id=$id";
               
         $db->setQuery($query);

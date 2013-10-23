@@ -35,6 +35,7 @@ module.exports = function(grunt) {
     exec: {
         test: {
             cmd: "find . -type f -name '*.php' -exec php -l {} ;",
+
             
             onOutData: function (data) {
                 if (data.match(/Errors parsing|PHP Parse error/g)) {

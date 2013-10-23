@@ -1,0 +1,23 @@
+{
+  "name": "newholiness",
+  "version": "0.0.1",
+  "description": "LanteOTC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qawemlilo/lante.git"
+  },
+  "author": "Qawelesizwe Mlilo",
+  "license": "Proprietary",
+  "bugs": {
+    "url": "https://github.com/qawemlilo/lante/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-compress": "~0.5.2",
+    "grunt-exec": "git+ssh://git@github.com:qawemlilo/grunt-exec.git#v0.4.3"
+  }
+}
