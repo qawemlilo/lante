@@ -12,9 +12,12 @@ require_once(dirname(__FILE__) . DS . 'tables' . DS . 'shares.php');
 
 
 class OtcModelTrade extends JModelItem {
+
     public function getTable($type = 'Sell', $prefix = 'OtcTable', $config = array()) {
         return JTable::getInstance($type, $prefix, $config);
     }
+    
+    
     
     
     public function addSale($arr = array()) {
@@ -38,6 +41,30 @@ class OtcModelTrade extends JModelItem {
     }
     
     
+    
+    
+    public function addCompletedSale($arr = array()) {
+        $table = $this->getTable('Sales');
+        
+        if (is_array($arr) && count($arr) > 0) {
+            if (!$table->bind( $arr )) {
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
+            }
+            if (!$table->store( $arr )) {
+                JError::raiseWarning( 500, $table->getError() );
+                return false;
+            }
+                
+            return $table->id;
+        }
+        
+        return false;
+    }
+    
+    
+    
+    
     public function removeSale($id) {
         $table =& $this->getTable();
         
@@ -57,6 +84,8 @@ class OtcModelTrade extends JModelItem {
         
         return $result;
     }
+    
+    
     
     
     public function updateSale($id, $arr = array()) {
@@ -81,6 +110,8 @@ class OtcModelTrade extends JModelItem {
     }
     
     
+    
+    
     public function addBuy($arr = array()) {
         $table = $this->getTable('Buy');
         
@@ -99,6 +130,8 @@ class OtcModelTrade extends JModelItem {
         
         return false;
     }
+    
+    
     
     
     public function removeBuy($id) {
@@ -120,6 +153,8 @@ class OtcModelTrade extends JModelItem {
         
         return $result;
     }
+    
+    
     
     
     public function updateBuy($id, $arr = array()) {
@@ -145,6 +180,7 @@ class OtcModelTrade extends JModelItem {
     
     
     
+    
     public function getCompanies() {
         $db =& JFactory::getDBO();
         $id = JRequest::getVar('id', 0, 'get', 'int');
@@ -157,6 +193,7 @@ class OtcModelTrade extends JModelItem {
         
         return $result;    
     }
+    
     
     
     
@@ -175,11 +212,12 @@ class OtcModelTrade extends JModelItem {
     
     
     
+    
     public function updateShares($id, $companyid, $num_shares) {
         $db =& JFactory::getDBO();
         
         $query = "UPDATE #__otc_shares ";
-        $query .= "SET num_shares=$num_shares ";
+        $query .= "SET num_shares=$num_shares, last_update=NOW() ";
         $query .= "WHERE memberid = $id AND companyid = $companyid";
               
         $db->setQuery($query);
@@ -189,10 +227,11 @@ class OtcModelTrade extends JModelItem {
     }
     
     
+    
     public function getClientShares($companyid, $memberid) {
         $db =& JFactory::getDBO();
         
-        $query = "SELECT shares.num_share ";
+        $query = "SELECT shares.num_shares ";
         $query .= "FROM #__otc_shares AS shares ";
         $query .= "WHERE shares.companyid = $companyid AND shares.memberid = $memberid";
               
@@ -201,6 +240,23 @@ class OtcModelTrade extends JModelItem {
         
         return $result;    
     }
+    
+    
+    
+    public function getSharesOnSale($companyid) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT transaction.id, transaction.num_shares, transaction.selling_price, transaction.user_type, transaction.memberid ";
+        $query .= "FROM #__otc_sell_transactions AS transaction ";
+        $query .= "WHERE transaction.companyid = $companyid AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
+        $query .= "ORDER BY selling_price ASC, expiry_date DESC LIMIT 1";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
+        
+        return $result;    
+    }
+    
     
     
     
