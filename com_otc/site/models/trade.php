@@ -282,6 +282,23 @@ class OtcModelTrade extends JModelItem {
     
     
     
+    public function getBidsTobuy($companyid, $sellingprice) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT transaction.id, transaction.num_shares, transaction.bidding_price, transaction.memberid ";
+        $query .= "FROM #__otc_buy_transactions AS transaction ";
+        $query .= "WHERE transaction.companyid = $companyid AND transaction.bidding_price >= $sellingprice ";
+        $query .= "AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
+        $query .= "ORDER BY bidding_price DESC, expiry_date DESC LIMIT 1";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
+        
+        return $result;    
+    }
+    
+    
+    
     
     public function updateBalance($id, $money, $action) {
         $db =& JFactory::getDBO();

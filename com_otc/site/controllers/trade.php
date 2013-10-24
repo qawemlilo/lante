@@ -26,21 +26,95 @@ class OtcControllerTrade extends JController {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
         else {
+            // check if the user holds shares in that company
             $clientshares = $model->getClientShares($transaction['companyid'], $transaction['memberid']);
 
             if (!$clientshares || $clientshares < $transaction['num_shares']) {
                 $application->redirect($refer, 'Error! You do not hold any or enough shares from the chosen company!', 'error');
             }
-            elseif ($model->addSale($transaction)) {
+            elseif ($saleId = $model->addSale($transaction)) {
                 $currentshares = ($clientshares - $transaction['num_shares']);
                 $charges = ($transaction['transaction_fee'] + $transaction['security_tax']);
                 
                 $model->updateShares($transaction['memberid'], $transaction['companyid'], $currentshares);
                 $this->createBankRecord($transaction['memberid'], $charges, 'sfees');
                 
-                // trigger transaction email
+                // check if there are any bids to buy shares
+                // is less or equal to this bidding price
+                $availablebid = $model->getBidsTobuy($transaction['companyid'], $transaction['selling_price']);
                 
-                $application->redirect($refer, 'Your shares have been been put up for sale and you will be notified once a match has been made.', 'success');
+                // if the company has more share than required by clients
+                if ($availablebid && $availablebid->num_shares > $transaction['num_shares']) {
+                    
+                    $numToSell = $transaction['num_shares'];
+                    $totalToPay = ($numToSell * $transaction['selling_price']);
+                    
+                    // calculate how many share will remain
+                    $remainingshares = $availablebid->num_shares - $numToSell;
+                    $buyerform = array('num_shares'=>$remainingshares);
+                    
+                    // subtract shares being bought from the buy tranche
+                    $model->updateBuy($availablebid->id, $buyerform);
+                    
+                    //check if the buyer already holds shares in that company
+                    $buyershares = $model->getClientShares($transaction['companyid'], $availablebid->memberid);
+                    
+                    // if buyer already holds some shares perform update
+                    if ($buyershares) {
+                        $model->updateShares($availablebid->memberid, $transaction['companyid'], ($buyershares + $numToSell));
+                    }
+                    // otherwise create new record
+                    else {
+                        $form = $this->createShareForm($availablebid->memberid, $transaction['companyid'], $numToSell);
+                        $model->addShares($form);
+                    }
+                    
+                    // remove sale by giving it a value of 0 on pending
+                    $sellerform = array(
+                        'num_shares'=>0,
+                        'pending'=>0
+                    );
+                    
+                    // close the sell tranche
+                    $model->updateSale($transaction['memberid'], $sellerform); 
+                    
+                    
+                    // deduct share value from buyer account
+                    $model->updateBalance($availablebid->memberid, $totalToPay, 'minus');
+                    
+                    // add share value to seller account
+                    $model->updateBalance($transaction['memberid'], $totalToPay, 'add');
+                    
+                    // add share value to seller account
+                    $model->addCompletedSale(array(
+                        'buy_tr_id'=>$availablebid->id,
+                        'sell_tr_id'=>$saleId,
+                        'num_shares'=> $numToSell,
+                        'share_price'=>$transaction['selling_price'],
+                        'prev_price'=>$transaction['share_price']
+                    ));
+                    
+                    $today = new DateTime();
+                    $timestamp = $today->format('Y-m-d H:i:s');
+                    
+                    // update company share price
+                    $companies->updateCompany($transaction['companyid'], array(
+                        'share_price'=>$transaction['selling_price'], 
+                        'prev_price'=>$transaction['share_price'],
+                        'last_updated'=>$timestamp
+                    ));
+                    
+                    // record transaction
+                    $this->createBankRecord($transaction['memberid'], $totalToPay, 'shares');
+                    
+                    $application->redirect($refer, 'Your sell tranche was created and a match has been found. Please checkout your inbox.', 'success');
+                }
+                elseif ($availablebid && $availablebid->num_shares > $transaction['num_shares']) {
+                
+                }
+                else {                
+                    $application->redirect($refer, 'Your shares have been been put up for sale and you will be notified once a match has been made.', 'success');
+                }
             }
             else {
                 $application->redirect($refer, 'Error! Transaction not created!', 'error');
@@ -74,7 +148,7 @@ class OtcControllerTrade extends JController {
             $clientBalance = $model->getBalance($transaction['memberid']);
 
             if ($clientBalance < $transactionCost) {
-                $application->redirect($refer, 'Error! You do not have enough money to buy those shares!', 'error'); // trigger to deposit money
+                $application->redirect($refer, 'Error! You do not have enough money to buy those shares!', 'error'); 
             }
             // create buy tranche
             elseif ($buyid = $model->addBuy($transaction)) {
@@ -91,7 +165,7 @@ class OtcControllerTrade extends JController {
                 $availableshares = $model->getSharesOnSale($transaction['companyid'], $transaction['bidding_price']);
                 
                 // if the company has more share than required by clients
-                if ($availableshares && $availableshares->num_shares > $transaction['num_shares']) {
+                if ($availableshares && $availableshares->num_shares >= $transaction['num_shares']) {
                     
                     $numToBuy = $transaction['num_shares'];
                     $totalToPay = ($numToBuy * $availableshares->selling_price);
