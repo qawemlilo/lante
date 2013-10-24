@@ -8,8 +8,7 @@ jimport('joomla.application.component.view');
 
 
 
-class OtcViewListedcompanies extends JView
-{
+class OtcViewSelling extends JView {
     function display($tpl = null) {
         $application =& JFactory::getApplication();
         
@@ -18,8 +17,8 @@ class OtcViewListedcompanies extends JView
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
-        $this->companies = $this->get('Companies');
         $this->pagination = $this->get('Pagination');
+        $this->transactions = $this->get('Transactions'); 
         
         parent::display($tpl);
     }
@@ -29,7 +28,7 @@ class OtcViewListedcompanies extends JView
     
     private function isAuthorized() {
         $user =& JFactory::getUser();
-        if (!$user->guest) {
+        if ($user->authorize( 'com_content', 'edit', 'content', 'all' )) {
             return true;
         }
         
@@ -38,56 +37,30 @@ class OtcViewListedcompanies extends JView
     
     
     
+    
     function centsToRands($cents) {
         return number_format($cents/100, 2);
     }
     
     
-    function formatTime($cents) {
-        return number_format($cents/100, 2);
-    }
     
     
-    function calcChange($current, $prev) {
-        $change = 0;
-        $current = (int)$current;
-        $prev = (int)$prev;
+    function getStatus($pending, $date) {
+        $status = '';
+        $today = new DateTime('today');
+        $expiry_date = new DateTime($date);
         
-        if ($current && $prev) {
-            $change = ($current - $prev);
+        if (!$pending) {
+            $status = 'Matched';
         }
-        
-        return $change;
-    }
-    
-    
-    
-    
-    function getTime($ts, $lastUpdate) {
-        
-        if (!$lastUpdate) {
-            return $ts;
+        elseif ($pending && $expiry_date < $today) {
+            $status = 'Expired';
         }
         else {
-            return $lastUpdate; 
-        }
-    }    
-    
-    
-    
-    
-    function calcPChange($current, $prev) {
-        $change = 0;
-        $current = (int)$current;
-        $prev = (int)$prev;
-        
-        if ($current && $prev) {
-            $change = ($current - $prev);
+            $status = 'Pending';
         }
         
-        $change = round(($change / $current) * 100, 2);
-        
-        return $change . '%';
+        return $status;
     }
     
     

@@ -29,10 +29,9 @@ class OtcModelListedcompanies extends JModelItem
     
     
     private function _buildQuery() {
-        $query = "SELECT company.id, company.name, company.share_price, transaction.share_price AS buy_price, transaction.ts ";
+        $query = "SELECT company.id, company.name, company.share_price, company.prev_price, company.last_updated, company.ts ";
         $query .= "FROM #__otc_companies AS company ";
-        $query .= "LEFT OUTER JOIN #__otc_buy_transactions AS transaction ";
-        $query .= "ON company.id = transaction.companyid ";
+        $query .= "ORDER BY name ASC";
         
         return $query;        
     }

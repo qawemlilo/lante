@@ -23,19 +23,16 @@ $document->addStyleDeclaration('#limit {width: 60px}');
   <hr style="margin-top: 0px" />
 </div>
 
-<h3>Money Transactions</h3>
+<h3>Buy Tranches</h3>
 
 <div class="row-fluid" style="margin-bottom: 10px">
   <div class="span4">
-    <form action="<?php echo $this->parseUrl('index.php?option=com_otc&view=bank'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
+    <form action="<?php echo $this->parseUrl('index.php?option=com_otc&view=buying'); ?>" style="margin-bottom: 0px" method="post" name="pagination-form">
     Display # <?php echo @$this->pagination->getLimitBox() ;?>
     </form>
   </div>
 
   <div class="span8" style="text-align:right">
-    <a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=bank&layout=transaction'); ?>" class="btn btn-primary" type="button">
-      <i class="icon-check"></i> New Transaction
-    </a>
   </div>
 </div>
  
@@ -48,10 +45,11 @@ $document->addStyleDeclaration('#limit {width: 60px}');
     <thead>
       <tr>
         <th style="text-align:center">Date/Time</th>
-        <th style="text-align:center">Amount</th>
-        <th style="text-align:center">Type</th>
+        <th style="text-align:center">Bidding Price</th>
+        <th style="text-align:center">Company</th>
         <th style="text-align:center">Account #</th>
-        <th>Created By</th>
+        <th style="text-align:center">Expiry Date</th>
+        <th style="text-align:center">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -60,10 +58,11 @@ $document->addStyleDeclaration('#limit {width: 60px}');
     ?>
         <tr>
           <td style="text-align:center"><?php echo $transaction->ts; ?></td>
-          <td style="text-align:center">R<?php echo $this->centsToRands((int)$transaction->amount); ?></td>
-          <td style="text-align:center"><?php echo $this->transactionType($transaction->transaction_type); ?></td>
+          <td style="text-align:center">R<?php echo $this->centsToRands((int)$transaction->bidding_price); ?></td>
+          <td style="text-align:center"><?php echo $transaction->company; ?></td>
           <td style="text-align:center"><?php echo $transaction->account_number; ?></td>
-          <td><?php echo $transaction->created_by; ?></td>
+          <td style="text-align:center"><?php echo $transaction->expiry_date; ?></td>
+          <td style="text-align:center"><?php echo $this->getStatus($transaction->pending, $transaction->expiry_date); ?></td>
         </tr>
     <?php
       endforeach;
@@ -81,26 +80,3 @@ $document->addStyleDeclaration('#limit {width: 60px}');
 </div>
 
 </div>
-
-
-<script type="text/javascript">
-jQuery.noConflict();
-
-(function ($) {
-    $(function () {
-        $('#newtransaction').on('submit', function (event) {
-            var accountnumber = $("#account_id").val(),
-                accountid = $("#memberid option:selected").attr("data-accountid");
-            
-            if (accountnumber === accountid) {
-                return true;
-            }
-            else {
-                alert('The Account Number(' +accountnumber+') does not match with the Account Holder('+accountid+')');
-                
-                return false;
-            }
-        });
-    });
-}(jQuery));
-</script>

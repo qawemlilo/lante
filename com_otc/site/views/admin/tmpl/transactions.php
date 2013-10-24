@@ -27,15 +27,15 @@ defined('_JEXEC') or die('Restricted access');
         </a>
       </li>
       <li class="span3">
-        <a href="#" class="thumbnail" style="padding-top: 10px; padding-bottom: 10px; text-align: center">
+        <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=buying'); ?>" class="thumbnail" style="padding-top: 10px; padding-bottom: 10px; text-align: center">
           <img src="<?php echo JRoute::_(JURI::base() . 'components/com_otc/assets/images/payment-icon.png'); ?>" alt="" style="width:48px; height: 48px;display:block; margin-bottom: 10px">
-          Buying Transactions
+          Buy Tranches
         </a>
       </li>
       <li class="span3">
-        <a href="#" class="thumbnail" style="padding-top: 10px; padding-bottom: 10px; text-align: center">
+        <a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_otc&view=selling'); ?>" class="thumbnail" style="padding-top: 10px; padding-bottom: 10px; text-align: center">
           <img src="<?php echo JRoute::_(JURI::base() . 'components/com_otc/assets/images/sell-icon.png'); ?>" alt="" style="width:48px; height: 48px;display:block; margin-bottom: 10px">
-          Selling Transactions
+          Sell Tranches
         </a>
       </li>
     </ul>

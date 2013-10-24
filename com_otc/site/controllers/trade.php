@@ -5,6 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla controller library
 jimport('joomla.application.component.controller');
 
+date_default_timezone_set('Africa/Johannesburg');
 
 class OtcControllerTrade extends JController {
     public function sellshares() {
@@ -55,6 +56,7 @@ class OtcControllerTrade extends JController {
 
         $application =& JFactory::getApplication();
         $model =& $this->getModel('trade');
+        $companies =& $this->getModel('companies');
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
 
         //Check if user is authorized to view this page
@@ -84,8 +86,9 @@ class OtcControllerTrade extends JController {
                 // create deduction record
                 $this->createBankRecord($transaction['memberid'], $charges, 'bfees');
                 
-                // check if there are share on sale
-                $availableshares = $model->getSharesOnSale($transaction['companyid']);
+                // check if there are shares on sale whose selling price 
+                // is less or equal to this bidding price
+                $availableshares = $model->getSharesOnSale($transaction['companyid'], $transaction['bidding_price']);
                 
                 // if the company has more share than required by clients
                 if ($availableshares && $availableshares->num_shares > $transaction['num_shares']) {
@@ -128,14 +131,24 @@ class OtcControllerTrade extends JController {
                         'buy_tr_id'=>$buyid,
                         'sell_tr_id'=>$availableshares->id,
                         'num_shares'=> $numToBuy,
-                        'share_price'=>$transaction['share_price'],
-                        'prev_price'=>$availableshares->selling_price
+                        'share_price'=>$availableshares->selling_price,
+                        'prev_price'=>$transaction['share_price']
                     ));
                     
+                    $today = new DateTime();
+                    $timestamp = $today->format('Y-m-d H:i:s');
+                    
                     // update company share price
+                    $companies->updateCompany($transaction['companyid'], array(
+                        'share_price'=>$availableshares->selling_price, 
+                        'prev_price'=>$transaction['share_price'],
+                        'last_updated'=>$timestamp
+                    ));
                     
                     // record transaction
                     $this->createBankRecord($transaction['memberid'], $totalToPay, 'shares');
+                    
+                    $application->redirect($refer, 'Your bid was created and a match has been found. Please checkout your inbox.', 'success');
                 }
                 elseif($availableshares && $availableshares->num_shares <= $transaction['num_shares']) {
                     
@@ -184,17 +197,29 @@ class OtcControllerTrade extends JController {
                         'buy_tr_id'=>$buyid,
                         'sell_tr_id'=>$availableshares->id,
                         'num_shares'=>$numToBuy,
-                        'share_price'=>$transaction['share_price'],
-                        'prev_price'=>$availableshares->selling_price
+                        'share_price'=>$availableshares->selling_price,
+                        'prev_price'=>$transaction['share_price']
                     ));
-                    
+
+                    $today = new DateTime();
+                    $timestamp = $today->format('Y-m-d H:i:s');
+  
                     // update company share price
+                    $companies->updateCompany($transaction['companyid'], array(
+                        'share_price'=>$availableshares->selling_price, 
+                        'prev_price'=>$transaction['share_price'],
+                        'last_updated'=>$timestamp
+                    ));
                                         
                     // record transaction
                     $this->createBankRecord($transaction['memberid'], $totalToPay, 'shares');
+                    
+                    $application->redirect($refer, 'Your bid was created and a match has been found. Please checkout your inbox.', 'success');
                 }
                 
-                $application->redirect($refer, 'Your bid has been created and you will be notified once a match has been made.', 'success');
+                else {
+                    $application->redirect($refer, 'Your bid has been created and you will be notified once a match has been made.', 'success');
+                }
             }
             else {
                 $application->redirect($refer, 'Error! Transaction not created!', 'error');
@@ -403,5 +428,41 @@ class OtcControllerTrade extends JController {
         }
         
         return false;
+    }
+    
+    
+    private function sendMail($name) {
+        header("Content-type: application/json");
+
+        $config = JComponentHelper::getParams('com_saservice');
+        
+        
+        $name = JRequest::getVar('name', '', 'post', 'string');
+        $email = JRequest::getVar('email', '', 'post', 'string');
+        $serviceprovider = JRequest::getVar('serviceprovider', '', 'post', 'string');
+        $phone = JRequest::getVar('phone', 0, 'post', 'int');
+        $serviceperson = JRequest::getVar('serviceperson', '', 'post', 'string');
+        $type = JRequest::getVar('type', '', 'post', 'string');
+        $message = JRequest::getVar('message', '', 'post', 'string');
+        
+        $subject = $type . " from SA Network Service";
+        
+        $msg = "Dear {$name}, \n\n";
+        $msg .= "This is a $type sent by $name whose email address is $email . \n \n";
+        $msg .= "Service Provider: $serviceprovider \n";
+        $msg .= "Person Spoken To: $serviceperson \n";
+        $msg .= "Service Provider Phone Number: $phone \n \n";
+        
+        $msg .= $message . "\n \n \n";
+        $msg .= "Yours sincerely \n";
+        $msg .= "LanteOTC";
+
+        
+        
+        JUtility::sendMail($email, $name, $config->get('first_email'), $subject, $msg);
+        
+        echo '{"error":"false","message":"Thank you!"}';
+        
+        exit();
     }
 }

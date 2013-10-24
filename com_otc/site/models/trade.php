@@ -265,12 +265,13 @@ class OtcModelTrade extends JModelItem {
     
     
     
-    public function getSharesOnSale($companyid) {
+    public function getSharesOnSale($companyid, $biddingprice) {
         $db =& JFactory::getDBO();
         
         $query = "SELECT transaction.id, transaction.num_shares, transaction.selling_price, transaction.user_type, transaction.memberid ";
         $query .= "FROM #__otc_sell_transactions AS transaction ";
-        $query .= "WHERE transaction.companyid = $companyid AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
+        $query .= "WHERE transaction.companyid = $companyid AND transaction.selling_price <= $biddingprice ";
+        $query .= "AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
         $query .= "ORDER BY selling_price ASC, expiry_date DESC LIMIT 1";
               
         $db->setQuery($query);

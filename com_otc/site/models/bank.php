@@ -102,7 +102,8 @@ class OtcModelBank extends JModelItem {
         $query .= "INNER JOIN #__users AS user ";
         $query .= "ON transaction.created_by=user.id ";
         $query .= "INNER JOIN #__otc_members AS member ";
-        $query .= "ON transaction.memberid=member.id";
+        $query .= "ON transaction.memberid=member.id ";
+        $query .= "ORDER BY transaction.ts DESC";
         
         return $query;        
     }
