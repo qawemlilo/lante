@@ -7,13 +7,18 @@ jimport('joomla.application.component.controller');
 
 date_default_timezone_set('Africa/Johannesburg');
 
-class OtcControllerTrade extends JController {
+class OtcControllerTradesell extends JController {
+
     public function sellshares() {
+    
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
         $application =& JFactory::getApplication();
         $model =& $this->getModel('trade');
+        $bank =& $this->getModel('bank');
+        $companies =& $this->getModel('companies');
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
+        $userid = JRequest::getVar('userid', '', 'post', 'int');
 
         //Check if user is authorized to view this page
         if(!$this->isAuthorized()) {
@@ -26,6 +31,7 @@ class OtcControllerTrade extends JController {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
         else {
+        
             // check if the user holds shares in that company
             $clientshares = $model->getClientShares($transaction['companyid'], $transaction['memberid']);
 
@@ -33,30 +39,49 @@ class OtcControllerTrade extends JController {
                 $application->redirect($refer, 'Error! You do not hold any or enough shares from the chosen company!', 'error');
             }
             elseif ($saleId = $model->addSale($transaction)) {
+                
                 $currentshares = ($clientshares - $transaction['num_shares']);
                 $charges = ($transaction['transaction_fee'] + $transaction['security_tax']);
                 
+                // deduct share from that I am selling
                 $model->updateShares($transaction['memberid'], $transaction['companyid'], $currentshares);
-                $this->createBankRecord($transaction['memberid'], $charges, 'sfees');
+                
+                // deduct bank charges
+                $bank->addRecord(array(
+                    'memberid'=>$transaction['memberid'],
+                    'amount'=>$charges,
+                    'created_by'=>$userid,
+                    'transaction_type'=>'sfees'
+                ));
                 
                 // check if there are any bids to buy shares
                 // is less or equal to this bidding price
                 $availablebid = $model->getBidsTobuy($transaction['companyid'], $transaction['selling_price']);
                 
-                // if the company has more share than required by clients
-                if ($availablebid && $availablebid->num_shares > $transaction['num_shares']) {
+                // if the buyer wants more or equal shares to what I'm selling
+                if ($availablebid && $availablebid->num_shares >= $transaction['num_shares']) {
                     
                     $numToSell = $transaction['num_shares'];
                     $totalToPay = ($numToSell * $transaction['selling_price']);
                     
                     // calculate how many share will remain
-                    $remainingshares = $availablebid->num_shares - $numToSell;
+                    $remainingshares = ($availablebid->num_shares - $numToSell);
+                    
+                    
                     $buyerform = array('num_shares'=>$remainingshares);
                     
-                    // subtract shares being bought from the buy tranche
+                    // Close the buy tranche if no more shares are left
+                    if ($remainingshares == 0) {
+                        $buyerform = array('pending'=>0);
+                    }
+                    else {
+                        $buyerform = array('num_shares'=>$remainingshares);
+                    }
+                    
+                    // update the buy tranche
                     $model->updateBuy($availablebid->id, $buyerform);
                     
-                    //check if the buyer already holds shares in that company
+                    //check if the buyer already holds shares in this company
                     $buyershares = $model->getClientShares($transaction['companyid'], $availablebid->memberid);
                     
                     // if buyer already holds some shares perform update
@@ -69,11 +94,8 @@ class OtcControllerTrade extends JController {
                         $model->addShares($form);
                     }
                     
-                    // remove sale by giving it a value of 0 on pending
-                    $sellerform = array(
-                        'num_shares'=>0,
-                        'pending'=>0
-                    );
+                    // update values for the sale tranche
+                    $sellerform = array('pending'=>0);
                     
                     // close the sell tranche
                     $model->updateSale($transaction['memberid'], $sellerform); 
@@ -105,194 +127,90 @@ class OtcControllerTrade extends JController {
                     ));
                     
                     // record transaction
-                    $this->createBankRecord($transaction['memberid'], $totalToPay, 'shares');
+                    $bank->addRecord(array(
+                        'memberid'=>$transaction['memberid'],
+                        'amount'=>$totalToPay,
+                        'created_by'=>$userid,
+                        'transaction_type'=>'shares'
+                    ));
+                    
+                    // send email
                     
                     $application->redirect($refer, 'Your sell tranche was created and a match has been found. Please checkout your inbox.', 'success');
                 }
-                elseif ($availablebid && $availablebid->num_shares > $transaction['num_shares']) {
                 
+                // if buyer needs less shares than what I'm selling
+                elseif ($availablebid && $availablebid->num_shares > 0 && $availablebid->num_shares < $transaction['num_shares']) {
+                    
+                    $numToSell = $availablebid->num_shares;
+                    
+                    // We know that buy tranche has less shares that I'm selling
+                    $buyerform = array('pending'=>0);
+                    
+                    // Close the buy tranche
+                    $model->updateBuy($availablebid->id, $buyerform);
+                    
+                    //check if the buyer already holds shares in that company
+                    $buyershares = $model->getClientShares($transaction['companyid'], $availablebid->memberid);
+                    
+                    // if buyer already holds some shares perform update
+                    if ($buyershares) {
+                        $model->updateShares($availablebid->memberid, $transaction['companyid'], ($buyershares + $numToSell));
+                    }
+                    // otherwise create new record
+                    else {
+                        $form = $this->createShareForm($availablebid->memberid, $transaction['companyid'], $numToSell);
+                        $model->addShares($form);
+                    }
+                    
+                    // calculate how many share will remain
+                    $remainingshares = ($transaction['num_shares'] - $numToSell);
+                    $totalToPay = ($numToSell * $transaction['selling_price']);
+                    
+                    // update sale tranche
+                    $sellerform = array('num_shares'=>$remainingshares);
+                    
+                    // close the sell tranche
+                    $model->updateSale($transaction['memberid'], $sellerform); 
+                    
+                    
+                    // deduct share value from buyer account
+                    $model->updateBalance($availablebid->memberid, $totalToPay, 'minus');
+                    
+                    // add share value to seller account
+                    $model->updateBalance($transaction['memberid'], $totalToPay, 'add');
+                    
+                    // record completed sale
+                    $model->addCompletedSale(array(
+                        'buy_tr_id'=>$availablebid->id,
+                        'sell_tr_id'=>$saleId,
+                        'num_shares'=> $numToSell,
+                        'share_price'=>$transaction['selling_price'],
+                        'prev_price'=>$transaction['share_price']
+                    ));
+                    
+                    $today = new DateTime();
+                    $timestamp = $today->format('Y-m-d H:i:s');
+                    
+                    // update company share price
+                    $companies->updateCompany($transaction['companyid'], array(
+                        'share_price'=>$transaction['selling_price'], 
+                        'prev_price'=>$transaction['share_price'],
+                        'last_updated'=>$timestamp
+                    ));
+                    
+                    // record transaction
+                    $bank->addRecord(array(
+                        'memberid'=>$transaction['memberid'],
+                        'amount'=>$totalToPay,
+                        'created_by'=>$userid,
+                        'transaction_type'=>'shares'
+                    ));
+                    
+                    $application->redirect($refer, 'Your sell tranche was created and a match has been found. Please checkout your inbox.', 'success');                
                 }
                 else {                
                     $application->redirect($refer, 'Your shares have been been put up for sale and you will be notified once a match has been made.', 'success');
-                }
-            }
-            else {
-                $application->redirect($refer, 'Error! Transaction not created!', 'error');
-            }  
-        }
-    }
-    
-    
-    
-    
-    public function buyshares() {
-        JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-        $application =& JFactory::getApplication();
-        $model =& $this->getModel('trade');
-        $companies =& $this->getModel('companies');
-        $refer = JRoute::_($_SERVER['HTTP_REFERER']);
-
-        //Check if user is authorized to view this page
-        if(!$this->isAuthorized()) {
-            $application->redirect('index.php', 'You are not authorized to view that page');
-        }
-        
-        $transaction = $this->getClientForm('buying');
-
-        if (!$this->isPositiveNum($transaction['bidding_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['bidding_price'], $transaction['share_price'])) {
-            $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
-        }
-        else {
-            $transactionCost = $this->calcTotal($transaction['share_price'], $transaction['num_shares'], $transaction['security_tax']);
-            $clientBalance = $model->getBalance($transaction['memberid']);
-
-            if ($clientBalance < $transactionCost) {
-                $application->redirect($refer, 'Error! You do not have enough money to buy those shares!', 'error'); 
-            }
-            // create buy tranche
-            elseif ($buyid = $model->addBuy($transaction)) {
-                $charges = ($transaction['transaction_fee'] + $transaction['security_tax']);
-                
-                // deduct charges
-                $model->updateBalance($transaction['memberid'], $charges, 'minus');
-                
-                // create deduction record
-                $this->createBankRecord($transaction['memberid'], $charges, 'bfees');
-                
-                // check if there are shares on sale whose selling price 
-                // is less or equal to this bidding price
-                $availableshares = $model->getSharesOnSale($transaction['companyid'], $transaction['bidding_price']);
-                
-                // if the company has more share than required by clients
-                if ($availableshares && $availableshares->num_shares >= $transaction['num_shares']) {
-                    
-                    $numToBuy = $transaction['num_shares'];
-                    $totalToPay = ($numToBuy * $availableshares->selling_price);
-                    
-                    // calculate how many share will remain
-                    $remainingshares = $availableshares->num_shares - $numToBuy;
-                    $sellerform = array('num_shares'=>$remainingshares);
-                    
-                    // subtract shares being sold from the sell tranche
-                    $model->updateSale($availableshares->id, $sellerform);
-                    
-                    // close buy tranche
-                    $buyerform = array('pending'=>0);
-                    $model->updateBuy($buyid, $buyerform);
-                    
-                    //check if the buyer already holds shares in that company
-                    $buyershares = $model->getClientShares($transaction['companyid'], $transaction['memberid']);
-                    
-                    // if buyer already holds some shares perform update
-                    if ($buyershares) {
-                        $model->updateShares($transaction['memberid'], $transaction['companyid'], ($buyershares + $numToBuy));
-                    }
-                    // otherwise create new record
-                    else {
-                        $form = $this->createShareForm($transaction['memberid'], $transaction['companyid'], $numToBuy);
-                        $model->addShares($form);
-                    }
-                    
-                    // deduct share value from buyer account
-                    $model->updateBalance($transaction['memberid'], $totalToPay, 'minus');
-                    
-                    // add share value to seller account
-                    $model->updateBalance($availableshares->memberid, $totalToPay, 'add');
-                    
-                    // add share value to seller account
-                    $model->addCompletedSale(array(
-                        'buy_tr_id'=>$buyid,
-                        'sell_tr_id'=>$availableshares->id,
-                        'num_shares'=> $numToBuy,
-                        'share_price'=>$availableshares->selling_price,
-                        'prev_price'=>$transaction['share_price']
-                    ));
-                    
-                    $today = new DateTime();
-                    $timestamp = $today->format('Y-m-d H:i:s');
-                    
-                    // update company share price
-                    $companies->updateCompany($transaction['companyid'], array(
-                        'share_price'=>$availableshares->selling_price, 
-                        'prev_price'=>$transaction['share_price'],
-                        'last_updated'=>$timestamp
-                    ));
-                    
-                    // record transaction
-                    $this->createBankRecord($transaction['memberid'], $totalToPay, 'shares');
-                    
-                    $application->redirect($refer, 'Your bid was created and a match has been found. Please checkout your inbox.', 'success');
-                }
-                elseif($availableshares && $availableshares->num_shares <= $transaction['num_shares']) {
-                    
-                    $numToBuy = $availableshares->num_shares;
-                    $totalToPay = ($numToBuy * $availableshares->selling_price);
-                    
-                    // there will be 0 shares left to sell
-                    $remainingshares = 0;
-                    
-                    $sellerform = array(
-                        'num_shares'=>$remainingshares,
-                        'pending'=>0
-                    );
-                    
-                    // close the sell tranche
-                    $model->updateSale($availableshares->id, $sellerform);
-                    
-                    // calculate how many shares the buyer will still need 
-                    $stilltobuyshares = ($transaction['num_shares'] - $numToBuy);
-                                        
-                    // update buy tranche
-                    $buyerform = array('num_shares'=>$stilltobuyshares);
-                    $model->updateBuy($buyid, $buyerform);
-                    
-                    //check if the buyer already holds shares in that company
-                    $buyershares = $model->getClientShares($transaction['companyid'], $transaction['memberid']);
-                    
-                    // if buyer already holds some shares perform update
-                    if ($buyershares) {
-                        $model->updateShares($transaction['memberid'], $transaction['companyid'], ($buyershares + $numToBuy));
-                    }
-                    // otherwise create new record
-                    else {
-                        $form = $this->createShareForm($transaction['memberid'], $transaction['companyid'], $numToBuy);
-                        $model->addShares($form);
-                    }
-                    
-                    // deduct share value from buyer account
-                    $model->updateBalance($transaction['memberid'], $totalToPay, 'minus');
-                    
-                    // add share value to seller accout
-                    $model->updateBalance($availableshares->memberid, $totalToPay, 'add');
-                    
-                    // add share value to seller account
-                    $model->addCompletedSale(array(
-                        'buy_tr_id'=>$buyid,
-                        'sell_tr_id'=>$availableshares->id,
-                        'num_shares'=>$numToBuy,
-                        'share_price'=>$availableshares->selling_price,
-                        'prev_price'=>$transaction['share_price']
-                    ));
-
-                    $today = new DateTime();
-                    $timestamp = $today->format('Y-m-d H:i:s');
-  
-                    // update company share price
-                    $companies->updateCompany($transaction['companyid'], array(
-                        'share_price'=>$availableshares->selling_price, 
-                        'prev_price'=>$transaction['share_price'],
-                        'last_updated'=>$timestamp
-                    ));
-                                        
-                    // record transaction
-                    $this->createBankRecord($transaction['memberid'], $totalToPay, 'shares');
-                    
-                    $application->redirect($refer, 'Your bid was created and a match has been found. Please checkout your inbox.', 'success');
-                }
-                
-                else {
-                    $application->redirect($refer, 'Your bid has been created and you will be notified once a match has been made.', 'success');
                 }
             }
             else {
@@ -355,28 +273,10 @@ class OtcControllerTrade extends JController {
     
     
     
-    private function updateBoughtShares($id, $amount, $type) {
-        $bank =& $this->getModel('bank');
+    private function createBankRecord(&$bank, $memberid, $amount, $type) {
         $bankrecord = array();
         
-        $bankrecord['memberid'] = $id;
-        $bankrecord['amount'] = $amount;
-        $bankrecord['created_by'] = JRequest::getVar('userid', '', 'post', 'int');
-        $bankrecord['transaction_type'] = $type;
-        
-        $result = $bank->addRecord($bankrecord); 
-        
-        return $result;
-    }
-    
-    
-    
-    
-    private function createBankRecord($id, $amount, $type) {
-        $bank =& $this->getModel('bank');
-        $bankrecord = array();
-        
-        $bankrecord['memberid'] = $id;
+        $bankrecord['memberid'] = $memberid;
         $bankrecord['amount'] = $amount;
         $bankrecord['created_by'] = JRequest::getVar('userid', '', 'post', 'int');
         $bankrecord['transaction_type'] = $type;

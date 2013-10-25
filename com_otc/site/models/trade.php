@@ -306,7 +306,7 @@ class OtcModelTrade extends JModelItem {
         $query = "UPDATE #__otc_members ";
         
         if ($action == 'add') {
-            $query .= "SET balance =balance + $money ";
+            $query .= "SET balance=balance + $money ";
         }
         
         elseif ($action == 'minus') {
