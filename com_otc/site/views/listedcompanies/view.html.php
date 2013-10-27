@@ -56,6 +56,12 @@ class OtcViewListedcompanies extends JView
         if ($current && $prev) {
             $change = ($current - $prev);
         }
+        if ($change > 0) {
+           $change = '<span style="color:green">'.$change.'</span>';
+        }
+        if ($change < 0) {
+           $change = '<span style="color:red">'.$change.'</span>';
+        }
         
         return $change;
     }
@@ -87,7 +93,17 @@ class OtcViewListedcompanies extends JView
         
         $change = round(($change / $current) * 100, 2);
         
-        return $change . '%';
+        if ($change > 0) {
+           $change = '<span style="color:green">'.$change.'%</span>';
+        }
+        elseif ($change < 0) {
+           $change = '<span style="color:red">'.$change.'%</span>';
+        }
+        else {
+            $change = '<span>'.$change.'%</span>';
+        } 
+               
+        return $change;
     }
     
     

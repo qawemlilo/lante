@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset name="clients_config" label="COM_OTC_ADMIN_CONFIG_CLIENTS_LABEL" description="COM_OTC_ADMIN_CONFIG_CLIENTS_DESCRIPTION">
+        <field name="system_name" type="text" size="40" default="LanteOTC" label="COM_OTC_ADMIN_CONFIG_SYSTEM_LABEL" description="COM_OTC_ADMIN_CONFIG_SYSTEM_DESCRIPTION"></field>
+        <field name="tables_limit" type="text" size="40" label="COM_OTC_ADMIN_CONFIG_FROM_LABEL" description="COM_OTC_ADMIN_CONFIG_FROM_DESCRIPTION"></field>
+        <field name="email_msg" type="textarea" rows="10" cols="40" label="COM_OTC_ADMIN_CONFIG_MSG_LABEL" description="COM_OTC_ADMIN_CONFIG_MSG_DESCRIPTION"></field>
+    </fieldset>
+    
+    <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+        <field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" class="inputbox" validate="rules" filter="rules" component="com_otc" section="component"/>
+    </fieldset>
+</config>

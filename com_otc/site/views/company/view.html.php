@@ -17,7 +17,11 @@ class OtcViewCompany extends JView
         if(!$this->isAuthorized()) {
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
+        
         $this->company = $this->get('Company');
+        $this->sellbids = $this->get('BidsToSell');
+        $this->buybids = $this->get('BidsTobuy');
+        $this->trades = $this->get('LastTrades');
         
         parent::display($tpl);
     }

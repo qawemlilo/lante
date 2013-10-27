@@ -22,6 +22,8 @@ class OtcControllerMembers extends JController
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
+        $name = JRequest::getVar('name', '', 'post', 'string');
+        $email = JRequest::getVar('email', '', 'post', 'string');
         $day = JRequest::getVar('day', '', 'post', 'string');
         $month = JRequest::getVar('month', '', 'post', 'string');
         $year = JRequest::getVar('year', '', 'post', 'string');
@@ -46,8 +48,9 @@ class OtcControllerMembers extends JController
         $member['branch_name'] = JRequest::getVar('branch_name', '', 'post', 'string');
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
-        if ($model->addMember($member)) {
-            $application->redirect($refer, 'New member created!', 'success');   
+        if ($accountid = $model->addMember($member)) {
+            $this->sendMail($name.' '.$member['surname'], $email, $accountid);
+            $application->redirect($refer, 'New member created!', 'success'); 
         }
         else { 
             $application->redirect($refer, 'An error occured. Member not created.', 'error'); 
@@ -321,6 +324,21 @@ class OtcControllerMembers extends JController
         }
         
         return false;
+    }
+    
+    
+    private function sendMail($name,$email,$accnumber) {
+        $subject = "Shareholder number created";
+        
+        $msg = "Dear $name \n\n";
+        $msg .= "Your Shareholder number for the LanteOTC Share Trading Website has been created. \n";
+        $msg .= "Your LanteOTC Shareholder number is: $accnumber \n\n";
+        $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
+
+        $msg .= "Yours sincerely \n";
+        $msg .= "LanteOTC";
+        
+        JUtility::sendMail('info@lanteotc.com', 'Admin', $email, $subject, $msg);
     }
 }
 

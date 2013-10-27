@@ -33,7 +33,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
         <p><strong style="color:#fd7800">Company Location:</strong> <?php echo $this->company->company_address; ?></p>  
       </div>
     </div>
-    <p style="margin-top:10px"><button class="btn btn-success" style="margin-left:10px">Buy Shares</button></p>
+    <p style="margin-top:10px"><a href="<?php echo $this->parseUrl('index.php?option=com_otc&view=trade'); ?>" class="btn btn-success" style="margin-left:10px">Buy Shares</a></p>
   </div>
   
   <br>
@@ -43,11 +43,29 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>
+            <th colspan="3">
               Top 5 bids to buy
             </th>
           </tr>
-        </thead>      
+          <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Price (c)</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+          foreach($this->buybids as $buybid) :
+        ?>
+          <tr>
+            <td class="text-center">1</td>
+            <td class="text-center"><?php echo $buybid->num_shares; ?></td>
+            <td class="text-center"><?php echo $buybid->bidding_price; ?></td>
+          </tr>
+       <?php
+        endforeach;
+       ?>
+       </tbody>      
       </table>
     </div>
     
@@ -55,11 +73,29 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>
+            <th colspan="3">
               Top 5 bids to sell
             </th>
           </tr>
-        </thead>      
+           <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Price (c)</th>
+          </tr>
+        </thead> 
+        <tbody>
+        <?php
+          foreach($this->sellbids as $sellbid) :
+        ?>
+          <tr>
+            <td class="text-center">1</td>
+            <td class="text-center"><?php echo $sellbid->num_shares; ?></td>
+            <td class="text-center"><?php echo $sellbid->selling_price; ?></td>
+          </tr>
+       <?php
+        endforeach;
+       ?>
+       </tbody>     
       </table>
     </div>
   </div>
@@ -83,11 +119,31 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>
+            <th colspan="4">
               Last 10 Trades
             </th>
           </tr>
-        </thead>      
+          <tr>
+            <th class="text-center">Date</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Price (c)</th>
+            <th class="text-center">Value (R)</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+          foreach($this->trades as $trade) :
+        ?>
+          <tr>
+            <td class="text-center"><?php echo $trade->ts; ?></td>
+            <td class="text-center"><?php echo $trade->num_shares; ?></td>
+            <td class="text-center"><?php echo $trade->share_price; ?></td>
+            <td class="text-center">R<?php echo $this->centsToRands($trade->num_shares * $trade->share_price); ?></td>
+          </tr>
+       <?php
+        endforeach;
+       ?>
+       </tbody>       
       </table>
     </div>
   </div>

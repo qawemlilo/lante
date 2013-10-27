@@ -19,6 +19,7 @@ class OtcControllerTradesell extends JController {
         $companies =& $this->getModel('companies');
         $refer = JRoute::_($_SERVER['HTTP_REFERER']);
         $userid = JRequest::getVar('userid', '', 'post', 'int');
+        $companyname = JRequest::getVar('company_name', '', 'post', 'string');
 
         //Check if user is authorized to view this page
         if(!$this->isAuthorized()) {
@@ -45,14 +46,21 @@ class OtcControllerTradesell extends JController {
                 
                 // deduct share from that I am selling
                 $model->updateShares($transaction['memberid'], $transaction['companyid'], $currentshares);
-                
-                // deduct bank charges
+
+                // deduct charges
+                $model->updateBalance($transaction['memberid'], $charges, 'minus');
+                                
+                // record transaction
                 $bank->addRecord(array(
                     'memberid'=>$transaction['memberid'],
                     'amount'=>$charges,
                     'created_by'=>$userid,
                     'transaction_type'=>'sfees'
                 ));
+                
+                // notify user via email that tranche has been created
+                $fshareprice = number_format($transaction['selling_price'] / 100, 2);
+                $this->sellTrancheMail($userid, $transaction['num_shares'],$companyname,'R'.$fshareprice,$transaction['expiry_date'],$saleId);
                 
                 // check if there are any bids to buy shares
                 // is less or equal to this bidding price
@@ -98,7 +106,7 @@ class OtcControllerTradesell extends JController {
                     $sellerform = array('pending'=>0);
                     
                     // close the sell tranche
-                    $model->updateSale($transaction['memberid'], $sellerform); 
+                    $model->updateSale($saleId, $sellerform); 
                     
                     
                     // deduct share value from buyer account
@@ -135,6 +143,7 @@ class OtcControllerTradesell extends JController {
                     ));
                     
                     // send email
+                    $this->matchFound($userid,$numToSell,$numToSell,$companyname,'Sell',$saleId);
                     
                     $application->redirect($refer, 'Your sell tranche was created and a match has been found. Please checkout your inbox.', 'success');
                 }
@@ -171,7 +180,7 @@ class OtcControllerTradesell extends JController {
                     $sellerform = array('num_shares'=>$remainingshares);
                     
                     // close the sell tranche
-                    $model->updateSale($transaction['memberid'], $sellerform); 
+                    $model->updateSale($saleId, $sellerform); 
                     
                     
                     // deduct share value from buyer account
@@ -206,6 +215,9 @@ class OtcControllerTradesell extends JController {
                         'created_by'=>$userid,
                         'transaction_type'=>'shares'
                     ));
+                    
+                    // send email
+                    $this->matchFound($userid,$numToSell,$transaction['num_shares'],$companyname,'Sell',$saleId);
                     
                     $application->redirect($refer, 'Your sell tranche was created and a match has been found. Please checkout your inbox.', 'success');                
                 }
@@ -405,38 +417,38 @@ class OtcControllerTradesell extends JController {
     }
     
     
-    private function sendMail($name) {
-        header("Content-type: application/json");
+    private function sellTrancheMail($id,$num_shares,$company,$share_price,$expiry_date,$sellid) {
+        $user =& JFactory::getUser($id);
+        
+        $subject = "Sell tranche created";
+        
+        $msg = "Dear $user->name \n\n";
+        $msg .= "A Sell Order for $num_shares $company shares at $share_price has been created on your account. Expiry date $expiry_date \n";
+        $msg .= "Order Ref No: $sellid \n \n";
+        $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
 
-        $config = JComponentHelper::getParams('com_saservice');
-        
-        
-        $name = JRequest::getVar('name', '', 'post', 'string');
-        $email = JRequest::getVar('email', '', 'post', 'string');
-        $serviceprovider = JRequest::getVar('serviceprovider', '', 'post', 'string');
-        $phone = JRequest::getVar('phone', 0, 'post', 'int');
-        $serviceperson = JRequest::getVar('serviceperson', '', 'post', 'string');
-        $type = JRequest::getVar('type', '', 'post', 'string');
-        $message = JRequest::getVar('message', '', 'post', 'string');
-        
-        $subject = $type . " from SA Network Service";
-        
-        $msg = "Dear {$name}, \n\n";
-        $msg .= "This is a $type sent by $name whose email address is $email . \n \n";
-        $msg .= "Service Provider: $serviceprovider \n";
-        $msg .= "Person Spoken To: $serviceperson \n";
-        $msg .= "Service Provider Phone Number: $phone \n \n";
-        
-        $msg .= $message . "\n \n \n";
         $msg .= "Yours sincerely \n";
-        $msg .= "LanteOTC";
+        $msg .= "LanteOTC admin";
+        
+        JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
+    }
+    
+    
 
+    
+    
+    private function matchFound($id,$matchedshares,$totalonsale,$company,$ordertype,$orderno) {
+        $user =& JFactory::getUser($id);
         
+        $subject = "Match found";
+
+        $msg .= "$matchedshares of the total $totalonsale $companyname shares of your $ordertype Order (Ref No: {$orderno}) \n\n";
+
+        $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
+
+        $msg .= "Yours sincerely \n";
+        $msg .= "LanteOTC admin";
         
-        JUtility::sendMail($email, $name, $config->get('first_email'), $subject, $msg);
-        
-        echo '{"error":"false","message":"Thank you!"}';
-        
-        exit();
+        JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
     }
 }

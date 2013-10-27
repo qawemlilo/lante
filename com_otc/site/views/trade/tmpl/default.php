@@ -99,6 +99,7 @@ $document->addStyleDeclaration($style);
                 <input type="hidden" name="memberid" value="<?php echo $this->member->id; ?>" />
                 <input type="hidden" name="userid" value="<?php echo $this->member->userid; ?>" />
                 <input type="hidden" name="share_price" id="share_price" value="" />
+                <input type="hidden" name="company_name" id="company_name" value="" />
                                 
                 <div class="control-group">
                   <label class="control-label" for="companyid">Select Company:</label>
@@ -196,6 +197,7 @@ $document->addStyleDeclaration($style);
                 <input type="hidden" name="memberid" value="<?php echo $this->member->id; ?>" />
                 <input type="hidden" name="userid" value="<?php echo $this->member->userid; ?>" />
                 <input type="hidden" name="share_price" id="shareprice" value="" />
+                <input type="hidden" name="company_name" id="companyname" value="" />
                 
                 <div class="control-group">
                   <label class="control-label" for="companyid">Select Company:</label>
