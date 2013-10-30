@@ -11,6 +11,16 @@ module.exports = function(grunt) {
             ]
         },
         
+        mod_feature: {
+            options: {
+                archive: '../otc/mod_feature.zip'
+            },
+            
+            files: [
+                {cwd: 'mod_feature/', src: ['**/*'], expand: true, dest: ''} // includes files in path and its subdirs
+            ]
+        },
+        
         com_otc: {
             options: {
                 archive: '../otc/com_otc.zip'

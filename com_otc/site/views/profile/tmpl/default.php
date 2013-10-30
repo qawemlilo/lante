@@ -313,7 +313,7 @@ $document->addStyleDeclaration($style);
       <p>Should you wish to update your contact details kindly contact us and send us supporting documents.</p>
     </div>
   </div>
-  
+  <!--
   <br>
   
   <div class="row-fluid">
@@ -334,6 +334,7 @@ $document->addStyleDeclaration($style);
       </tbody>
     </table>
   </div>
+  -->
 </div>
 
 <script type="text/javascript" src="<?php echo JURI::base() . 'components/com_otc/assets/js/libs/bootstrap.min.js'; ?>"></script>

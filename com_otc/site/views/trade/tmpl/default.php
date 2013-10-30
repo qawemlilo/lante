@@ -64,7 +64,7 @@ $document->addStyleDeclaration($style);
   <tbody style="background-color:#f5f5f5;">
     <tr>
       <td>
-        The calculation below assist you to obtain accurate values to either sell or buy your shares. Please note we will only process your transaction after a match is made and communication will be sent to you using your preferred method of notification.
+        The calculation below assist you to obtain accurate values to either sell or buy your shares. Please note we will only process your transaction after a match is made, thereafter communication will be sent to you via email. Please note that the minimum total investment is R500.
       </td>
     </tr>
   </tbody>
@@ -111,7 +111,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="num_shares">Number of Shares:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="num_shares" name="num_shares" required="" />
+                    <input value="" class="input-large" type="text" id="num_shares" name="num_shares" required="" autocomplete="off" />
                   </div>
                 </div>
                 
@@ -120,9 +120,9 @@ $document->addStyleDeclaration($style);
                   <div class="controls">
                     <div class="input-prepend input-append" style="width:400px">
                         <span class="add-on">R</span>
-                        <input class="span2" id="bidding_rands" placeholder="Rands" name="rands" required="" type="text">
+                        <input class="span2" id="bidding_rands" placeholder="Rands" name="rands" required="" type="text" autocomplete="off">
                         <span class="add-on">.</span>
-                        <input class="span2" id="bidding_cents" placeholder="Cents" name="cents" maxlength="2" required="" type="text">
+                        <input class="span2" id="bidding_cents" placeholder="Cents" name="cents" maxlength="2" required="" type="text" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="expiry_date">Expiry Date:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="expiry_date" name="expiry_date" required="" />
+                    <input value="" class="input-large" type="text" id="expiry_date" name="expiry_date" required="" autocomplete="off" />
                   </div>
                 </div>
                 
@@ -158,7 +158,7 @@ $document->addStyleDeclaration($style);
                 </div>
                 
                 <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
-                  <label class="control-label" for="investment_charge">Investment Charge:</label>
+                  <label class="control-label" for="investment_charge">Total Investment:</label>
                   <div class="controls">
                     <div style="width: 100%; font-weight:bold;font-size:12px; padding-top:5px; padding-bottom: 5px" id="investment_charge">&nbsp;</div>
                   </div>
@@ -209,7 +209,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="numshares">Number of Shares:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="numshares" name="num_shares" required="" />
+                    <input value="" class="input-large" type="text" id="numshares" name="num_shares" required="" autocomplete="off" />
                   </div>
                 </div>
                 
@@ -219,9 +219,9 @@ $document->addStyleDeclaration($style);
                   <div class="controls">
                     <div class="input-prepend input-append" style="width:400px">
                         <span class="add-on">R</span>
-                        <input class="span2" id="trading_rands" placeholder="Rands" name="rands" required="" type="text">
+                        <input class="span2" id="trading_rands" placeholder="Rands" name="rands" autocomplete="off" required="" type="text">
                         <span class="add-on">.</span>
-                        <input class="span2" id="trading_cents" placeholder="Cents" name="cents" maxlength="2" required="" type="text">
+                        <input class="span2" id="trading_cents" placeholder="Cents" autocomplete="off" name="cents" maxlength="2" required="" type="text">
                     </div>
                   </div>
                 </div>
@@ -229,7 +229,7 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="expirydate">Expiry Date:</label>
                   <div class="controls">
-                    <input value="" class="input-large" type="text" id="expirydate" name="expiry_date" required="" />
+                    <input value="" class="input-large" type="text" id="expirydate" name="expiry_date" required="" autocomplete="off" />
                   </div>
                 </div>
                 

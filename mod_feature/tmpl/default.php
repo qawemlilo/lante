@@ -15,17 +15,17 @@ $user =& JFactory::getUser();
     </div>
     
     
-    <p style="color: #fd7800; margin-left: 10px;"><strong>LanteOTC is</strong> an online market place that <strong>connects Businesses with Investors</strong> through Over The Counter <strong>online trading</strong> subsequently supporting South African Startups and SMMEs.</p>
+    <p style="color: #fd7800; margin-left: 10px;"><strong>LanteOTC is</strong> a market place that <strong>connects Investors with Small-Medium Businesses</strong> in South Africa. Our system is very Easy to use and is Free, register now.</p>
 
   <table class="table table-striped listings" style="margin-left: 10px;">
               <thead>
                 <tr>
-                  <th colspan="5">New Listings</th>
+                  <th colspan="5">Top performers</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="listings-header">Stock</td>
+                  <td class="listings-header">Company</td>
                   <td class="listings-header">Last</td>
                   <td class="listings-header">CHG</td>
                   <td class="listings-header">%CHG</td>
@@ -161,10 +161,10 @@ $user =& JFactory::getUser();
     <div style="color: #fd7800;">
       <p>You can use LanteOTC to:</p>
       <ul>
-        <li>Buy Shares from listed companies</li>
+        <li>Buy Shares from registered companies</li>
         <li>Sell your shares</li>
         <li>View trading history of listed company</li>
-        <li>View trading value or worth</li>
+        <li>View company information</li>
         <li>Register or update your details as an investor</li>
       </ul>
     </div>

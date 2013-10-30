@@ -52,6 +52,15 @@ class OtcViewCompany extends JView
     }
     
     
+
+    function formatTime($date) {
+        $mydate = new DateTime($date);
+        $dateString = $mydate->format("d M y H:i");
+        
+        return $dateString;
+    }
+    
+    
     
     
     function parseDate($date) {

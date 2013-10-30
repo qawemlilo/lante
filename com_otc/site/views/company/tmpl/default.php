@@ -135,7 +135,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           foreach($this->trades as $trade) :
         ?>
           <tr>
-            <td class="text-center"><?php echo $trade->ts; ?></td>
+            <td class="text-center"><?php echo $this->formatTime($trade->ts); ?></td>
             <td class="text-center"><?php echo $trade->num_shares; ?></td>
             <td class="text-center"><?php echo $trade->share_price; ?></td>
             <td class="text-center">R<?php echo $this->centsToRands($trade->num_shares * $trade->share_price); ?></td>

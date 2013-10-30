@@ -43,8 +43,12 @@ class OtcViewListedcompanies extends JView
     }
     
     
-    function formatTime($cents) {
-        return number_format($cents/100, 2);
+
+    function formatTime($date) {
+        $mydate = new DateTime($date);
+        $dateString = $mydate->format("d M y H:i");
+        
+        return $dateString;
     }
     
     
@@ -72,10 +76,10 @@ class OtcViewListedcompanies extends JView
     function getTime($ts, $lastUpdate) {
         
         if (!$lastUpdate) {
-            return $ts;
+            return $this->formatTime($ts);
         }
         else {
-            return $lastUpdate; 
+            return $this->formatTime($lastUpdate); 
         }
     }    
     
