@@ -2,6 +2,102 @@
 defined('_JEXEC') or die('Restricted access'); // no direct access 
 
 $user =& JFactory::getUser();
+
+    function marketStatus() {
+        $today = getdate();
+        $status = "MARKET OPEN";
+        
+        $hours = $today['hours'];
+        $day = $today['wday'];
+        
+        if ($hours > 17 || $hours < 9) {
+            $status = "MARKET CLOSED";   
+        } 
+        
+        if ($day === 6 || $day === 0) {
+            $status = "MARKET CLOSED";   
+        }
+        
+        return $status;
+        
+    }
+
+    function centsToRands($cents) {
+        return number_format($cents/100, 2);
+    }
+    
+    
+
+    function formatTime($date) {
+        $mydate = new DateTime($date);
+        $dateString = $mydate->format("d M y H:i");
+        
+        return $dateString;
+    }
+    
+    
+    function calcChange($current, $prev) {
+        $change = 0;
+        $current = (int)$current;
+        $prev = (int)$prev;
+        
+        if ($current && $prev) {
+            $change = ($current - $prev);
+        }
+        if ($change > 0) {
+           $change = '<span style="color:green">'.$change.'</span>';
+        }
+        if ($change < 0) {
+           $change = '<span style="color:red">'.$change.'</span>';
+        }
+        
+        return $change;
+    }
+    
+    
+    
+    
+    function getTime($ts, $lastUpdate) {
+        
+        if (!$lastUpdate) {
+            return formatTime($ts);
+        }
+        else {
+            return formatTime($lastUpdate); 
+        }
+    }    
+    
+    
+    
+    
+    function calcPChange($current, $prev) {
+        $change = 0;
+        $current = (int)$current;
+        $prev = (int)$prev;
+        
+        if ($current && $prev) {
+            $change = ($current - $prev);
+        }
+        
+        $change = round(($change / $current) * 100, 2);
+        
+        if ($change > 0) {
+           $change = '<span style="color:green">'.$change.'%</span>';
+        }
+        elseif ($change < 0) {
+           $change = '<span style="color:red">'.$change.'%</span>';
+        }
+        else {
+            $change = '<span>'.$change.'%</span>';
+        } 
+               
+        return $change;
+    }
+    
+    
+    function parseUrl($url) {
+        return JRoute::_($url);
+    }
 ?>
 
 <div class="row">
@@ -31,32 +127,26 @@ $user =& JFactory::getUser();
                   <td class="listings-header">%CHG</td>
                   <td class="listings-header">Time</td>
                 </tr>
+                <?php
+                  foreach($companies as $company) :
+                ?>
                 <tr>
-                  <td>AFRISH</td>
-                  <td>R10.00</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1 Jan</td>
+                  <td><a href="<?php echo parseUrl('index.php?option=com_otc&view=company&id=' .$company->id); ?>"><?php echo $company->name; ?></a></td>
+                  <td class="text-center"><?php echo $company->share_price; ?></td>
+                  <td class="text-center"><?php echo calcChange($company->share_price, $company->prev_price); ?></td>
+                  <td class="text-center"><?php echo calcPChange($company->share_price, $company->prev_price); ?></td>
+                  <td class="text-center"><?php echo getTime($company->ts, $company->last_updated); ?></td>
                 </tr>
+               <?php
+                 endforeach;
+               ?>
                 <tr>
-                  <td>Masters Tour</td>
-                  <td>R10.00</td>
-                  <td class="pos">+0.50</td>
-                  <td class="pos">0.52</td>
-                  <td>9:30</td>
-                </tr>
-                <tr>
-                  <td>TribalAff</td>
-                  <td>R5.00</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1 Jan</td>
-                </tr>
-                <tr>
-                  <td colspan="5" class="listings-header">MARKET OPEN</td>
+                  <td class="listings-header"><?php echo marketStatus(); ?></td>
+                  <td colspan="4"><small>* Market open times: 09:00 to 17:00  Weekdays, Excluding Public Holidays</small></td>
                 </tr>
               </tbody>
             </table>
+            <p></p>
   </div>
   
   <div class="span6">
