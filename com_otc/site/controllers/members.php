@@ -175,10 +175,45 @@ class OtcControllerMembers extends JController
     }
     
     
+    public function createJoomlaUser() {
+        $application =& JFactory::getApplication();
+        
+        $user = array();
+        $user['fullname'] = JRequest::getVar('fullname', '', 'post', 'string');
+        $user['email'] = JRequest::getVar('email', '', 'post', 'string');
+        $user['username'] = JRequest::getVar('username', '', 'post', 'string');
+        $password = JRequest::getVar('password', '', 'post', 'string');
+        
+        $password = $this->makeCrypt($password);
+		
+        $instance = JUser::getInstance();		
+        $config = JComponentHelper::getParams('com_users');
+        $defaultUserGroup = $config->get('new_usertype', 2);
+        $acl = JFactory::getACL();
+
+        $instance->set('id', null);
+        $instance->set('name', $user['fullname']);
+        $instance->set('username', $user['username']);
+        $instance->set('password', $password);
+        $instance->set('email', $user['email']);
+        $instance->set('usertype', 'deprecated');
+        $instance->set('groups', array($defaultUserGroup));
+		
+
+        if ($instance->save()) {      
+            $application->redirect('index.php?option=com_users&view=login', 'Account created, please login.');
+        }
+        else {   
+            $this->response(500, 'Error. Account not created.');	
+        }			
+    }
+    
+    
+    
     private function updateJoomlaUser() {
         $id = JRequest::getVar('userid', '', 'post', 'int');
-	    $fullname = JRequest::getVar('name', '', 'post', 'string');
-		$email = JRequest::getVar('email', '', 'post', 'string');
+        $fullname = JRequest::getVar('name', '', 'post', 'string');
+        $email = JRequest::getVar('email', '', 'post', 'string');
         
         $user =& JFactory::getUser($id);
         
@@ -189,7 +224,7 @@ class OtcControllerMembers extends JController
             }
             
             if ($fullname != $user->name) {
-               $user->set('name', $fullname);
+                $user->set('name', $fullname);
             }
         
             if (!$user->save()) {
