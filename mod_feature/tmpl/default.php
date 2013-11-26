@@ -10,7 +10,7 @@ $user =& JFactory::getUser();
         $hours = $today['hours'];
         $day = $today['wday'];
         
-        if ($hours > 17 || $hours < 9) {
+        if ($hours >= 17 || $hours < 9) {
             $status = "MARKET CLOSED";   
         } 
         

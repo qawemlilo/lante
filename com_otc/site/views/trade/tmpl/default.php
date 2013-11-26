@@ -192,7 +192,14 @@ $document->addStyleDeclaration($style);
           <tr>
             <td>
               <form class="pdetails" name="sellsharesform" id="sellsharesform" action="index.php?option=com_otc&task=tradesell.sellshares" method="post" >
-                
+              
+                <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
+                  <label class="control-label" for="name" style="width:180px;">Number of shares</label>
+                  <div class="controls">
+                    <strong>0</strong>
+                  </div>
+                </div>
+                                
                 <?php echo JHtml::_('form.token'); ?>
                 <input type="hidden" name="memberid" value="<?php echo $this->member->id; ?>" />
                 <input type="hidden" name="userid" value="<?php echo $this->member->userid; ?>" />
