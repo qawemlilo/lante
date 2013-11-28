@@ -36,6 +36,21 @@ $user =& JFactory::getUser();
     }
     
     
+    function myFormat($price) {
+        $total = (int)$price;
+        $formatted = $total;
+
+        if ($total > 0) {
+           $formatted = '<span style="color:green">'.$total.'</span>';
+        }
+        if ($total < 0) {
+           $formatted = '<span style="color:red">'.$total.'</span>';
+        }
+        
+        return $formatted;
+    }
+    
+    
     function calcChange($current, $prev) {
         $change = 0;
         $current = (int)$current;
@@ -204,43 +219,38 @@ $user =& JFactory::getUser();
                 </tr>
                 <tr>
                   <td>Price (c)</td>
-                  <td>325</td>
-                  <td>350</td>
+                  <td><?php echo myFormat($summary->price["today"]); ?></td>
+                  <td><?php echo myFormat($summary->price["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Movement (c)</td>
-                  <td class="neg">-25</td>
-                  <td class="pos">+2</td>
-                </tr>
-                <tr>
-                  <td>Movement (c)</td>
-                  <td class="neg">-7.14%</td>
-                  <td class="pos">+0.3%</td>
+                  <td><?php echo myFormat($summary->movement["today"]); ?></td>
+                  <td><?php echo myFormat($summary->price["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Volume</td>
-                  <td class="neg">-7.14%</td>
-                  <td class="pos">+0.3%</td>
+                  <td><?php echo myFormat($summary->volume["today"]); ?></td>
+                  <td><?php echo myFormat($summary->volume["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Value</td>
-                  <td>R603,915.00</td>
-                  <td>R831,491.00</td>
+                  <td><?php echo myFormat($summary->value["today"]); ?></td>
+                  <td><?php echo myFormat($summary->value["prev"]); ?></td>
                 </tr>                
                 <tr>
                   <td>No. of Trades</td>
-                  <td>63</td>
-                  <td>59</td>
+                  <td><?php echo myFormat($summary->num_trades["today"]); ?></td>
+                  <td><?php echo myFormat($summary->num_trades["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Low Price (c)</td>
-                  <td >4323</td>
-                  <td >325</td>
+                  <td ><?php echo myFormat($summary->lowest_price["today"]); ?></td>
+                  <td ><?php echo myFormat($summary->lowest_price["prev"]); ?></td>
                 </tr>      
                 <tr>
                   <td>High Price (c)</td>
-                  <td>4360</td>
-                  <td>350</td>
+                  <td><?php echo myFormat($summary->highest_price["today"]); ?></td>
+                  <td><?php echo myFormat($summary->highest_price["prev"]); ?></td>
                 </tr>  
               </tbody>
             </table>
