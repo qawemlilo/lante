@@ -22,6 +22,7 @@ class OtcViewCompany extends JView
         $this->sellbids = $this->get('BidsToSell');
         $this->buybids = $this->get('BidsTobuy');
         $this->trades = $this->get('LastTrades');
+        $this->summary = $this->get('getSummary');
         
         parent::display($tpl);
     }
@@ -62,7 +63,6 @@ class OtcViewCompany extends JView
     
     
     
-    
     function parseDate($date) {
         $mydate = new DateTime($date);
         $dateString = $mydate->format("d,M,Y");
@@ -75,5 +75,20 @@ class OtcViewCompany extends JView
         $dob->year = $dateArr[2];
         
         return $dob;
+    }
+    
+    
+    function myFormat($price) {
+        $total = (int)$price;
+        $formatted = $total;
+
+        if ($total > 0) {
+           $formatted = '<span style="color:green">'.$total.'</span>';
+        }
+        if ($total < 0) {
+           $formatted = '<span style="color:red">'.$total.'</span>';
+        }
+        
+        return $formatted;
     }
 }

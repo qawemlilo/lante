@@ -107,11 +107,54 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>
-              Share Price
+            <th colspan="3">
+              Market Info
             </th>
           </tr>
-        </thead>      
+        </thead>
+        
+        <tbody>
+          <tr>
+            <td class="listings-header">&nbsp;</td>
+            <td class="listings-header">Today</td>
+            <td class="listings-header">Previous close</td>
+          </tr>
+          <tr>
+            <td>Price (c)</td>
+            <td><?php echo $this->myFormat($this->summary->price["today"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
+          </tr>
+          <tr>
+            <td>Movement (c)</td>
+            <td><?php echo $this->myFormat($this->summary->movement["today"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
+          </tr>
+          <tr>
+            <td>Volume</td>
+            <td><?php echo $this->myFormat($this->summary->volume["today"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->volume["prev"]); ?></td>
+          </tr>
+          <tr>
+            <td>Value</td>
+            <td><?php echo $this->myFormat($this->summary->value["today"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->value["prev"]); ?></td>
+          </tr>                
+          <tr>
+            <td>No. of Trades</td>
+            <td><?php echo $this->myFormat($this->summary->num_trades["today"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->num_trades["prev"]); ?></td>
+          </tr>
+          <tr>
+            <td>Low Price (c)</td>
+            <td ><?php echo $this->myFormat($this->summary->lowest_price["today"]); ?></td>
+            <td ><?php echo $this->myFormat($this->summary->lowest_price["prev"]); ?></td>
+          </tr>      
+          <tr>
+            <td>High Price (c)</td>
+            <td><?php echo $this->myFormat($this->summary->highest_price["today"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->highest_price["prev"]); ?></td>
+          </tr>  
+        </tbody>        
       </table>
     </div>
     
@@ -151,18 +194,6 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
   <br>
   
   <div class="row-fluid">
-    <div class="span6">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>
-              Market Info
-            </th>
-          </tr>
-        </thead>      
-      </table>
-    </div>
-    
     <div class="span6">
       <table class="table table-bordered">
         <thead>

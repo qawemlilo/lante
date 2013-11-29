@@ -18,7 +18,7 @@ class ModfeatureHelper
     
     public function statsForToday() {
         $db =& JFactory::getDBO();
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.num_shares) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
+        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
         $query .= "WHERE DATE(ts) = CURDATE()";
               
@@ -30,7 +30,7 @@ class ModfeatureHelper
     
     public function statsForYesterday() {
         $db =& JFactory::getDBO();
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.num_shares) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
+        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
         $query .= "WHERE DATE(ts) = CURDATE()-1";
               
@@ -44,7 +44,7 @@ class ModfeatureHelper
     
     public function statsForBeforeYesterday() {
         $db =& JFactory::getDBO();
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.num_shares) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
+        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
         $query .= "WHERE DATE(ts) = CURDATE()-1";
               
