@@ -208,7 +208,8 @@ class OtcModelTrade extends JModelItem {
         $id = JRequest::getVar('id', 0, 'get', 'int');
         
         $query = "SELECT company.id, company.name, company.share_price ";
-        $query .= "FROM #__otc_companies AS company";
+        $query .= "FROM #__otc_companies AS company ";
+        $query .= "ORDER BY company.name ASC";
               
         $db->setQuery($query);
         $result = $db->loadObjectList();

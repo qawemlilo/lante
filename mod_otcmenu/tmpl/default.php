@@ -5,7 +5,7 @@ $view = JRequest::getVar('view');
 
 <ul class="nav nav-pills pull-right" style="margin-top: 10px; margin-right: 10px">
    <li <?php if ($view == 'featured') echo 'class="active"'; ?>><a href="<?php echo JURI::base(); ?>">Home</a></li>
-   <li <?php if ($view == 'listedcompanies') echo 'class="active"'; ?>><a href="<?php echo JRoute::_('index.php?option=com_otc&view=listedcompanies'); ?>">All Listed Companies</a></li>
+   <li <?php if ($view == 'listedcompanies') echo 'class="active"'; ?>><a href="<?php echo JRoute::_('index.php?option=com_otc&view=listedcompanies'); ?>">All Registered Companies</a></li>
    <li <?php if ($view == 'trade') echo 'class="active"'; ?>><a href="<?php echo JRoute::_('index.php?option=com_otc&view=trade'); ?>">Buy / Sell Shares</a></li>
    <li <?php if ($view == 'profile') echo 'class="active"'; ?>><a href="<?php echo JRoute::_('index.php?option=com_otc&view=profile'); ?>">My Profile</a></li>
    <li>

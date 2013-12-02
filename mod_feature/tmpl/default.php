@@ -171,25 +171,25 @@ $user =& JFactory::getUser();
     <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" autocomplete="off" id="custom-reg-form" class="well" action="/index.php/component/users/?task=registration.register" method="post">
     <h1 style="color: #fd7800; font-size: 2em;">Register for FREE as an INVESTOR</h1>
     <div class="controls controls-row">
-        <input type="text" placeholder="Full Name" id="jform_name" name="jform[name]" class="span3">
+        <input type="text" placeholder="Full Name" id="jform_name" name="jform[name]" class="span3" required="" />
         <input type="text" placeholder="Username" class="span2" id="jform_username" name="jform[username]">
     </div>
             
     <div class="controls">
-        <input type="text" placeholder="Email Address"  name="jform[email1]" id="jform_email1" class="span5">
+        <input type="email" pattern="[^ @]*@[^ @]*" placeholder="Email Address"  name="jform[email1]" id="jform_email1" class="span5" required="" >
     </div>
 
     <div class="controls">
-        <input type="text" placeholder="Re-enter Email Address" class="span5" id="jform_email2" name="jform[email2]">
+        <input type="text" placeholder="Re-enter Email Address" class="span5" id="jform_email2" name="jform[email2]" required="" >
     </div>
             
     <div class="controls">
-        <input type="password" placeholder="Password" class="span5" autocomplete="off" value="" id="jform_password1" name="jform[password1]">
+        <input type="password" placeholder="Password" class="span5" autocomplete="off" value="" id="jform_password1" name="jform[password1]" required="">
         <input type="text" class="span5" autocomplete="off" value="Password" id="fake_password1" style="display:none">
     </div>
             
     <div class="controls">
-        <input type="password" placeholder="Re-enter Password" class="span5" autocomplete="off" value="" id="jform_password2" name="jform[password2]">
+        <input type="password" placeholder="Re-enter Password" class="span5" autocomplete="off" value="" id="jform_password2" name="jform[password2]" required="">
         <input type="text" class="span5" autocomplete="off" value="Re-enter Password" id="fake_password2" style="display:none">
     </div>
     

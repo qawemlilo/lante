@@ -22,7 +22,8 @@ class OtcViewCompany extends JView
         $this->sellbids = $this->get('BidsToSell');
         $this->buybids = $this->get('BidsTobuy');
         $this->trades = $this->get('LastTrades');
-        $this->summary = $this->get('getSummary');
+        $this->summary = $this->get('Summary');
+        $this->stats = $this->get('BigStats');
         
         parent::display($tpl);
     }

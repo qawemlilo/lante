@@ -79,9 +79,8 @@ class OtcModelCompany extends JModelItem
     }
     
     
-    private function statsForToday() {
+    private function statsForToday($companyid) {
         $db =& JFactory::getDBO();
-        $companyid = JRequest::getVar('id', 0, 'get', 'int');
         
         $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
@@ -94,9 +93,9 @@ class OtcModelCompany extends JModelItem
         return $result;       
     }
     
-    private function statsForYesterday() {
+    private function statsForYesterday($companyid) {
         $db =& JFactory::getDBO();
-        $companyid = JRequest::getVar('id', 0, 'get', 'int');
+        
         
         $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
@@ -106,8 +105,20 @@ class OtcModelCompany extends JModelItem
         $db->setQuery($query);
         $result = $db->loadObject();
         
-        print_r($result);
-        exit();
+        return $result;       
+    }
+    
+    public function getBigStats() {
+        $db =& JFactory::getDBO();
+        $companyid = JRequest::getVar('id', 0, 'get', 'int');
+        
+        $query = "SELECT SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price ";
+        $query .= "FROM #__otc_processed_sales AS sales ";
+        $query .= "INNER JOIN #__otc_sell_transactions AS sold ON (sold.id=sales.sell_tr_id) ";
+        $query .= "WHERE DATE(sales.ts) > DATE_SUB(CURDATE(), INTERVAL 12 MONTH) AND sold.companyid = $companyid";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
         
         return $result;       
     }
@@ -115,8 +126,10 @@ class OtcModelCompany extends JModelItem
     
     
     public function getSummary() {
-        $today = $this->statsForToday();
-        $yesterday = $this->statsForYesterday();
+        $companyid = JRequest::getVar('id', 0, 'get', 'int');
+        
+        $today = $this->statsForToday($companyid);
+        $yesterday = $this->statsForYesterday($companyid);
 
         $summary = new stdClass();
         

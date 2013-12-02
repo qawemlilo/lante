@@ -194,9 +194,9 @@ $document->addStyleDeclaration($style);
               <form class="pdetails" name="sellsharesform" id="sellsharesform" action="index.php?option=com_otc&task=tradesell.sellshares" method="post" >
               
                 <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
-                  <label class="control-label" for="name" style="width:180px;">Number of shares</label>
+                  <label class="control-label" for="name" style="width:180px;">&nbsp;</label>
                   <div class="controls">
-                    <strong>0</strong>
+                    <strong>&nbsp;</strong>
                   </div>
                 </div>
                                 

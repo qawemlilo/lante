@@ -232,14 +232,14 @@ $document->addStyleDeclaration($style);
                 <div class="control-group">
                   <label class="control-label" for="postal_address">Postal Add:</label>
                   <div class="controls">
-                     <textarea readonly="readonly" rows="3" required="" class="input-large"><?php echo $this->member->postal_address; ?></textarea>
+                     <textarea name="postal_address" rows="3" required="" class="input-large"><?php echo $this->member->postal_address; ?></textarea>
                   </div>
                 </div>
                 
                 <div class="control-group">
                   <label class="control-label" for="postal_code">Postal Code:</label>
                   <div class="controls">
-                     <input readonly="readonly" value="<?php if($this->member->postal_code) echo $this->member->postal_code; ?>" class="input-large" type="text">
+                     <input name="postal_code" value="<?php if($this->member->postal_code) echo $this->member->postal_code; ?>" class="input-large" type="text">
                   </div>
                 </div>
                 

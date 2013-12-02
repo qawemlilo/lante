@@ -26,6 +26,10 @@ class OtcControllerTradesell extends JController {
             $application->redirect('index.php', 'You are not authorized to view that page');
         }
         
+        if(!$this->marketOpen()) {
+            $application->redirect($refer, 'Markets are currently closed', 'error');
+        }
+        
         $transaction = $this->getClientForm('selling'); 
 
         if (!$this->isPositiveNum($transaction['selling_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['selling_price'], $transaction['share_price'])) {
@@ -450,5 +454,24 @@ class OtcControllerTradesell extends JController {
         $msg .= "LanteOTC admin";
         
         JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
+    }
+    
+    
+    private function marketOpen() {
+        $today = getdate();
+        $status = true;
+        
+        $hours = $today['hours'];
+        $day = $today['wday'];
+        
+        if ($hours >= 17 || $hours < 9) {
+            $status = false;   
+        } 
+        
+        if ($day === 6 || $day === 0) {
+            $status = false;   
+        }
+        
+        return $status;       
     }
 }

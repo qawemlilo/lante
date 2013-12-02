@@ -156,6 +156,26 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           </tr>  
         </tbody>        
       </table>
+      
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="2">
+              Market Stats
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12 Month Low Price (c)</td>
+            <td><?php echo $this->stats->lowest_price; ?></td>
+          </tr>
+          <tr>
+            <td>12 Month High Price (c)</td>
+            <td><?php echo $this->stats->highest_price; ?></td>
+          </tr>  
+        </tbody>           
+      </table>
     </div>
     
     <div class="span6">
@@ -187,22 +207,6 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
         endforeach;
        ?>
        </tbody>       
-      </table>
-    </div>
-  </div>
-  
-  <br>
-  
-  <div class="row-fluid">
-    <div class="span6">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>
-              Market Stats
-            </th>
-          </tr>
-        </thead>      
       </table>
     </div>
   </div>

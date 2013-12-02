@@ -154,6 +154,8 @@ class OtcControllerMembers extends JController
         $member['contact_method'] = JRequest::getVar('contact_method', '', 'post', 'string');
         $member['cell_number'] = JRequest::getVar('cell_number', 0, 'post', 'int');
         $member['work_number'] = JRequest::getVar('work_number', 0, 'post', 'int');
+        $member['postal_address'] = JRequest::getVar('postal_address', '', 'post', 'string');
+        $member['postal_code'] = JRequest::getVar('postal_code', 0, 'post', 'int');
         
         if ($email != $user->email) {
             $user->set('email', $email);
@@ -368,7 +370,7 @@ class OtcControllerMembers extends JController
         $msg = "Dear $name \n\n";
         $msg .= "Your Shareholder number for the LanteOTC Share Trading Website has been created. \n";
         $msg .= "Your LanteOTC Shareholder number is: $accnumber \n\n";
-        $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
+        $msg .= "Should you have any questions, please do not hesitate to contact us on info@lanteotc.co.za \n\n\n";
 
         $msg .= "Yours sincerely \n";
         $msg .= "LanteOTC";
