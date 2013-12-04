@@ -33,8 +33,8 @@ class OtcModelCompany extends JModelItem
         $query = "SELECT transaction.id, transaction.num_shares, transaction.selling_price ";
         $query .= "FROM #__otc_sell_transactions AS transaction ";
         $query .= "WHERE transaction.companyid = $companyid AND transaction.num_shares > 0 ";
-        //$query .= "AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
-        $query .= "ORDER BY selling_price ASC, expiry_date DESC LIMIT 5";
+        $query .= "AND transaction.pending = 1 AND DATE(transaction.expiry_date) >= CURDATE() ";
+        $query .= "ORDER BY transaction.selling_price ASC, transaction.expiry_date DESC LIMIT 5";
               
         $db->setQuery($query);
         $result = $db->loadObjectList();
@@ -51,8 +51,8 @@ class OtcModelCompany extends JModelItem
         $query = "SELECT transaction.id, transaction.num_shares, transaction.bidding_price ";
         $query .= "FROM #__otc_buy_transactions AS transaction ";
         $query .= "WHERE transaction.companyid = $companyid AND transaction.num_shares > 0 ";
-        //$query .= "AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
-        $query .= "ORDER BY bidding_price DESC, expiry_date DESC LIMIT 5";
+        $query .= "AND transaction.pending = 1 AND transaction.expiry_date >= CURDATE() ";
+        $query .= "ORDER BY transaction.bidding_price DESC, transaction.expiry_date DESC LIMIT 5";
               
         $db->setQuery($query);
         $result = $db->loadObjectList();
@@ -67,9 +67,9 @@ class OtcModelCompany extends JModelItem
         $companyid = JRequest::getVar('id', 0, 'get', 'int');
         
         $query = "SELECT transaction.id, transaction.num_shares, transaction.share_price, transaction.ts ";
-        $query .= "FROM #__otc_processed_sales AS transaction ";
-        $query .= "INNER JOIN #__otc_sell_transactions AS sell ON (transaction.sell_tr_id = sell.companyid) ";
-        $query .= "WHERE sell.companyid = $companyid ";
+        $query .= "FROM #__otc_buy_transactions AS buy ";
+        $query .= "INNER JOIN #__otc_processed_sales AS transaction ON buy.id = transaction.buy_tr_id ";
+        $query .= "WHERE buy.companyid = $companyid ";
         $query .= "ORDER BY ts DESC LIMIT 10";
               
         $db->setQuery($query);
