@@ -138,8 +138,8 @@ $user =& JFactory::getUser();
                 <tr>
                   <td class="listings-header">Company</td>
                   <td class="listings-header">Last</td>
-                  <td class="listings-header">CHG</td>
-                  <td class="listings-header">%CHG</td>
+                  <td class="listings-header">Change</td>
+                  <td class="listings-header">%Change</td>
                   <td class="listings-header">Time</td>
                 </tr>
                 <?php

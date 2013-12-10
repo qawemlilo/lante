@@ -42,8 +42,8 @@ $document->addStyleDeclaration('table .text-center {text-align: center}');
       <tr>
         <th>Companies</th>
         <th class="text-center">Last(c)</th>
-        <th class="text-center">CHG</th>
-        <th class="text-center">%CHG</th>
+        <th class="text-center">Change</th>
+        <th class="text-center">%Change</th>
         <th class="text-center">Time</th>
       </tr>
     </thead>

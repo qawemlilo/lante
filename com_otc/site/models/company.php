@@ -108,6 +108,21 @@ class OtcModelCompany extends JModelItem
         return $result;       
     }
     
+    private function statsForDB4Yesterday($companyid) {
+        $db =& JFactory::getDBO();
+        
+        
+        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
+        $query .= "FROM #__otc_processed_sales AS sales ";
+        $query .= "INNER JOIN #__otc_sell_transactions AS sold ON (sold.id=sales.sell_tr_id) ";
+        $query .= "WHERE DATE(sales.ts) = CURDATE()-2 AND sold.companyid = $companyid";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
+        
+        return $result;       
+    }
+    
     public function getBigStats() {
         $db =& JFactory::getDBO();
         $companyid = JRequest::getVar('id', 0, 'get', 'int');
@@ -130,6 +145,7 @@ class OtcModelCompany extends JModelItem
         
         $today = $this->statsForToday($companyid);
         $yesterday = $this->statsForYesterday($companyid);
+        $beforeyesterday = $this->statsForDB4Yesterday($companyid);
 
         $summary = new stdClass();
         

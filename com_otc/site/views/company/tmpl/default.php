@@ -125,14 +125,14 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
             <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
           </tr>
           <tr>
-            <td>Movement (c)</td>
+            <td>Change (c)</td>
             <td><?php echo $this->myFormat($this->summary->movement["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->movement["prev"]); ?></td>
           </tr>
           <tr>
-            <td>Volume</td>
-            <td><?php echo $this->myFormat($this->summary->volume["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->volume["prev"]); ?></td>
+            <td>Change %</td>
+            <td><?php if($this->summary->movement["today"] && $this->summary->price["today"]) echo $this->myFormat(($this->summary->movement["today"] / $this->summary->price["today"]) * 100); else echo '0'; ?>%</td>
+            <td><?php if($this->summary->movement["prev"] && $this->summary->price["prev"]) echo $this->myFormat(($this->summary->movement["prev"] / $this->summary->price["prev"]) * 100); else echo '0'; ?>%</td>
           </tr>
           <tr>
             <td>Value</td>
@@ -173,7 +173,15 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           <tr>
             <td>12 Month High Price (c)</td>
             <td><?php echo $this->stats->highest_price; ?></td>
-          </tr>  
+          </tr> 
+          <tr>
+            <td>Shares in Issue</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Market Cap</td>
+            <td>0</td>
+          </tr>           
         </tbody>           
       </table>
     </div>
