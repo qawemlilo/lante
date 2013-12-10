@@ -108,6 +108,22 @@ class OtcModelCompany extends JModelItem
         return $result;       
     }
     
+    
+    
+    public function getMktCap($id) {
+        $db =& JFactory::getDBO();
+                
+        $query = "SELECT company.share_price, company.og_shares ";
+        $query .= "FROM #__otc_companies AS company ";
+        $query .= "WHERE company.id = $id";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
+        
+        return $result;    
+    }
+    
+    
     private function statsForDB4Yesterday($companyid) {
         $db =& JFactory::getDBO();
         
@@ -143,12 +159,15 @@ class OtcModelCompany extends JModelItem
     public function getSummary() {
         $companyid = JRequest::getVar('id', 0, 'get', 'int');
         
+        $company = $this->getMktCap($companyid);
         $today = $this->statsForToday($companyid);
         $yesterday = $this->statsForYesterday($companyid);
         $beforeyesterday = $this->statsForDB4Yesterday($companyid);
 
         $summary = new stdClass();
         
+        $summary->share_price = $company->share_price;
+        $summary->shares_in_issue = $company->og_shares; 
         $summary->price = array("today"=>$today->share_price,"prev"=>$yesterday->share_price);
         $summary->movement = array("today"=>($today->share_price - $yesterday->share_price),"prev"=>($yesterday->share_price - $beforeyesterday->share_price));
         $summary->volume = array("today"=>$today->volume,"prev"=>$yesterday->volume);

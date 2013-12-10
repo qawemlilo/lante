@@ -41,6 +41,7 @@ class OtcControllerCompanies extends JController
         $company['company_email'] = JRequest::getVar('company_email', '', 'post', 'string');
         $company['company_address'] = JRequest::getVar('company_address', '', 'post', 'string');
         $company['available_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
+        $company['og_shares'] = JRequest::getVar('available_shares', 0, 'post', 'int');
         $logo = JRequest::getVar('logo', null, 'files', 'array');
         
         if ($filename = $this->upload($logo)) {

@@ -121,8 +121,8 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           </tr>
           <tr>
             <td>Price (c)</td>
-            <td><?php echo $this->myFormat($this->summary->price["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
+            <td><?php echo $this->myFormat($this->summary->share_price); ?></td>
+            <td><?php if ($this->summary->price["prev"]) echo $this->myFormat($this->summary->price["prev"]); else echo $this->myFormat($this->summary->share_price); ?></td>
           </tr>
           <tr>
             <td>Change (c)</td>
@@ -176,11 +176,11 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           </tr> 
           <tr>
             <td>Shares in Issue</td>
-            <td>0</td>
+            <td><?php echo $this->summary->shares_in_issue; ?></td>
           </tr>
           <tr>
             <td>Market Cap</td>
-            <td>0</td>
+            <td><?php echo $this->centsToRands($this->summary->shares_in_issue * share_price); ?></td>
           </tr>           
         </tbody>           
       </table>
