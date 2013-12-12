@@ -29,6 +29,11 @@ class OtcControllerTradebuy extends JController {
         }
         
         $transaction = $this->getClientForm('buying');
+        
+        // check investment charge
+        if(($transaction['bidding_price'] * $transaction['num_shares']) < $this->randsToCents(500)) {
+            $application->redirect($refer, 'Please note that the minimum Total investment should Not be less than R500', 'error');
+        }
 
         if (!$this->isPositiveNum($transaction['bidding_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['bidding_price'], $transaction['share_price'])) {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
@@ -225,7 +230,7 @@ class OtcControllerTradebuy extends JController {
         if ($type == 'selling') {
             $transaction['selling_price'] = $price;
             
-            $transaction_fee = $transaction_fee = $this->calcTransactionFee($price * $num_shares);
+            $transaction_fee = $this->calcTransactionFee($price * $num_shares);
             $security_tax = 0;
         }
         elseif($type == 'buying') {

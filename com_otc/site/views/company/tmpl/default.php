@@ -180,7 +180,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           </tr>
           <tr>
             <td>Market Cap</td>
-            <td><?php echo $this->centsToRands($this->summary->shares_in_issue * share_price); ?></td>
+            <td>R<?php echo $this->centsToRands($this->summary->shares_in_issue * $this->summary->share_price); ?></td>
           </tr>           
         </tbody>           
       </table>
