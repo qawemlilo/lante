@@ -49,7 +49,7 @@ class OtcControllerMembers extends JController
         $member['branch_code'] = JRequest::getVar('branch_code', 0, 'post', 'int');
         
         if ($accountid = $model->addMember($member)) {
-            $this->sendMail($name.' '.$member['surname'], $email, $accountid);
+            $this->sendMail("$member['title'] $name $member['surname']", $email, $accountid);
             $application->redirect($refer, 'New member created!', 'success'); 
         }
         else { 

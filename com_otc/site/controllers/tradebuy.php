@@ -423,7 +423,8 @@ class OtcControllerTradebuy extends JController {
         $user =& JFactory::getUser($id);
         
         $subject = "Match found";
-
+        
+        $msg = "Dear $user->name \n\n";
         $msg .= "$matchedshares of the total $totalonsale $companyname shares of your $ordertype Order (Ref No: {$orderno}) \n\n";
 
         $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
