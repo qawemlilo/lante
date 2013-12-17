@@ -38,6 +38,7 @@ $style = '
 ';
 $document->addStyleSheet(JURI::base() . 'components/com_otc/assets/js/libs/jquery-ui/css/ui-lightness/jquery-ui-1.10.3.custom.min.css');
 $document->addStyleDeclaration($style);
+$document->addScript(JURI::base() . 'components/com_otc/assets/js/accounting.min.js');
 ?>
 
 <div style="width:98%;">

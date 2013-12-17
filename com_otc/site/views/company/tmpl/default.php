@@ -74,7 +74,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
         <thead>
           <tr>
             <th colspan="3">
-              Top 5 bids to sell
+              Top 5 offers to sell
             </th>
           </tr>
            <tr>
