@@ -32,7 +32,7 @@ class OtcControllerTradesell extends JController {
         
         $transaction = $this->getClientForm('selling'); 
 
-        if (!$this->isPositiveNum($transaction['selling_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['selling_price'], $transaction['share_price'])) {
+        if (!$this->isPositiveNum($transaction['selling_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['share_price'], $transaction['selling_price'])) {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
         else {
@@ -335,8 +335,8 @@ class OtcControllerTradesell extends JController {
             $price = (int)$price;
             
             $diff = $shareprice * 0.15;
-            $max = $shareprice + $diff;
-            $min = $shareprice - $diff;
+            $max = $shareprice + floor($diff);
+            $min = $shareprice - ceil($diff);
             
             if ($price > $max || $price < $min) {
                 $result = false;  
@@ -432,9 +432,9 @@ class OtcControllerTradesell extends JController {
         $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
 
         $msg .= "Yours sincerely \n";
-        $msg .= "LanteOTC admin";
+        $msg .= "LanteOTC";
         
-        JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
+        JUtility::sendMail('info@lanteotc.co.za', 'LanteOTC', $user->email, $subject, $msg);
     }
     
     
@@ -448,12 +448,12 @@ class OtcControllerTradesell extends JController {
 
         $msg .= "$matchedshares of the total $totalonsale $companyname shares of your $ordertype Order (Ref No: {$orderno}) \n\n";
 
-        $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
+        $msg .= "Should you have any questions, please do not hesitate to contact us on info@lanteotc.co.za \n\n\n";
 
         $msg .= "Yours sincerely \n";
-        $msg .= "LanteOTC admin";
+        $msg .= "LanteOTC";
         
-        JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
+        JUtility::sendMail('info@lanteotc.co.za', 'LanteOTC', $user->email, $subject, $msg);
     }
     
     

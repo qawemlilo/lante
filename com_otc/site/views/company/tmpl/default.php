@@ -122,15 +122,15 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           <tr>
             <td>Price (c)</td>
             <td><?php echo $this->myFormat($this->summary->share_price); ?></td>
-            <td><?php if ($this->summary->price["prev"]) echo $this->myFormat($this->summary->price["prev"]); else echo $this->myFormat($this->summary->share_price); ?></td>
+            <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
           </tr>
           <tr>
-            <td>Change (c)</td>
+            <td>Movement (c)</td>
             <td><?php echo $this->myFormat($this->summary->movement["today"]); ?></td>
             <td><?php echo $this->myFormat($this->summary->movement["prev"]); ?></td>
           </tr>
           <tr>
-            <td>Change %</td>
+            <td>Movement %</td>
             <td><?php if($this->summary->movement["today"] && $this->summary->price["today"]) echo $this->myFormat(($this->summary->movement["today"] / $this->summary->price["today"]) * 100); else echo '0'; ?>%</td>
             <td><?php if($this->summary->movement["prev"] && $this->summary->price["prev"]) echo $this->myFormat(($this->summary->movement["prev"] / $this->summary->price["prev"]) * 100); else echo '0'; ?>%</td>
           </tr>

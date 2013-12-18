@@ -35,7 +35,7 @@ class OtcControllerTradebuy extends JController {
             $application->redirect($refer, 'Please note that the minimum Total investment should Not be less than R500', 'error');
         }
 
-        if (!$this->isPositiveNum($transaction['bidding_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['bidding_price'], $transaction['share_price'])) {
+        if (!$this->isPositiveNum($transaction['bidding_price']) || !$this->isPositiveNum($transaction['num_shares']) || !$this->isValidPrice($transaction['share_price'], $transaction['bidding_price'])) {
             $application->redirect($refer, 'Error! Your input contains some invalid values!', 'error');
         }
         else {
@@ -312,8 +312,8 @@ class OtcControllerTradebuy extends JController {
             $price = (int)$price;
             
             $diff = $shareprice * 0.15;
-            $max = $shareprice + $diff;
-            $min = $shareprice - $diff;
+            $max = $shareprice + floor($diff);
+            $min = $shareprice - ceil($diff);
             
             if ($price > $max || $price < $min) {
                 $result = false;  
@@ -410,9 +410,9 @@ class OtcControllerTradebuy extends JController {
         $msg .= "Order Ref No: $buyid \n \n \n";
 
         $msg .= "Yours sincerely \n";
-        $msg .= "LanteOTC admin";
+        $msg .= "LanteOTC";
         
-        JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
+        JUtility::sendMail('info@lanteotc.co.za', 'LanteOTC', $user->email, $subject, $msg);
     }
     
     
@@ -430,9 +430,9 @@ class OtcControllerTradebuy extends JController {
         $msg .= "Should you have any questions, please o not hesitate to contact us on info@lanteotc.co.za \n\n\n";
 
         $msg .= "Yours sincerely \n";
-        $msg .= "LanteOTC admin";
+        $msg .= "LanteOTC";
         
-        JUtility::sendMail('info@lanteotc.co.za', 'Admin', $user->email, $subject, $msg);
+        JUtility::sendMail('info@lanteotc.co.za', 'LanteOTC', $user->email, $subject, $msg);
     }
     
     
