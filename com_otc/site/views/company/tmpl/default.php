@@ -116,43 +116,45 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
         <tbody>
           <tr>
             <td class="listings-header">&nbsp;</td>
-            <td class="listings-header">Today</td>
-            <td class="listings-header">Previous close</td>
+            <td class="listings-header"><strong>Today</strong></td>
+            <td class="listings-header"><strong>Previous close</strong></td>
           </tr>
           <tr>
             <td>Price (c)</td>
-            <td><?php echo $this->myFormat($this->summary->share_price); ?></td>
-            <td><?php echo $this->myFormat($this->summary->price["prev"]); ?></td>
+            <td><?php echo $this->summary->price["today"]; ?></td>
+            <td><?php if ($this->summary->price["prev"]) echo $this->summary->price["prev"]; else echo '0'; ?></td>
           </tr>
           <tr>
             <td>Movement (c)</td>
-            <td><?php echo $this->myFormat($this->summary->movement["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->movement["prev"]); ?></td>
+            <?php $movememt = $this->summary->price["today"] - $this->summary->price["prev"]; ?>
+            <?php $movememt2 = $this->summary->price["prev"] - $this->summary->price["daybefore"]; ?>
+            <td><?php echo $this->myFormat($movememt); ?></td>
+            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat($movememt2); else echo '0'; ?></td>
           </tr>
           <tr>
             <td>Movement %</td>
-            <td><?php if($this->summary->movement["today"] && $this->summary->price["today"]) echo $this->myFormat(($this->summary->movement["today"] / $this->summary->price["today"]) * 100); else echo '0'; ?>%</td>
-            <td><?php if($this->summary->movement["prev"] && $this->summary->price["prev"]) echo $this->myFormat(($this->summary->movement["prev"] / $this->summary->price["prev"]) * 100); else echo '0'; ?>%</td>
+            <td><?php if($this->summary->price["today"] && $this->summary->price["prev"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["prev"] * 100), 2, '.', '')); else echo '0'; ?>%</td>
+            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["daybefore"]) * 100, 2, '.', '')); else echo '0'; ?>%</td>
           </tr>
           <tr>
             <td>Value</td>
-            <td><?php echo $this->myFormat($this->summary->value["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->value["prev"]); ?></td>
+            <td><?php if($this->summary->value["today"]) echo $this->summary->value["today"]; else echo '0'; ?></td>
+            <td><?php if($this->summary->value["prev"]) echo $this->summary->value["prev"]; else echo '0'; ?></td>
           </tr>                
           <tr>
             <td>No. of Trades</td>
-            <td><?php echo $this->myFormat($this->summary->num_trades["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->num_trades["prev"]); ?></td>
+            <td><?php if($this->summary->num_trades["today"]) echo $this->summary->num_trades["today"]; else echo '0'; ?></td>
+            <td><?php if($this->summary->num_trades["prev"]) echo $this->summary->num_trades["prev"]; else echo '0'; ?></td>
           </tr>
           <tr>
             <td>Low Price (c)</td>
-            <td ><?php echo $this->myFormat($this->summary->lowest_price["today"]); ?></td>
-            <td ><?php echo $this->myFormat($this->summary->lowest_price["prev"]); ?></td>
+            <td ><?php if($this->summary->lowest_price["today"]) echo $this->summary->lowest_price["today"]; else echo '0'; ?></td>
+            <td ><?php if($this->summary->lowest_price["prev"]) echo $this->summary->lowest_price["prev"]; else echo '0'; ?></td>
           </tr>      
           <tr>
             <td>High Price (c)</td>
-            <td><?php echo $this->myFormat($this->summary->highest_price["today"]); ?></td>
-            <td><?php echo $this->myFormat($this->summary->highest_price["prev"]); ?></td>
+            <td><?php if($this->summary->highest_price["today"]) echo $this->summary->highest_price["today"]; else echo '0'; ?></td>
+            <td><?php if($this->summary->highest_price["prev"]) echo $this->summary->highest_price["prev"]; else echo '0'; ?></td>
           </tr>  
         </tbody>        
       </table>
@@ -180,7 +182,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
           </tr>
           <tr>
             <td>Market Cap</td>
-            <td>R<?php echo $this->centsToRands($this->summary->shares_in_issue * $this->summary->share_price); ?></td>
+            <td>R<?php echo $this->centsToRands($this->summary->shares_in_issue * $this->summary->price["today"]); ?></td>
           </tr>           
         </tbody>           
       </table>

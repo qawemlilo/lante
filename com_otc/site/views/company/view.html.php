@@ -80,7 +80,7 @@ class OtcViewCompany extends JView
     
     
     function myFormat($price) {
-        $total = (int)$price;
+        $total = $price;
         $formatted = $total;
 
         if ($total > 0) {

@@ -11,11 +11,11 @@ $user =& JFactory::getUser();
         $day = $today['wday'];
         
         if ($hours >= 17 || $hours < 9) {
-            $status = "MARKET CLOSED";   
+            $status = '<span style="color:green">MARKET CLOSED</span>';   
         } 
         
         if ($day === 6 || $day === 0) {
-            $status = "MARKET CLOSED";   
+            $status = '<span style="color:green">MARKET CLOSED</span>'; 
         }
         
         return $status;
@@ -126,8 +126,7 @@ $user =& JFactory::getUser();
     </div>
     
     
-    <p style="color: #fd7800; margin-left: 10px;"><strong>LanteOTC is</strong> a market place that <strong>connects Investors with Small-Medium Businesses</strong> in South Africa. Our system is very Easy to use and is Free, register now.</p>
-
+    <p style="color: #fd7800; margin-left: 10px;"><strong>LanteOTC</strong> is a market place that <strong>connects Investors with Small-Medium Businesses</strong> in South Africa. LanteOTC is the most efficient method to Support small business. LanteOTC system is easy to use and free, sign-up now.</p>
   <table class="table table-striped listings" style="margin-left: 10px;">
               <thead>
                 <tr>
@@ -137,27 +136,27 @@ $user =& JFactory::getUser();
               <tbody>
                 <tr>
                   <td class="listings-header">Company</td>
-                  <td class="listings-header">Last</td>
-                  <td class="listings-header">Change</td>
-                  <td class="listings-header">%Change</td>
-                  <td class="listings-header">Time</td>
+                  <td class="listings-header" style="text-align:center">(c)Last</td>
+                  <td class="listings-header" style="text-align:center">Change</td>
+                  <td class="listings-header" style="text-align:center">%Change</td>
+                  <td class="listings-header" style="text-align:center">Time</td>
                 </tr>
                 <?php
                   foreach($companies as $company) :
                 ?>
                 <tr>
                   <td><a href="<?php echo parseUrl('index.php?option=com_otc&view=company&id=' .$company->id); ?>"><?php echo $company->name; ?></a></td>
-                  <td class="text-center"><?php echo $company->share_price; ?></td>
-                  <td class="text-center"><?php echo calcChange($company->share_price, $company->prev_price); ?></td>
-                  <td class="text-center"><?php echo calcPChange($company->share_price, $company->prev_price); ?></td>
-                  <td class="text-center"><?php echo getTime($company->ts, $company->last_updated); ?></td>
+                  <td class="text-center" style="text-align:center"><?php echo $company->share_price; ?></td>
+                  <td class="text-center" style="text-align:center"><?php echo calcChange($company->share_price, $company->prev_price); ?></td>
+                  <td class="text-center" style="text-align:center"><?php echo calcPChange($company->share_price, $company->prev_price); ?></td>
+                  <td class="text-center" style="text-align:center"><?php echo getTime($company->ts, $company->last_updated); ?></td>
                 </tr>
                <?php
                  endforeach;
                ?>
                 <tr>
                   <td class="listings-header"><?php echo marketStatus(); ?></td>
-                  <td colspan="4"><small>* Market open times: 09:00 to 17:00  Weekdays, Excluding Public Holidays</small></td>
+                  <td colspan="4"><small>* Market open times: 09:00 to 17:00  Weekdays, excluding holidays</small></td>
                 </tr>
               </tbody>
             </table>
@@ -169,7 +168,7 @@ $user =& JFactory::getUser();
     if ($user->guest) {
   ?>
     <form style="padding-left: 40px; background-color: #F0F0F0; margin-right: 10px;" autocomplete="off" id="custom-reg-form" class="well" action="/index.php/component/users/?task=registration.register" method="post">
-    <h1 style="color: #fd7800; font-size: 2em;">Register for FREE as an INVESTOR</h1>
+    <h1 style="color: #fd7800; font-size: 2em;">Sign-up for FREE as an INVESTOR</h1>
     <div class="controls controls-row">
         <input type="text" placeholder="Full Name" id="jform_name" name="jform[name]" class="span3" required="" />
         <input type="text" placeholder="Username" class="span2" id="jform_username" name="jform[username]">
@@ -214,43 +213,43 @@ $user =& JFactory::getUser();
               <tbody>
                 <tr>
                   <td class="listings-header">&nbsp;</td>
-                  <td class="listings-header">Today</td>
-                  <td class="listings-header">Previous close</td>
+                  <td class="listings-header" style="text-align:center">Today</td>
+                  <td class="listings-header" style="text-align:center">Previous close</td>
                 </tr>
                 <tr>
                   <td>Price (c)</td>
-                  <td><?php echo myFormat($summary->price["today"]); ?></td>
-                  <td><?php echo myFormat($summary->price["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->price["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->price["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Movement (c)</td>
-                  <td><?php echo myFormat($summary->movement["today"]); ?></td>
-                  <td><?php echo myFormat($summary->price["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->movement["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->price["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Volume</td>
-                  <td><?php echo myFormat($summary->volume["today"]); ?></td>
-                  <td><?php echo myFormat($summary->volume["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->volume["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->volume["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Value</td>
-                  <td><?php echo myFormat($summary->value["today"]); ?></td>
-                  <td><?php echo myFormat($summary->value["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->value["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->value["prev"]); ?></td>
                 </tr>                
                 <tr>
                   <td>No. of Trades</td>
-                  <td><?php echo myFormat($summary->num_trades["today"]); ?></td>
-                  <td><?php echo myFormat($summary->num_trades["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->num_trades["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->num_trades["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Low Price (c)</td>
-                  <td ><?php echo myFormat($summary->lowest_price["today"]); ?></td>
-                  <td ><?php echo myFormat($summary->lowest_price["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->lowest_price["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->lowest_price["prev"]); ?></td>
                 </tr>      
                 <tr>
                   <td>High Price (c)</td>
-                  <td><?php echo myFormat($summary->highest_price["today"]); ?></td>
-                  <td><?php echo myFormat($summary->highest_price["prev"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->highest_price["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->highest_price["prev"]); ?></td>
                 </tr>  
               </tbody>
             </table>
@@ -261,11 +260,13 @@ $user =& JFactory::getUser();
     <div style="color: #fd7800;">
       <p>You can use LanteOTC to:</p>
       <ul>
-        <li>Buy Shares from registered companies</li>
+        <li>Bring small businesses to life</li>
+        <li>Buy preference shares from small-medium businesses</li>
         <li>Sell your shares</li>
-        <li>View trading history of listed company</li>
-        <li>View company information</li>
-        <li>Register or update your details as an investor</li>
+        <li>Create jobs and stimulate economy</li>
+        <li>View periodic audit and management reports</li>
+        <li>Monitor and Evaluate progress of businesses</li>
+        <li>Early stage investment platform</li>
       </ul>
     </div>
   </div>

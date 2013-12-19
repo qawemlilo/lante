@@ -93,11 +93,28 @@ class OtcModelCompany extends JModelItem
         return $result;       
     }
     
+    
+    private function lastShareForYesterday($companyid) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT sold.id, sales.share_price ";
+        $query .= "FROM #__otc_processed_sales AS sales ";
+        $query .= "INNER JOIN #__otc_sell_transactions AS sold ON (sold.id=sales.sell_tr_id) ";
+        $query .= "WHERE DATE(sales.ts) = CURDATE()-1 AND sold.companyid = $companyid ";
+        $query .= "ORDER BY sales.ts DESC LIMIT 1";
+              
+        $db->setQuery($query);
+        $result = $db->loadObject();
+        
+        return $result;       
+    }
+    
+    
     private function statsForYesterday($companyid) {
         $db =& JFactory::getDBO();
         
         
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
+        $query = "SELECT SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
         $query .= "INNER JOIN #__otc_sell_transactions AS sold ON (sold.id=sales.sell_tr_id) ";
         $query .= "WHERE DATE(sales.ts) = CURDATE()-1 AND sold.companyid = $companyid";
@@ -128,7 +145,7 @@ class OtcModelCompany extends JModelItem
         $db =& JFactory::getDBO();
         
         
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
+        $query = "SELECT SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
         $query .= "FROM #__otc_processed_sales AS sales ";
         $query .= "INNER JOIN #__otc_sell_transactions AS sold ON (sold.id=sales.sell_tr_id) ";
         $query .= "WHERE DATE(sales.ts) = CURDATE()-2 AND sold.companyid = $companyid";
@@ -163,13 +180,12 @@ class OtcModelCompany extends JModelItem
         $today = $this->statsForToday($companyid);
         $yesterday = $this->statsForYesterday($companyid);
         $beforeyesterday = $this->statsForDB4Yesterday($companyid);
+        $yesterdayshareprice = $this->lastShareForYesterday($companyid);
 
         $summary = new stdClass();
-        
-        $summary->share_price = $company->share_price;
+
         $summary->shares_in_issue = $company->og_shares; 
-        $summary->price = array("today"=>$today->share_price,"prev"=>$yesterday->share_price);
-        $summary->movement = array("today"=>($today->share_price - $yesterday->share_price),"prev"=>($yesterday->share_price - $beforeyesterday->share_price));
+        $summary->price = array("today"=>$company->share_price,"prev"=>$yesterdayshareprice->share_price, "daybefore"=>$beforeyesterday->share_price);
         $summary->volume = array("today"=>$today->volume,"prev"=>$yesterday->volume);
         $summary->value = array("today"=>$today->value,"prev"=>$yesterday->value);
         $summary->num_trades = array("today"=>$today->num_trades,"prev"=>$yesterday->num_trades);
