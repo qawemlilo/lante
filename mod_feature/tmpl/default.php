@@ -5,17 +5,17 @@ $user =& JFactory::getUser();
 
     function marketStatus() {
         $today = getdate();
-        $status = "MARKET OPEN";
+        $status = '<span style="color:green">MARKET OPEN</span>';
         
         $hours = $today['hours'];
         $day = $today['wday'];
         
         if ($hours >= 17 || $hours < 9) {
-            $status = '<span style="color:green">MARKET CLOSED</span>';   
+            $status = '<span style="color:red">MARKET CLOSED</span>';   
         } 
         
         if ($day === 6 || $day === 0) {
-            $status = '<span style="color:green">MARKET CLOSED</span>'; 
+            $status = '<span style="color:red">MARKET CLOSED</span>'; 
         }
         
         return $status;
@@ -156,7 +156,7 @@ $user =& JFactory::getUser();
                ?>
                 <tr>
                   <td class="listings-header"><?php echo marketStatus(); ?></td>
-                  <td colspan="4"><small>* Market open times: 09:00 to 17:00  Weekdays, excluding holidays</small></td>
+                  <td colspan="4"><small>* Operating from: 09:00 to 17:00 Weekdays, excluding holidays</small></td>
                 </tr>
               </tbody>
             </table>
@@ -227,9 +227,9 @@ $user =& JFactory::getUser();
                   <td style="text-align:center"><?php echo myFormat($summary->price["prev"]); ?></td>
                 </tr>
                 <tr>
-                  <td>Volume</td>
-                  <td style="text-align:center"><?php echo myFormat($summary->volume["today"]); ?></td>
-                  <td style="text-align:center"><?php echo myFormat($summary->volume["prev"]); ?></td>
+                  <td>Movement (%)</td>
+                  <td style="text-align:center"><?php echo myFormat($summary->movement["today"]); ?></td>
+                  <td style="text-align:center"><?php echo myFormat($summary->price["prev"]); ?></td>
                 </tr>
                 <tr>
                   <td>Value</td>

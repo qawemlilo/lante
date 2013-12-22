@@ -7,7 +7,7 @@ class ModfeatureHelper
         $db =& JFactory::getDBO();
         $query = "SELECT company.id, company.name, company.share_price, company.prev_price, company.last_updated, company.ts ";
         $query .= "FROM #__otc_companies AS company ";
-        $query .= "ORDER BY share_price DESC LIMIT 3";
+        $query .= "LIMIT 3";
               
         $db->setQuery($query);
         $result = $db->loadObjectList();
