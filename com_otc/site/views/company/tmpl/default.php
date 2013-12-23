@@ -128,13 +128,13 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
             <td>Movement (c)</td>
             <?php $movememt = $this->summary->price["today"] - $this->summary->price["prev"]; ?>
             <?php $movememt2 = $this->summary->price["prev"] - $this->summary->price["daybefore"]; ?>
-            <td><?php echo $this->myFormat($movememt); ?></td>
+            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"] echo $this->myFormat($movememt); else echo '0'; ?></td>
             <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat($movememt2); else echo '0'; ?></td>
           </tr>
           <tr>
             <td>Movement %</td>
             <td><?php if($this->summary->price["today"] && $this->summary->price["prev"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["prev"] * 100), 2, '.', '')); else echo '0'; ?>%</td>
-            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["daybefore"]) * 100, 2, '.', '')); else echo '0'; ?>%</td>
+            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["prev"]) * 100, 2, '.', '')); else echo '0.00'; ?>%</td>
           </tr>
           <tr>
             <td>Value</td>
@@ -142,7 +142,7 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
             <td><?php if($this->summary->value["prev"]) echo $this->summary->value["prev"]; else echo '0'; ?></td>
           </tr>                
           <tr>
-            <td>No. of Trades</td>
+            <td>Volume</td>
             <td><?php if($this->summary->num_trades["today"]) echo $this->summary->num_trades["today"]; else echo '0'; ?></td>
             <td><?php if($this->summary->num_trades["prev"]) echo $this->summary->num_trades["prev"]; else echo '0'; ?></td>
           </tr>

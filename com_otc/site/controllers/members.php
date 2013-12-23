@@ -100,8 +100,10 @@ class OtcControllerMembers extends JController
         $day = JRequest::getVar('day', '', 'post', 'string');
         $month = JRequest::getVar('month', '', 'post', 'string');
         $year = JRequest::getVar('year', '', 'post', 'string');
-        $expiry_date = JRequest::getVar('expiry_date', 0, 'post', 'string');
-        $dob = $this->dateToString($expiry_date);
+        $day = JRequest::getVar('day', '', 'post', 'string');
+        $month = JRequest::getVar('month', '', 'post', 'string');
+        $year = JRequest::getVar('year', '', 'post', 'string');
+        $dob = $this->createDateString($day, $month, $year);
         
         $memberid = JRequest::getVar('id', 0, 'post', 'int');
         $member['userid'] = JRequest::getVar('userid', 0, 'post', 'int');
