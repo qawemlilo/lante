@@ -44,20 +44,8 @@ class ModfeatureHelper
         return $result;       
     }
     
+    
     public function statsForYesterday() {
-        $db =& JFactory::getDBO();
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
-        $query .= "FROM #__otc_processed_sales AS sales ";
-        $query .= "WHERE DATE(ts) = CURDATE()-1";
-              
-        $db->setQuery($query);
-        $result = $db->loadObject();
-        
-        return $result;       
-    }
-    
-    
-    private function statsForYesterday($companyid) {
         $db =& JFactory::getDBO();
         
         $query = "SELECT SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
@@ -72,22 +60,7 @@ class ModfeatureHelper
     }
     
     
-    private function statsForToday($companyid) {
-        $db =& JFactory::getDBO();
-        
-        $query = "SELECT AVG(sales.share_price) AS price, SUM(sales.num_shares) AS volume, SUM(sales.num_shares) AS num_trades, MIN(sales.share_price) AS lowest_price, MAX(sales.share_price) AS highest_price, SUM(sales.share_price) AS value ";
-        $query .= "FROM #__otc_processed_sales AS sales ";
-        $query .= "INNER JOIN #__otc_sell_transactions AS sold ON (sold.id=sales.sell_tr_id) ";
-        $query .= "WHERE DATE(sales.ts) = CURDATE()";
-              
-        $db->setQuery($query);
-        $result = $db->loadObject();
-        
-        return $result;       
-    }
-    
-    
-    private function statsForDB4Yesterday() {
+    public function statsForDB4Yesterday() {
         $db =& JFactory::getDBO();
         
         $query = "SELECT sold.id, sales.share_price ";

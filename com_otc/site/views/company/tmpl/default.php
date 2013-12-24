@@ -128,12 +128,12 @@ $document->addStyleDeclaration('.media-body p {margin-bottom: 2px; font-size:13p
             <td>Movement (c)</td>
             <?php $movememt = $this->summary->price["today"] - $this->summary->price["prev"]; ?>
             <?php $movememt2 = $this->summary->price["prev"] - $this->summary->price["daybefore"]; ?>
-            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"] echo $this->myFormat($movememt); else echo '0'; ?></td>
+            <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat($movememt); else echo '0'; ?></td>
             <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat($movememt2); else echo '0'; ?></td>
           </tr>
           <tr>
             <td>Movement %</td>
-            <td><?php if($this->summary->price["today"] && $this->summary->price["prev"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["prev"] * 100), 2, '.', '')); else echo '0'; ?>%</td>
+            <td><?php if($this->summary->price["today"] && $this->summary->price["prev"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["prev"] * 100), 2, '.', '')); else echo '0.00'; ?>%</td>
             <td><?php if($this->summary->price["prev"] && $this->summary->price["daybefore"]) echo $this->myFormat(number_format((float)($movememt / $this->summary->price["prev"]) * 100, 2, '.', '')); else echo '0.00'; ?>%</td>
           </tr>
           <tr>
