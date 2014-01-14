@@ -92,7 +92,13 @@ $document->addScript(JURI::base() . 'components/com_otc/assets/js/accounting.min
                 <div class="control-group" style="background-color:#fd7800; color:#fff; padding-top: 5px;padding-bottom:5px;">
                   <label class="control-label" for="name" style="width:180px;">Cash Amount Available</label>
                   <div class="controls">
-                    <strong>R<?php if($this->member->balance) echo $this->centsToRands($this->member->balance); else echo '0.00' ?></strong>
+                    <strong>
+                      R<?php 
+                          if($this->member->pendingbalance) echo $this->centsToRands($this->member->pendingbalance);  
+                          elseif(!$this->member->pendingbalance && $this->member->balance) echo $this->centsToRands($this->member->balance); 
+                          else echo '0.00'; 
+                      ?>
+                    </strong>
                   </div>
                 </div>
 

@@ -283,6 +283,27 @@ class OtcModelTrade extends JModelItem {
     
     
     
+    public function getPendingBalance($memberid) {
+        $db =& JFactory::getDBO();
+        
+        $query = "SELECT transaction.num_shares, transaction.bidding_price ";
+        $query .= "FROM #__otc_buy_transactions AS transaction ";
+        $query .= "WHERE transaction.memberid={$memberid} AND transaction.expiry_date >= CURDATE()";
+              
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        $total = 0;
+        
+        if ($result) {
+            foreach($result as $bid)
+            $total += ($bid->num_shares * $bid->bidding_price);    
+        }
+        
+        return $total;    
+    }
+    
+    
+    
     public function getBidsTobuy($companyid, $sellingprice) {
         $db =& JFactory::getDBO();
         
@@ -337,6 +358,12 @@ class OtcModelTrade extends JModelItem {
               
         $db->setQuery($query);
         $result = $db->loadObject();
+        
+        if ($result) {
+            $pb = $this->getPendingBalance($result->id);
+            
+            $result->pendingbalance = $result->balance - $pb;  
+        }
         
         return $result;    
     }

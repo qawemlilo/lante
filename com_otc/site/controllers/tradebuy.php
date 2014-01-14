@@ -41,8 +41,10 @@ class OtcControllerTradebuy extends JController {
         else {
             $transactionCost = $this->calcTotal($transaction['share_price'], $transaction['num_shares'], $transaction['security_tax']);
             $clientBalance = $model->getBalance($transaction['memberid']);
+            $pendingbalance = $model->getPendingBalance($transaction['memberid']);
+            $ttbalance = ((int)$clientBalance - (int)$pendingbalance);
 
-            if ($clientBalance < $transactionCost) {
+            if ($ttbalance < 0 || $ttbalance < $transactionCost) {
                 $application->redirect($refer, 'Error! You do not have enough money to buy those shares!', 'error'); 
             }
             // create buy tranche
