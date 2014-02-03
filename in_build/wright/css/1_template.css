@@ -1,0 +1,169 @@
+@charset "utf-8";
+
+body {
+ background-color: #e3e3e3;
+ min-height: 100%;
+}
+
+#termsandconditions > ol li {
+  line-height: 1.5em;
+  margin-bottom: 1em;
+}
+
+item-page h2 {
+  margin-left: 10px
+}
+
+.logout-button {
+  margin-top: 35px;
+  margin-bottom:25px;
+}
+
+.container {
+  background-color: #ffffff;
+}
+
+h1, h2, h3, h4 {
+  color: #fd7800;
+}
+
+#header, #footer {
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false) !important;
+  background: #fd7800;
+  background-color: #fd7800;
+  background-image: none;
+  border: none;
+  border-style: none;
+  overflow: hidden;
+  color: #fff;
+}
+
+#header #logo {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#header #logo img {
+  margin-left: 25px;
+  width: 220px;
+}
+
+#header form {
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+
+#header a {
+  color: #fff;
+  margin-left: 0px;
+  margin-top: 20px;
+}
+
+#header input[type="checkbox"] {
+  margin-top: 0px;
+}
+
+#header label.strong {
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+#header input.button {
+  margin-top: 22;
+  background: url(https://www.lanteotc.co.za/images/Login-Button.png) no-repeat;
+  width: 69px;
+  height: 68px;
+  cursor:pointer;
+  border: none;
+}
+
+ul.nav > li > a:hover, ul.nav-pills > li > a:hover  {
+  color: #FD7800 !important;
+}
+
+
+
+/* Forms */
+
+#member-registration.form-horizontal .control-group {
+  margin-bottom: 0px !important;
+}
+
+#member-registration .form-actions {
+  margin-top: -10px !important;
+}
+
+#footer {
+  padding: 10px;
+}
+
+#footer .row-fluid {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+#footer .module {
+  margin-bottom: 0px;
+}
+
+#footer .row-fluid  a {
+  color: #fff;
+}
+
+.listings  th {
+ background-color: #FD7800;
+ color: #ffffff;
+}
+
+.listings td {
+  color: #333333;
+}
+
+.listings td.pos {
+  color: green;
+}
+
+.listings td.neg {
+  color: red;
+}
+
+.listings td.listings-header {
+ color: #FD7800;
+ font-weight: bold;
+}
+
+
+
+
+
+/* slide show */
+
+#q-slides {
+    position:relative;
+    height:243px;
+}
+
+#q-slides  img {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:8;
+    opacity:0.0;
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px;
+}
+
+#q-slides img.q-active {
+    z-index:10;
+    opacity:1.0;
+}
+
+#q-slides img.last-active {
+    z-index:9;
+}
+
+input.invalid {
+  border: 1px solid red !important;
+}
+
